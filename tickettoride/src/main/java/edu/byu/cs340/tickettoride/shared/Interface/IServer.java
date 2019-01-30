@@ -10,6 +10,6 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public interface IServer {
     LoginResult login(Username username, Password password);
     LoginResult register(Username username, Password password);
-    JoinGameResult joinGame(ID id);
-    CreateGameResult createGame();
+    JoinGameResult joinGame(Username username, ID id);
+    CreateGameResult createGame(Username username);
 }
