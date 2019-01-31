@@ -5,25 +5,15 @@ import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class CommandData {
-    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME}
-    private commandType type = null;
-    private Username username = null;
-    private Password password = null;
-    private ID gameID = null;
+    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, INCREMENTPLAYER, NEWGAME}
 
-    public CommandData(commandType type, Username username, Password password){
+    public CommandData(commandType type, String arg1, String arg2) {
         this.type = type;
-        this.username = username;
-        this.password = password;
+        this.arg1 = arg1;
+        this.arg2 = arg2;
     }
-    public CommandData(commandType type, Username username, ID ID){
-        this.type = type;
-        this.username = username;
-        this.gameID = ID;
-    }
-    public CommandData(commandType type, Username username){
-        this.type = type;
-        this.username = username;
 
-    }
+    public commandType type;
+    public String arg1;
+    public String arg2;
 }
