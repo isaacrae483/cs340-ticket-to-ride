@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Commands.ClientCommands;
 
+import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 
 public class NewGameCommand implements ICommand {
