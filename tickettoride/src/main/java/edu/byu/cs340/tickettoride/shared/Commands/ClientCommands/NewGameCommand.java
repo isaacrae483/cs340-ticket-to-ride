@@ -10,8 +10,10 @@ public class NewGameCommand implements ICommand {
 
     private String username;
 
+    private Game game;
     @Override
     public Object execute() {
+        //ClientModel.instance().addGame(game);
         return null;
     }
 }

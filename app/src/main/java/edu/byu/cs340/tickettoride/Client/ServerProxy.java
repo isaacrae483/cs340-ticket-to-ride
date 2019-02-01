@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.Client;
 
 import edu.byu.cs340.tickettoride.shared.Commands.CommandData;
+import edu.byu.cs340.tickettoride.shared.Commands.CommandData.commandType;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -9,9 +10,17 @@ import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-import edu.byu.cs340.tickettoride.shared.Commands.CommandData.commandType;
-
 public class ServerProxy implements IServer {
+    private static ServerProxy _instance;
+    private ServerProxy(){
+
+    }
+    public static ServerProxy instance(){
+        if (_instance == null){
+            _instance = new ServerProxy();
+        }
+        return _instance;
+    }
 
     private CommandData data;
     private ClientCommunicator communicator = new ClientCommunicator();

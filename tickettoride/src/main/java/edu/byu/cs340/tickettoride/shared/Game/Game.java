@@ -3,10 +3,11 @@ package edu.byu.cs340.tickettoride.shared.Game;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.User.User;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Game{
     private ID id;
-    private List<User> users;
+    private List<Username> users;
 
     public int getPlayerCount(){
         return users.size();
@@ -16,7 +17,11 @@ public class Game{
         return id;
     }
 
-    public List<User> getUsers() {
+    public List<Username> getUsers() {
         return users;
+    }
+
+    public void addPlayer(Username newUser){
+        users.add(newUser);
     }
 }

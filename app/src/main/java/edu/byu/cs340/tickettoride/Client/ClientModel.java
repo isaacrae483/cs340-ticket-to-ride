@@ -1,16 +1,16 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientModel {
-    private ClientModel _instance;
-
+    private static ClientModel _instance;
     private ClientModel(){
 
     }
-    public ClientModel instance(){
+    public static ClientModel instance(){
         if (_instance == null){
             _instance = new ClientModel();
         }
@@ -19,7 +19,7 @@ public class ClientModel {
 
     private Username username;
     private MapGames games;
-    private ID gameID;
+    private ID activeGameID;
 
     public Username getUsername() {
         return username;
@@ -37,11 +37,23 @@ public class ClientModel {
         this.games = games;
     }
 
-    public ID getGameID() {
-        return gameID;
+    public Game getGame(ID id){
+        return games.getGame(id);
     }
 
-    public void setGameID(ID gameID) {
-        this.gameID = gameID;
+    public void addGame(Game game){
+        games.addGame(game);
+    }
+
+    public void incrementPlayers(ID id, Username newUser){
+        games.getGame(id).addPlayer(newUser);
+    }
+
+    public ID getActiveGameID() {
+        return activeGameID;
+    }
+
+    public void setActiveGameID(ID activeGameID) {
+        this.activeGameID = activeGameID;
     }
 }
