@@ -3,6 +3,8 @@ package edu.byu.cs340.tickettoride.shared.User;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.byu.cs340.tickettoride.shared.User.User;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 
 public class MapUsers {
