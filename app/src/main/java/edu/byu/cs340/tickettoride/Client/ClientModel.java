@@ -1,11 +1,13 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import java.util.Observable;
+
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientModel {
+public class ClientModel extends Observable {
     private static ClientModel _instance;
     private ClientModel(){
 

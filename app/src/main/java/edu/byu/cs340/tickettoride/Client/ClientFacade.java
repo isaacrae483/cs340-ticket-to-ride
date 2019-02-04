@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import java.util.Observable;
+
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;

@@ -3,20 +3,16 @@ package edu.byu.cs340.tickettoride.shared.User;
 public class Username{
     private String username;
 
-    public Username(String username) {
-        try {
-            qualifyUsername(username);
-            this.username = username;
-        }catch(Throwable t){
-            t.printStackTrace();
-        }
+    public Username(String username) throws InvalidUserNameException {
+        qualifyUsername(username);
+        this.username = username;
     }
 
     public String getUsername() {
         return username;
     }
 
-    private class InvalidUserNameException extends Throwable{
+    public class InvalidUserNameException extends Throwable{
         // Parameterless Constructor
         public InvalidUserNameException() {}
 
