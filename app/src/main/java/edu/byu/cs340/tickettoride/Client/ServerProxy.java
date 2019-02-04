@@ -27,25 +27,25 @@ public class ServerProxy implements IServer {
 
     @Override
     public LoginResult login(Username username, Password password) {
-        data = new CommandData(commandType.LOGIN, username.getUsername(), password.getPassword());
+        data = new CommandData(commandType.LOGIN, username, password);
         return communicator.send(data, LoginResult.class);
     }
 
     @Override
     public LoginResult register(Username username, Password password) {
-        data = new CommandData(commandType.REGISTER, username.getUsername(), password.getPassword());
+        data = new CommandData(commandType.REGISTER, username, password);
         return communicator.send(data, LoginResult.class);
     }
 
     @Override
     public JoinGameResult joinGame(Username username, ID id) {
-        data = new CommandData(commandType.JOINGAME, username.getUsername(), id.getId());
+        data = new CommandData(commandType.JOINGAME, username, id);
         return communicator.send(data, JoinGameResult.class);
     }
 
     @Override
     public CreateGameResult createGame(Username username) {
-        data = new CommandData(commandType.CREATEGAME, username.getUsername(), null);
+        data = new CommandData(commandType.CREATEGAME, username);
         return communicator.send(data, CreateGameResult.class);
     }
 }

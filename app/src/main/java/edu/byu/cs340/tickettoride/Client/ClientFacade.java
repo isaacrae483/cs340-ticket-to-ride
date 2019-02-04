@@ -5,6 +5,8 @@ import java.util.Observable;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
+import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -41,6 +43,30 @@ public class ClientFacade implements IClient {
             //calls the presenter to display a toast with the error
         }
 
+    }
+
+    public void joinGame(ID id){
+        Username username = ClientModel.instance().getUsername();
+        JoinGameResult result = ServerProxy.instance().joinGame(username, id);
+        if(result.getSuccess()){
+            incrementPlayers(id, username);
+            //update the GUI with the waiting on players
+        }
+        else{
+            //calls the presenter to display a toast with the error
+        }
+    }
+
+    public void createGame(){
+        Username username = ClientModel.instance().getUsername();
+        CreateGameResult result = ServerProxy.instance().createGame(username);
+        if(result.getSuccess()){
+            addGame(result.getGame());
+            //update the GUI with the waiting on players
+        }
+        else{
+            //calls the presenter to display a toast with the error
+        }
     }
 
     @Override
