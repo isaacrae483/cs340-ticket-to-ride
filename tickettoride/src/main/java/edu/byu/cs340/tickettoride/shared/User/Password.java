@@ -3,20 +3,16 @@ package edu.byu.cs340.tickettoride.shared.User;
 public class Password{
     private String password;
 
-    public Password(String password) {
-        try {
-            qualifyPassword(password);
-            this.password = password;
-        }catch(Throwable t){
-            t.printStackTrace();
-        }
+    public Password(String password) throws InvalidPasswordException {
+        qualifyPassword(password);
+        this.password = password;
     }
 
     public String getPassword() {
         return password;
     }
 
-    private class InvalidPasswordException extends Throwable{
+    public class InvalidPasswordException extends Throwable{
         // Parameterless Constructor
         public InvalidPasswordException() {}
 
