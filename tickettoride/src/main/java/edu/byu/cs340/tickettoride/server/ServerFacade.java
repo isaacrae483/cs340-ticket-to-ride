@@ -9,6 +9,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
@@ -50,6 +51,11 @@ public class ServerFacade implements IServer, IClientObservable{
             observer.OnNewGame(id);
         }
         return result;
+    }
+
+    @Override
+    public List<ClientCommandData> getCommands(Username username) {
+        return null;
     }
 
     @Override
