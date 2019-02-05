@@ -9,6 +9,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class Game{
     private ID id;
     private List<Username> users;
+    private int numPlayers;
 
     public Game() {
         id = ID.generate();

@@ -4,10 +4,17 @@ import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.User.MapUsers;
 
 public class ServerModel {
-    ServerModel(){};
-
+    public static final ServerModel SINGLTON = new ServerModel();
+    private ServerModel(){}
     private MapGames mapGames = new MapGames();
     private MapUsers mapUsers = new MapUsers();
 
-    //implement methods for login, register, joinGame, newGame here.
+    public MapGames getMapGames() {
+        return mapGames;
+    }
+
+    public MapUsers getMapUsers() {
+        return mapUsers;
+    }
+//implement methods for login, register, joinGame, newGame here.
 }
