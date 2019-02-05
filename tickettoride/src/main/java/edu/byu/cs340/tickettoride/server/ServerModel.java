@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.server;
 
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.User.MapUsers;
 
@@ -8,6 +9,10 @@ public class ServerModel {
     private ServerModel(){}
     private MapGames mapGames = new MapGames();
     private MapUsers mapUsers = new MapUsers();
+
+    public CommandList getCommandList() { return commandList; }
+
+    private CommandList commandList = new CommandList();
 
     public MapGames getMapGames() {
         return mapGames;
