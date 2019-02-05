@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -40,6 +41,11 @@ public class ServerFacade implements IServer, IClientObservable{
         for (IClientObserver observer : observers){
             //observer.OnNewGame(/*pull game ID from game map when new game is created.*/);
         }
+        return null;
+    }
+
+    @Override
+    public List<ClientCommandData> getCommands(Username username) {
         return null;
     }
 

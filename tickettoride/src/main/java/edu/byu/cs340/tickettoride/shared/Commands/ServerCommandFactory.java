@@ -7,13 +7,13 @@ import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.LoginCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 
-public class CommandFactory {
-    static ICommand Generate(CommandData info) {
+public class ServerCommandFactory {
+    static ICommand Generate(ServerCommandData info) {
         switch (info.type) {
             case LOGIN:
                 return new LoginCommand(info.username, info.password);
             case JOINGAME:
-                return new JoinGameCommand(info.username);
+                return new JoinGameCommand(info.username, info.gameID);
             case REGISTER:
                 return new RegisterCommand(info.username, info.password);
             case CREATEGAME:

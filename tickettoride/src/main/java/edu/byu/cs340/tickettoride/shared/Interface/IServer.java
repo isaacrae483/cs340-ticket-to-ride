@@ -1,5 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Interface;
 
+import java.util.List;
+
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
@@ -12,4 +15,5 @@ public interface IServer {
     LoginResult register(Username username, Password password);
     JoinGameResult joinGame(Username username, ID id);
     CreateGameResult createGame(Username username);
+    List<ClientCommandData> getCommands(Username username);
 }

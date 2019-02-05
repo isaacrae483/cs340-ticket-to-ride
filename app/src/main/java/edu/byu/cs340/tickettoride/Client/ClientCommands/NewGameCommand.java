@@ -7,11 +7,9 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class NewGameCommand implements ICommand {
     //sent from the server to the client to update list
-    public NewGameCommand(Username username) {
-        this.username = username;
+    public NewGameCommand(Game game) {
+        this.game = game;
     }
-
-    private Username username;
 
     private Game game;
     @Override

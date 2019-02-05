@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Commands.ServerCommands;
 
+import edu.byu.cs340.tickettoride.server.ServerFacade;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
@@ -17,6 +18,6 @@ public class RegisterCommand implements ICommand {
 
     @Override
     public LoginResult execute() {
-        return null;
+        return ServerFacade.SINGLETON.register(username, password);
     }
 }
