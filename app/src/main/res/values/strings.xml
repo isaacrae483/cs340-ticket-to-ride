@@ -26,4 +26,7 @@
     <string name="register_failed">Register Failed</string>
     <string name="register_success">Regsiter Success</string>
     <string name="player_count_list">\u0020/ 5 Players</string>
+    <string name="start_game">Start Game</string>
+    <string name="game_list_screen_title">Game List</string>
+    <string name="game_started">The game has started!</string>
 </resources>

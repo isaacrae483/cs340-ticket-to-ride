@@ -7,7 +7,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 /**
  * Created by Thomas Lewis on 2/5/19.
  */
-public interface IGameListActivity {
+public interface IGameListView {
     /** setGameList - Given a List of game entries, displays them in the view
      *
      *
@@ -23,7 +23,7 @@ public interface IGameListActivity {
      */
     void addGameToList(IGameListEntry game);
 
-    /** updateGame - Given a game entry, change the entry with the same return value for getId()
+    /** updateGame - Given a game entry, change the entry in the UI with the same return value for getId(), so that it matches the new entry
      *
      *
      * @param game The game entry to update
@@ -36,4 +36,9 @@ public interface IGameListActivity {
      * @param toastText The text to display
      */
     void displayToast(String toastText);
+
+    /**
+     * Starts and moves to the game lobby view
+     */
+    void moveToGameLobby();
 }

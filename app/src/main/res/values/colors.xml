@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="bluePlayer">#3949AB</color>
+    <color name="redPlayer">#D32F2F</color>
+    <color name="greenPlayer">#2D6F30</color>
+    <color name="blackPlayer">#000000</color>
+    <color name="yellowPlayer">#FBC02D</color>
 </resources>

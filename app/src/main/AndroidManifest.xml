@@ -27,6 +27,8 @@
         <activity android:name=".Client.views.GameListActivity">
 
         </activity>
+        <activity android:name=".Client.views.GameLobbyActivity"></activity>
+        <activity android:name=".Client.views.GameActivity"></activity>
     </application>
 
 </manifest>

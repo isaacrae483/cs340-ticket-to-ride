@@ -1,6 +1,5 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
-import android.graphics.Paint;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -10,21 +9,20 @@ import java.util.Observer;
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.ClientModel;
 import edu.byu.cs340.tickettoride.Client.views.GameListActivity;
+import edu.byu.cs340.tickettoride.Client.views.IGameListView;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class GameListPresenter implements IGameListPresenter, Observer {
+public class GameListPresenter extends Presenter implements IGameListPresenter, Observer {
 
-    private GameListActivity mGameListActivity;
+    private IGameListView mGameListView;
     private ClientFacade mClientFacade;
-    private ClientModel mClientModel;
 
     public GameListPresenter(GameListActivity activity) {
-        mGameListActivity = activity;
+        mGameListView = activity;
         mClientFacade = ClientFacade.instance();
-        mClientModel = ClientModel.instance();
 
         // TESTING PURPOSES ONLY
         ArrayList<IGameListEntry> testList = new ArrayList<IGameListEntry>();
@@ -42,7 +40,7 @@ public class GameListPresenter implements IGameListPresenter, Observer {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        mGameListActivity.setGameList(testList);
+        mGameListView.setGameList(testList);
 
     }
 
@@ -54,10 +52,6 @@ public class GameListPresenter implements IGameListPresenter, Observer {
     public void createGame(){
         CreateGameTask task = new CreateGameTask();
         task.execute(0);
-    }
-
-    public void update(){
-        //changes to the GameList Fragment
     }
 
     @Override
@@ -78,14 +72,22 @@ public class GameListPresenter implements IGameListPresenter, Observer {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        mGameListActivity.addGameToList(testList.get(0));
-        mGameListActivity.addGameToList(testList.get(1));
-        mGameListActivity.displayToast("Add Game Pressed");
+        mGameListView.addGameToList(testList.get(0));
+        mGameListView.addGameToList(testList.get(1));
+        mGameListView.displayToast("Add Game Pressed");
     }
 
     @Override
     public void joinGamePressed(ID gameID) {
-        mGameListActivity.displayToast(gameID.getId() + " pressed");
+
+        //TODO: TEMPORARY FOR TESTING
+        mGameListView.moveToGameLobby();
+        mGameListView.displayToast(gameID.getId() + " pressed");
+    }
+
+    @Override
+    public void syncWithModel() {
+        super.syncWithModel();
     }
 
     @Override

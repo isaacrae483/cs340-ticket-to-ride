@@ -21,17 +21,16 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.Client.presenters.GameListPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.IGameListPresenter;
 import edu.byu.cs340.tickettoride.R;
-import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 
 /**
  * Created by Thomas Lewis on 2/4/19.
  */
-public class GameListActivity extends AppCompatActivity {
+public class GameListActivity extends AppCompatActivity implements IGameListView {
 
     RecyclerView mGameList;
-    GameAdapater mGameAdapater;
+    GameAdapter mGameAdapter;
 
     FloatingActionButton mAddGameButton;
     IGameListPresenter mGameListPresenter;
@@ -43,22 +42,26 @@ public class GameListActivity extends AppCompatActivity {
     }
 
     public void setGameList(List<IGameListEntry> games) {
-        mGameAdapater.setNewDataset(games);
-        mGameAdapater.notifyDataSetChanged();
+        mGameAdapter.setNewDataset(games);
+        mGameAdapter.notifyDataSetChanged();
     }
 
     public void addGameToList(IGameListEntry game) {
-        mGameAdapater.addGameEntry(game);
+        mGameAdapter.addGameEntry(game);
     }
 
     public void updateGame(IGameListEntry game) {
-        mGameAdapater.gameChanged(game);
+        mGameAdapter.gameChanged(game);
     }
 
     public void displayToast(String text) {
         Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void moveToGameLobby() {
+        startActivity(GameLobbyActivity.newIntent(getApplicationContext()));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +70,11 @@ public class GameListActivity extends AppCompatActivity {
 
         mAddGameButton = findViewById(R.id.newGameButton);
         mGameList = findViewById(R.id.gameList);
+        getSupportActionBar().setTitle(R.string.game_list_screen_title);
 
         mGameList.setLayoutManager(new LinearLayoutManager(this));
-        mGameAdapater = new GameAdapater(new ArrayList<IGameListEntry>());
-        mGameList.setAdapter(mGameAdapater);
+        mGameAdapter = new GameAdapter(new ArrayList<IGameListEntry>());
+        mGameList.setAdapter(mGameAdapter);
 
         // Initialize presenter after all members have been defined
         mGameListPresenter = new GameListPresenter(this);
@@ -104,7 +108,7 @@ public class GameListActivity extends AppCompatActivity {
                 }
             });
             mPlayerCountView = itemView.findViewById(R.id.playerCount);
-            mGameNameView = itemView.findViewById(R.id.gameID);
+            mGameNameView = itemView.findViewById(R.id.playerName);
         }
 
         public void bind(IGameListEntry game) {
@@ -121,12 +125,15 @@ public class GameListActivity extends AppCompatActivity {
 
     }
 
-    private class GameAdapater extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class GameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<IGameListEntry> mGameList;
 
-        public GameAdapater(List<IGameListEntry> initialGameList) {
-            mGameList = initialGameList;
+        public GameAdapter(List<IGameListEntry> initialGameList) {
+            if (initialGameList != null)
+                mGameList = initialGameList;
+            else
+                mGameList = new ArrayList<IGameListEntry>();
         }
 
         @NonNull
