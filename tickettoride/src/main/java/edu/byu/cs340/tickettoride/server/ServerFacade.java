@@ -10,6 +10,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.JoinGameCommand;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
@@ -25,7 +26,7 @@ public class ServerFacade implements IServer, IClientObservable{
 
     public static final ServerFacade SINGLETON = new ServerFacade();
 
-    private ServerFacade () {};
+    private ServerFacade () {}
 
     @Override
     public LoginResult login(Username username, Password password) {
@@ -39,7 +40,11 @@ public class ServerFacade implements IServer, IClientObservable{
 
     @Override
     public JoinGameResult joinGame(Username username, ID id) {
-        return JoinGameService.joinGame(username, id);
+        JoinGameResult res =  JoinGameService.joinGame(username, id);
+        for (IClientObserver observer : observers){
+            observer.OnPlayerJoin(username, id);
+        }
+        return res;
     }
 
     @Override
@@ -47,7 +52,6 @@ public class ServerFacade implements IServer, IClientObservable{
         CreateGameResult result = CreateGameService.createGame(username);
         ID id = result.getGame().getId();
         for (IClientObserver observer : observers){
-            //observer.OnNewGame(/*pull game ID from game map when new game is created.*/);
             observer.OnNewGame(id);
         }
         return result;
@@ -55,7 +59,7 @@ public class ServerFacade implements IServer, IClientObservable{
 
     @Override
     public List<ClientCommandData> getCommands(Username username) {
-        return null;
+        return ServerModel.SINGLTON.getCommandList().GetCommands(username);
     }
 
     @Override
