@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.server.Model;
 
+import java.util.Objects;
+
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
@@ -23,8 +25,8 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
-    public void OnNewGame(ID game) {
-        addGame(new Game(game));
+    public void OnNewGame(Game game) {
+        addGame(game);
     }
 
     @Override
@@ -43,5 +45,19 @@ public class ClientProxy implements IClientObserver, IClient {
                         ClientCommandData.CommandType.NEWGAME, game
                 )
         );
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClientProxy that = (ClientProxy) o;
+        return Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 }

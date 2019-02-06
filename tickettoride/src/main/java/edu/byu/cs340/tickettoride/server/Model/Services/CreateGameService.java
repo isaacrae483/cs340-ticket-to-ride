@@ -9,10 +9,13 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class CreateGameService {
 
     public static CreateGameResult createGame(Username username){
+        if (username == null) {
+            return new CreateGameResult(false, null);
+        }
         Game newGame = new Game(ID.generate());
         newGame.addPlayer(username);
         ServerModel.SINGLTON.getMapGames().addGame(newGame);
-        //When would a Create Game result not be true? can a single user not create more than one game?
+
         return new CreateGameResult(true, newGame);
     }
 }
