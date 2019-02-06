@@ -13,11 +13,11 @@ public class Codec {
         this.gson = new Gson();
     }
 
-    void encode(Object object, Appendable writer) {
+    public void encode(Object object, Appendable writer) {
         this.gson.toJson(object, writer);
     }
 
-    <T> T decode(Reader reader, Class<T> returnType) {
+    public <T> T decode(Reader reader, Class<T> returnType) {
         return this.gson.fromJson(reader, returnType);
     }
 }

@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.server;
 
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -35,6 +36,21 @@ public class Server {
         try {
             new Server(DEFAULT_PORT, DEFAULT_MAX_CONNECTIONS)
                     .setExecutor(null)
+                    .createContext("/", new HttpHandler() {
+                        @Override
+                        public void handle(HttpExchange httpExchange) throws IOException {
+                            try (ServerCommunicator communicator = new ServerCommunicator(httpExchange)) {
+                                Object o = communicator.getRequestBody(communicator.getRequestBodyType());
+                                System.out.println(o);
+
+                                if (o instanceof String) {
+                                    communicator.success("hi");
+                                }
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    })
                     .start();
         } catch (IOException e) {
             e.printStackTrace();
