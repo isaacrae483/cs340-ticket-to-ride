@@ -29,6 +29,7 @@ public class ClientModel extends Observable {
 
     public void setUsername(Username username) {
         this.username = username;
+        notifyObservers();
     }
 
     public MapGames getGames() {
@@ -37,6 +38,7 @@ public class ClientModel extends Observable {
 
     public void setGames(MapGames games) {
         this.games = games;
+        notifyObservers();
     }
 
     public Game getGame(ID id){
@@ -45,10 +47,12 @@ public class ClientModel extends Observable {
 
     public void addGame(Game game){
         games.addGame(game);
+        notifyObservers();
     }
 
     public void incrementPlayers(ID id, Username newUser){
         games.getGame(id).addPlayer(newUser);
+        notifyObservers();
     }
 
     public ID getActiveGameID() {

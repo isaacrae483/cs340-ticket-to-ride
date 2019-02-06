@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_game_list">
+    tools:showIn="@layout/dep_activity_game_list">
     <!--tools:context="edu.byu.lewisth.tickettoridedraft.GameListFragment"-->
 
     <android.support.v7.widget.RecyclerView

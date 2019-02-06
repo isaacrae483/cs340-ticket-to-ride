@@ -19,7 +19,7 @@
         app:srcCompat="@drawable/ic_person_black_60dp" />
 
     <TextView
-        android:id="@+id/playerName"
+        android:id="@+id/gameID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

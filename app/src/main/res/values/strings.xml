@@ -21,4 +21,9 @@
     <string name="register">Register</string>
     <string name="password_incorrect_format">Password must be filled</string>
     <string name="username_incorrect_format">Invalid Username</string>
+    <string name="login_success">Login Success</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="register_success">Regsiter Success</string>
+    <string name="player_count_list">\u0020/ 5 Players</string>
 </resources>

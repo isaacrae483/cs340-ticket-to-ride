@@ -12,5 +12,5 @@ public interface ILoginPresenter {
     void usernameChanged(String username);
     void passwordChanged(String password);
     void serverHostChanged(String host);
-
+    void viewDestroyed();
 }

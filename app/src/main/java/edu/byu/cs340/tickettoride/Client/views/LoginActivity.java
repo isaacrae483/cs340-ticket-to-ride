@@ -40,9 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameField = findViewById(R.id.usernameField);
         mPasswordField = findViewById(R.id.passwordField);
 
-        // Attach a login presenter to this View
+        // Attach a login presenter to this View after all members have been defined
         mILoginPresenter = new LoginPresenter(this);
-
 
         // Attach event handlers
         mSignInButton.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +110,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mILoginPresenter.viewDestroyed();
+    }
 
     public void displayToast(String text) {
         Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG).show();

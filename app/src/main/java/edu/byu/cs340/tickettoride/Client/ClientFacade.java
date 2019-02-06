@@ -24,9 +24,16 @@ public class ClientFacade implements IClient {
         return _instance;
     }
 
+    /**
+     * Called asynchronously from the presenters to login
+     *
+     * @param username
+     * @param password
+     */
     public void login(Username username, Password password){
         LoginResult result = ServerProxy.instance().login(username, password);
         if(result.getSuccess()){
+            // Can't manipulate model from network thread
             ClientModel.instance().setUsername(username);
         }
         else{
