@@ -5,6 +5,7 @@ import java.util.Observable;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientModel extends Observable {
@@ -50,7 +51,7 @@ public class ClientModel extends Observable {
         notifyObservers();
     }
 
-    public void incrementPlayers(ID id, Username newUser){
+    public void incrementPlayers(ID id, Player newUser){
         games.getGame(id).addPlayer(newUser);
         notifyObservers();
     }

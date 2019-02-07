@@ -43,8 +43,10 @@ public class ServerFacade implements IServer, IClientObservable{
     @Override
     public JoinGameResult joinGame(Username username, ID id) {
         JoinGameResult res =  JoinGameService.joinGame(username, id);
-        for (IClientObserver observer : observers){
-            observer.OnPlayerJoin(username, id);
+        if (res.getSuccess()) {
+            for (IClientObserver observer : observers) {
+                observer.OnPlayerJoin(res.getPlayer(), id);
+            }
         }
         return res;
     }

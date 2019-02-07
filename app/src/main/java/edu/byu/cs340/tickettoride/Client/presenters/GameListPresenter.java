@@ -13,6 +13,9 @@ import edu.byu.cs340.tickettoride.Client.views.IGameListView;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer.Color;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class GameListPresenter extends Presenter implements IGameListPresenter, Observer {
@@ -28,13 +31,13 @@ public class GameListPresenter extends Presenter implements IGameListPresenter, 
         ArrayList<IGameListEntry> testList = new ArrayList<IGameListEntry>();
         try {
             Game game = new Game();
-            game.addPlayer(new Username("testUser"));
+            game.addPlayer(new Player(new Username("testUser"), Color.BLACK));
             Game game2 = new Game();
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
             testList.add(game);
             testList.add(game2);
         } catch (Throwable e) {
@@ -60,13 +63,13 @@ public class GameListPresenter extends Presenter implements IGameListPresenter, 
         ArrayList<IGameListEntry> testList = new ArrayList<IGameListEntry>();
         try {
             Game game = new Game();
-            game.addPlayer(new Username("testUser"));
+            game.addPlayer(new Player(new Username("testUser"), Color.BLACK));
             Game game2 = new Game();
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
-            game2.addPlayer(new Username("testUser"));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
+            game2.addPlayer(new Player(new Username("testUser"), Color.BLACK));
             testList.add(game);
             testList.add(game2);
         } catch (Throwable e) {

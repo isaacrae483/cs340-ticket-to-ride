@@ -1,15 +1,16 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
-import edu.byu.cs340.tickettoride.shared.User.User;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Game implements IGameListEntry {
     private ID id;
-    private List<Username> users;
+    private List<Player> players;
     private int numPlayers;
     private final int MAX_PLAYERS = 5;
 
@@ -23,7 +24,7 @@ public class Game implements IGameListEntry {
 
     @Override
     public int getPlayerCount(){
-        return users.size();
+        return players.size();
     }
 
     @Override
@@ -36,14 +37,21 @@ public class Game implements IGameListEntry {
         return id;
     }
 
-    public List<Username> getUsers() {
-        return users;
+    public Player GetLeader() {
+        if (players != null && !players.isEmpty()) {
+            return players.get(0);
+        }
+        return null;
     }
 
-    public void addPlayer(Username newUser){
-        if (users == null) {
-            users = new ArrayList<>();
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void addPlayer(Player player){
+        if (players == null) {
+            players = new ArrayList<>();
         }
-        users.add(newUser);
+        players.add(player);
     }
 }

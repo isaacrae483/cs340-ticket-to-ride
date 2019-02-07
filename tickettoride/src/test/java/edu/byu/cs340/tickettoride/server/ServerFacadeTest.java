@@ -108,10 +108,10 @@ public class ServerFacadeTest {
         assertEquals(ClientCommandData.CommandType.INCREMENTPLAYER, command.type);
         assertNull(command.game);
         assertEquals(id, command.id);
-        assertEquals(user2, command.username);
+        assertEquals(user2, command.player.getPlayerName());
         assertEquals(2, model.getMapGames().getGame(id).getPlayerCount());
         assertEquals(user2.getUsername(),
-                model.getMapGames().getGame(id).getUsers().get(1).getUsername());
+                model.getMapGames().getGame(id).getPlayers().get(1).getPlayerName().getUsername());
     }
 
     @Test
@@ -127,7 +127,7 @@ public class ServerFacadeTest {
         id = res.getGame().getId();
 
         assertEquals(1, game.getPlayerCount());
-        assertEquals(user.getUsername(), game.getUsers().get(0).getUsername());
+        assertEquals(user.getUsername(), game.getPlayers().get(0).getPlayerName().getUsername());
 
         List<ClientCommandData> commands = model.getCommandList().GetCommands(user);
         assertEquals(1, commands.size());
@@ -136,9 +136,9 @@ public class ServerFacadeTest {
         assertEquals(0, model.getCommandList().GetCommands(user).size());
         assertEquals(ClientCommandData.CommandType.NEWGAME, command.type);
         assertNull(command.id);
-        assertEquals(1, command.game.getUsers().size());
-        assertEquals(user, command.game.getUsers().get(0));
-        assertNull(command.username);
+        assertEquals(1, command.game.getPlayers().size());
+        assertEquals(user, command.game.getPlayers().get(0).getPlayerName());
+        assertNull(command.player);
         assertEquals(id, command.game.getId());
         assertNotNull(model.getMapGames().getGame(id));
 

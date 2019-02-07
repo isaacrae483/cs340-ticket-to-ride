@@ -10,7 +10,7 @@ public class CommandFactory {
             case NEWGAME:
                 return new NewGameCommand(info.game);
             case INCREMENTPLAYER:
-                return new IncrementPlayersCommand(info.username, info.id);
+                return new IncrementPlayersCommand(info.player, info.id);
         }
         //tried to create non-existent command
         assert (false);

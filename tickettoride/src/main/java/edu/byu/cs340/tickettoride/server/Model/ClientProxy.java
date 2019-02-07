@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -20,8 +21,8 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
-    public void OnPlayerJoin(Username user, ID game) {
-        incrementPlayers(game, user);
+    public void OnPlayerJoin(Player player, ID game) {
+        incrementPlayers(game, player);
     }
 
     @Override
@@ -30,10 +31,10 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
-    public void incrementPlayers(ID id, Username newUser) {
+    public void incrementPlayers(ID id, Player player) {
         ServerModel.SINGLTON.getCommandList().AddCommand(
                 user, new ClientCommandData(
-                        ClientCommandData.CommandType.INCREMENTPLAYER, newUser, id
+                        ClientCommandData.CommandType.INCREMENTPLAYER, player, id
                 )
         );
     }

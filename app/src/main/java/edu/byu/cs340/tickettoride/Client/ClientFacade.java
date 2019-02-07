@@ -5,6 +5,7 @@ import java.util.Observable;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
@@ -56,7 +57,7 @@ public class ClientFacade implements IClient {
         Username username = ClientModel.instance().getUsername();
         JoinGameResult result = ServerProxy.instance().joinGame(username, id);
         if(result.getSuccess()){
-            incrementPlayers(id, username);
+            incrementPlayers(id, result.getPlayer());
             //update the GUI with the waiting on players
         }
         else{
@@ -77,8 +78,8 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void incrementPlayers(ID id, Username newUser) {
-        ClientModel.instance().incrementPlayers(id, newUser);
+    public void incrementPlayers(ID id, Player player) {
+        ClientModel.instance().incrementPlayers(id, player);
 
         //needs to update view
     }

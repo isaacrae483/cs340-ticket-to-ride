@@ -3,6 +3,8 @@ package edu.byu.cs340.tickettoride.server.Model.Services;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -13,7 +15,8 @@ public class CreateGameService {
             return new CreateGameResult(false, null);
         }
         Game newGame = new Game(ID.generate());
-        newGame.addPlayer(username);
+        Player first = new Player(username, IPlayer.Color.values()[0]);
+        newGame.addPlayer(first);
         ServerModel.SINGLTON.getMapGames().addGame(newGame);
 
         return new CreateGameResult(true, newGame);
