@@ -8,7 +8,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 
 public class ServerCommandFactory {
-    static ICommand Generate(ServerCommandData info) {
+    public static ICommand Generate(ServerCommandData info) {
         switch (info.type) {
             case LOGIN:
                 return new LoginCommand(info.username, info.password);
