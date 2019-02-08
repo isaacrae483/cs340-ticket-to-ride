@@ -16,7 +16,7 @@ public class CommandHandler implements HttpHandler {
                 Object o = communicator.getRequestBody();
 
                 if (o instanceof ServerCommandData) {
-                    Object result = ServerCommandFactory.Generate((ServerCommandData) o);
+                    Object result = ServerCommandFactory.Generate((ServerCommandData) o).execute();
                     communicator.success(result);
                 } else {
                     System.out.println(o.getClass());
