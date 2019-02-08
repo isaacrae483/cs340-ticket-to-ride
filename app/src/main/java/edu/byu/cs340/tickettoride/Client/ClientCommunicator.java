@@ -12,30 +12,23 @@ import edu.byu.cs340.tickettoride.shared.Codec;
 
 public class ClientCommunicator {
 
-    private String serverUrl;
-    private int port;
+    private URL url;
 
     public ClientCommunicator() {
     }
 
-    public ClientCommunicator(String serverUrl, int port) {
-        this.serverUrl = serverUrl;
-        this.port = port;
+    public ClientCommunicator(URL url) {
+        setURL(url);
     }
 
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
+    public void setURL(URL url) {
+        this.url = url;
     }
 
     public <T> T send(Object data, Class<T> returnType) {
         T result = null;
 
         try {
-            URL url = new URL("http", serverUrl, port, "/");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             if (data == null) {
@@ -67,7 +60,8 @@ public class ClientCommunicator {
     }
 
     public static void main(String ...args) throws Exception {
-        String result = new ClientCommunicator("localhost", 8080).send(3, String.class);
+        String result = new ClientCommunicator(new URL ("http","localhost", 8080, "/"))
+                .send(3, String.class);
         System.out.println(result);
     }
 

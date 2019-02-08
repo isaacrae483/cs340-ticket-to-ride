@@ -28,15 +28,14 @@ public class ServerCommunicator implements AutoCloseable {
         return exchange.getRequestMethod();
     }
 
-    Class getRequestBodyType() throws ClassNotFoundException {
-        return Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
-    }
-
-    <T> T getRequestBody(Class<T> type) {
-        T result = null;
+    Object getRequestBody() {
+        Object result = null;
 
         try (Reader requestBody = new InputStreamReader(exchange.getRequestBody())) {
+            Class type = Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
             result = Codec.SINGLETON.decode(requestBody, type);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
