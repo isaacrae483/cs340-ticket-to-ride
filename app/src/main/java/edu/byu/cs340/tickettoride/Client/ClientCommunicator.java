@@ -32,8 +32,7 @@ public class ClientCommunicator {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             if (data == null) {
-                connection.setRequestMethod("GET");
-                connection.connect();
+                return null;
             } else {
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
@@ -57,6 +56,27 @@ public class ClientCommunicator {
         }
 
         return result;
+    }
+
+
+    public <T> T get(Object data, Class<T> returnType) {
+        T res = null;
+        try {
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            StringBuilder dataString = new StringBuilder();
+            Codec.SINGLETON.encode(data, dataString);
+            connection.setRequestProperty("Data", dataString.toString());
+            connection.setRequestProperty("Java-Class", data.getClass().getName());
+
+            connection.connect();
+            try (Reader responseBody = new InputStreamReader(connection.getInputStream())) {
+                res = Codec.SINGLETON.decode(responseBody, returnType);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
     public static void main(String ...args) throws Exception {

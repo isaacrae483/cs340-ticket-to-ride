@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandFactory;
+import edu.byu.cs340.tickettoride.shared.User.User;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class CommandHandler implements HttpHandler {
     @Override
@@ -20,6 +22,17 @@ public class CommandHandler implements HttpHandler {
                     communicator.success(result);
                 } else {
                     System.out.println(o.getClass());
+                    communicator.error();
+                }
+            }
+            else {
+                Object o = communicator.getHeaderData();
+                if (o instanceof Username) {
+                    Username user = (Username) o;
+                    communicator.success(ServerFacade.SINGLETON.getCommands(user));
+                }
+                else {
+                    System.out.println("unexpected class " + o.getClass());
                     communicator.error();
                 }
             }

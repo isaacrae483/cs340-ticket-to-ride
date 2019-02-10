@@ -11,7 +11,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class JoinGameService {
 
     public static JoinGameResult joinGame(Username username, ID id){
-        Game game = ServerModel.SINGLTON.getMapGames().getGame(id);
+        Game game = ServerModel.SINGLETON.getMapGames().getGame(id);
         if(game != null && game.getPlayerCount() < 5){ //***Fix the player count.
             Player player = new Player(username, IPlayer.Color.values()[game.getPlayerCount()]);
             game.addPlayer(player);

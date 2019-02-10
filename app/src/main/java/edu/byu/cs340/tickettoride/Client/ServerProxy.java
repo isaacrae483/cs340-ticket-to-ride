@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
@@ -59,8 +60,8 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public List<ClientCommandData> getCommands(Username username) {
-        return null;
+    public ClientCommandList getCommands(Username username) {
+        return communicator.get(username, ClientCommandList.class);
     }
 
     public static void main(String ...args) throws Username.InvalidUserNameException, MalformedURLException, Password.InvalidPasswordException {

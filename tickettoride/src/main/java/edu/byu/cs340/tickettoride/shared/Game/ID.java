@@ -26,11 +26,18 @@ public class ID{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ID id1 = (ID) o;
-        return this.id == id1.id;
+        return this.id.equals(id1.id);
     }
 
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "ID{" +
+                "id='" + id + '\'' +
+                '}';
     }
 }

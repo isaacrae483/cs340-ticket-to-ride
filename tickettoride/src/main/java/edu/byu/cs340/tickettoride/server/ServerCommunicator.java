@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 
@@ -50,6 +51,19 @@ public class ServerCommunicator implements AutoCloseable {
 
     void error() {
 
+    }
+
+    Object getHeaderData() {
+        Object o = null;
+        try {
+            StringReader userHeader = new StringReader(exchange.getRequestHeaders().getFirst("Data"));
+            Class type = Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
+            o = Codec.SINGLETON.decode(userHeader, type);
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 
     @Override
