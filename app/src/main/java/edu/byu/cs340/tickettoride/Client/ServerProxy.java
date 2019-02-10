@@ -2,6 +2,7 @@ package edu.byu.cs340.tickettoride.Client;
 
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
@@ -54,6 +55,7 @@ public class ServerProxy implements IServer {
 
     @Override
     public List<ClientCommandData> getCommands(Username username) {
-        return null;
+        data = new ServerCommandData(commandType.GETCOMMANDS, username);
+        return (List<ClientCommandData>) communicator.send(data, CommandList.class);
     }
 }
