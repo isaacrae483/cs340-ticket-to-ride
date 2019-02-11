@@ -4,8 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.URL;
-import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;

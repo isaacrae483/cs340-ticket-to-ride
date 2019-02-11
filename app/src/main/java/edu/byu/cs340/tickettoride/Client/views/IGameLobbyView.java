@@ -9,6 +9,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
  * Created by Thomas Lewis on 2/5/19.
  */
 public interface IGameLobbyView {
+
     /**displayStartGame - Set if you want the view to display the Start Game button
      *
      * Should only be displayed if the player has permission to start the game
@@ -22,19 +23,24 @@ public interface IGameLobbyView {
      *
      * @param playerSet The set of players currently waiting for the game to start
      */
-    void setPlayerSet(List<IPlayer> playerSet);
+    void setPlayerSet(List<? extends IPlayer> playerSet);
 
-    /** displayToast - Given a string, display a toast on the view with that text
+    /** makeToast - Given a string, display a toast on the view with that text
      *
      *
      * @param toastText The text to display
      */
-    void displayToast(String toastText);
+    void makeToast(String toastText);
 
     /** moveToStartGame - Starts the game view
      *
      */
     void moveToStartGame();
+
+    /**
+     *  Ends the view if nothing to display
+     */
+    void finishView();
 
 
 }

@@ -1,5 +1,8 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import android.util.Log;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -46,6 +49,12 @@ public class ClientCommunicator {
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (Reader responseBody = new InputStreamReader(connection.getInputStream())) {
+//                    BufferedReader reader = new BufferedReader(responseBody);
+//                    String line;
+//                    while (reader.ready()) {
+//                        Log.d("Reader", reader.readLine());
+//                    }
+//                    reader.reset();
                     result = Codec.SINGLETON.decode(responseBody, returnType);
                 }
             } else {

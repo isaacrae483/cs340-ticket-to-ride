@@ -1,25 +1,23 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
+import android.util.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Observable;
-import java.util.Observer;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
-import edu.byu.cs340.tickettoride.Client.ClientModel;
-import edu.byu.cs340.tickettoride.Client.views.GameListActivity;
-import edu.byu.cs340.tickettoride.Client.views.LoginActivity;
-import edu.byu.cs340.tickettoride.R;
+import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
+import edu.byu.cs340.tickettoride.Client.model.events.login.RegisterFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.login.RegisterSuccess;
+import edu.byu.cs340.tickettoride.Client.views.ILoginView;
 import edu.byu.cs340.tickettoride.shared.User.Password;
-import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class LoginPresenter extends Presenter implements ILoginPresenter, Observer {
+public class LoginPresenter extends Presenter implements ILoginPresenter {
 
-    private LoginActivity mLoginActivity;
+    private ILoginView mLoginView;
     private ClientFacade mClientFacade;
 
     private Username mUsername = null;
@@ -27,11 +25,15 @@ public class LoginPresenter extends Presenter implements ILoginPresenter, Observ
     private URL mSeverHost = null;
 
 
-    public LoginPresenter(LoginActivity activity) {
+    public LoginPresenter(ILoginView view) {
         // Call Presenter constructor
         super();
-
-        mLoginActivity = activity;
+        try {
+            mSeverHost = new URL("http://10.0.2.2:8080");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mLoginView = view;
         mClientFacade = ClientFacade.instance();
 
         // If user is already logged in, start GameListActivity
@@ -39,16 +41,23 @@ public class LoginPresenter extends Presenter implements ILoginPresenter, Observ
 
 
     /**
-     * Creates an async task through the facade to log in the user
+     * Asks the ClientFacade to do operations to register the user
      *
      */
     public void login(){
         mClientFacade.login(mUsername, mPassword, mSeverHost);
+        //mLoginView.moveToGameList();
     }
 
+
+    /**
+     * Asks the ClientFacade to do operations to login the user
+     */
     public void register() {
         mClientFacade.register(mUsername, mPassword, mSeverHost);
     }
+
+
     /**
      * Grabs all necessary information from the data model to display the view accurately, then updates the view accordingly
      */
@@ -65,7 +74,22 @@ public class LoginPresenter extends Presenter implements ILoginPresenter, Observ
     @Override
     public void update(Observable observable, Object o) {
         super.update(observable, o);
-
+        Log.d("Presenter", "Update called from observer");
+        if (o instanceof LoginSuccess) {
+            mLoginView.displayLoginSuccess();
+            mLoginView.enableButtons(true);
+            mLoginView.moveToGameList();
+        } else if (o instanceof RegisterSuccess) {
+            mLoginView.displayRegisterSuccess();
+            mLoginView.enableButtons(true);
+            mLoginView.moveToGameList();
+        } else if (o instanceof RegisterFailed) {
+            mLoginView.displayRegisterFailed();
+            mLoginView.enableButtons(true);
+        } else if (o instanceof LoginFailed) {
+            mLoginView.displayLoginFailed();
+            mLoginView.enableButtons(true);
+        }
     }
 
     /**
@@ -75,20 +99,17 @@ public class LoginPresenter extends Presenter implements ILoginPresenter, Observ
     @Override
     public void loginPressed() {
         if (mUsername != null && mPassword != null && mSeverHost != null) {
-            mLoginActivity.enableButtons(false);
+            mLoginView.enableButtons(false);
             login();
         } else {
             if (mUsername == null) {
-                String error = mLoginActivity.getResources().getString(R.string.username_incorrect_format);
-                mLoginActivity.warnUsername(error);
+                mLoginView.warnUsername();
             }
             if (mPassword == null) {
-                String error = mLoginActivity.getResources().getString(R.string.password_incorrect_format);
-                mLoginActivity.warnPassword(error);
+                mLoginView.warnPassword();
             }
             if (mSeverHost == null) {
-                String error = mLoginActivity.getResources().getString(R.string.url_incorrect_format);
-                mLoginActivity.warnHost(error);
+                mLoginView.warnHost();
             }
         }
     }
@@ -101,20 +122,17 @@ public class LoginPresenter extends Presenter implements ILoginPresenter, Observ
     @Override
     public void registerPressed() {
         if (mUsername != null && mPassword != null && mSeverHost != null) {
-            mLoginActivity.enableButtons(false);
+            mLoginView.enableButtons(false);
             register();
         } else {
             if (mUsername == null) {
-                String error = mLoginActivity.getResources().getString(R.string.username_incorrect_format);
-                mLoginActivity.warnUsername(error);
+                mLoginView.warnUsername();
             }
             if (mPassword == null) {
-                String error = mLoginActivity.getResources().getString(R.string.password_incorrect_format);
-                mLoginActivity.warnPassword(error);
+                mLoginView.warnPassword();
             }
             if (mSeverHost == null) {
-                String error = mLoginActivity.getResources().getString(R.string.url_incorrect_format);
-                mLoginActivity.warnHost(error);
+                mLoginView.warnHost();
             }
         }
     }

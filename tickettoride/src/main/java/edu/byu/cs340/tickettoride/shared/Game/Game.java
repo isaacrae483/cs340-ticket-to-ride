@@ -13,6 +13,8 @@ public class Game implements IGameListEntry {
     private List<Player> players;
     private int numPlayers;
     private final int MAX_PLAYERS = 5;
+    private final int MIN_PLAYERS = 2;
+    boolean gameStarted = false;
 
     public Game() {
         id = ID.generate();
@@ -35,6 +37,15 @@ public class Game implements IGameListEntry {
     @Override
     public ID getId() {
         return id;
+    }
+
+    @Override
+    public boolean canGameBeStarted() {
+        return (getPlayerCount() >= MIN_PLAYERS && getPlayerCount() <= MAX_PLAYERS);
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
     }
 
     public Player GetLeader() {
