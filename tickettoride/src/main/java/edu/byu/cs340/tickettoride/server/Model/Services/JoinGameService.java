@@ -28,7 +28,7 @@ public class JoinGameService {
         if(game.getPlayerCount() < 5 && !alreadyJoined){ //***Fix the player count.
             Player player = new Player(username, IPlayer.Color.values()[game.getPlayerCount()]);
             game.addPlayer(player);
-            return new JoinGameResult(true, player);
+            return new JoinGameResult(true, id);
         }
         return new JoinGameResult(false, null);
     }

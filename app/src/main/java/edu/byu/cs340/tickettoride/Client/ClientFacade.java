@@ -72,14 +72,7 @@ public class ClientFacade implements IClient, ICallBack {
     }
     public void joinGame(ID id){
 
-        Username username = ClientModel.instance().getUsername();
-        JoinGameResult result = ServerProxy.instance().joinGame(username, id);
-        if(result.getSuccess()){
-            incrementPlayers(id, result.getPlayer());
-        }
-        else{
-            //calls the presenter to display a toast with the error
-        }
+
     }
 
     public void createGame(){
@@ -135,7 +128,7 @@ public class ClientFacade implements IClient, ICallBack {
         else if(response.getClass() == JoinGameResult.class && response != null){
             JoinGameResult result = (JoinGameResult) response;
             if(result.getSuccess()){
-                //model.setActiveGameID();
+                model.setActiveGameID(result.getId());
             }
             else{
                 ClientModel.instance().passErrorEvent(new GameJoinError());

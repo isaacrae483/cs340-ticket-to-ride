@@ -1,26 +1,23 @@
 package edu.byu.cs340.tickettoride.shared.Result;
 
+import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 
 public class JoinGameResult {
     private Boolean success;
+    private ID id;
 
-    public Player getPlayer() {
-        return player;
-    }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    private Player player;
-
-    public JoinGameResult(Boolean success, Player player) {
-        this.player = player;
+    public JoinGameResult(Boolean success, ID id) {
         this.success = success;
+        this.id = id;
     }
 
     public Boolean getSuccess() {
         return success;
+    }
+
+    public ID getId() {
+        return id;
     }
 }
