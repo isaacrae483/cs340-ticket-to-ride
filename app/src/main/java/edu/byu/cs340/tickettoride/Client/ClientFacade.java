@@ -71,8 +71,12 @@ public class ClientFacade implements IClient, ICallBack {
 
     }
     public void joinGame(ID id){
+        GenericData info = new GenericData("joinGame",
+                new Class<?>[] {Username.class, ID.class},
+                new Object[] {model.getUsername(), id});
 
-
+        GenericTask task = new GenericTask<JoinGameResult>(this);
+        task.execute(info);
     }
 
     public void createGame(){
@@ -80,7 +84,7 @@ public class ClientFacade implements IClient, ICallBack {
                 new Class<?>[] {Username.class},
                 new Object[] {model.getUsername()});
 
-        GenericTask task = new GenericTask<LoginResult>(this);
+        GenericTask task = new GenericTask<CreateGameResult>(this);
         task.execute(info);
     }
 
@@ -103,7 +107,7 @@ public class ClientFacade implements IClient, ICallBack {
 
     public <T> void update(T response){
 
-        if(response.getClass() == LoginResult.class && response != null){
+        if(response != null && response.getClass() == LoginResult.class){
             LoginResult result = (LoginResult) response;
             if(result.getSuccess()){
                 model.setGames(result.getGames());
@@ -114,7 +118,7 @@ public class ClientFacade implements IClient, ICallBack {
                 ClientModel.instance().passErrorEvent(new LoginFailed());
             }
         }
-        else if(response.getClass() == CreateGameResult.class && response != null){
+        else if(response != null && response.getClass() == CreateGameResult.class){
             CreateGameResult result = (CreateGameResult) response;
             if(result.getSuccess()){
                 return;
@@ -124,7 +128,7 @@ public class ClientFacade implements IClient, ICallBack {
                 ClientModel.instance().passErrorEvent(new GameJoinError());
             }
         }
-        else if(response.getClass() == JoinGameResult.class && response != null){
+        else if(response != null && response.getClass() == JoinGameResult.class){
             JoinGameResult result = (JoinGameResult) response;
             if(result.getSuccess()){
                 model.setActiveGameID(result.getId());
