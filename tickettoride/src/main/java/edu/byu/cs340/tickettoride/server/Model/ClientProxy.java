@@ -49,7 +49,7 @@ public class ClientProxy implements IClientObserver, IClient {
 
     @Override
     public void startGame(ID gameId) {
-
+        //WHY DOES THIS EXIS
     }
 
 

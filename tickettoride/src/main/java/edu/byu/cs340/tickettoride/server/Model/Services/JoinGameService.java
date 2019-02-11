@@ -12,7 +12,20 @@ public class JoinGameService {
 
     public static JoinGameResult joinGame(Username username, ID id){
         Game game = ServerModel.SINGLETON.getMapGames().getGame(id);
-        if(game != null && game.getPlayerCount() < 5){ //***Fix the player count.
+
+        if (game == null || username == null) {
+            return new JoinGameResult(false, null);
+        }
+
+        boolean alreadyJoined = false; {
+            for (Player p : game.getPlayers()) {
+                if (p.getPlayerName().equals(username)) {
+                    alreadyJoined = true;
+                }
+            }
+        }
+
+        if(game.getPlayerCount() < 5 && !alreadyJoined){ //***Fix the player count.
             Player player = new Player(username, IPlayer.Color.values()[game.getPlayerCount()]);
             game.addPlayer(player);
             return new JoinGameResult(true, player);

@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
+import java.util.List;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.events.ErrorEvent;
@@ -14,6 +15,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
+import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -47,8 +49,10 @@ public class ClientModel extends Observable implements IClient {
         return games;
     }
 
-    public void setGames(MapGames games) {
-        this.games = games;
+    public void setGames(List<Game> games) {
+        for (Game g : games) {
+            this.games.addGame(g);
+        }
         emitEvent(new GameListChanged());
     }
 
@@ -62,14 +66,14 @@ public class ClientModel extends Observable implements IClient {
     }
 
     public void incrementPlayers(ID id, Player newUser){
-        Game game = games.getGame(id);
+        Game game = this.getGame(id);
         game.addPlayer(newUser);
         emitEvent(new PlayerCountChanged(game));
     }
 
     public void startGame(ID gameId) {
-        games.getGame(gameId).startGame();
-        emitEvent(new GameStarted(games.getGame(gameId)));
+        this.getGame(gameId).startGame();
+        emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
     public ID getActiveGameID() {
