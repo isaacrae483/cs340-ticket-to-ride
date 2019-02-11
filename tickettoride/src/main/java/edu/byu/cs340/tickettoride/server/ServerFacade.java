@@ -1,6 +1,5 @@
 package edu.byu.cs340.tickettoride.server;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +11,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
-import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.JoinGameCommand;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
@@ -21,7 +20,6 @@ import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
-import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 
 public class ServerFacade implements IServer, IClientObservable{
     private Set<IClientObserver> observers = new HashSet<>();
@@ -64,8 +62,8 @@ public class ServerFacade implements IServer, IClientObservable{
     }
 
     @Override
-    public List<ClientCommandData> getCommands(Username username) {
-        return ServerModel.SINGLTON.getCommandList().GetCommands(username);
+    public ClientCommandList getCommands(Username username) {
+        return ServerModel.SINGLETON.getCommandList().GetCommands(username);
     }
 
     @Override
@@ -76,5 +74,9 @@ public class ServerFacade implements IServer, IClientObservable{
     //FOR TESTING PURPOSES ONLY
     public int NumObservers() {
         return observers.size();
+    }
+    public void Reset() {
+        observers = new HashSet<>();
+        ServerModel.SINGLETON.Reset();
     }
 }

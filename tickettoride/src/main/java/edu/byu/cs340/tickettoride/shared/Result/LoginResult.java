@@ -18,4 +18,12 @@ public class LoginResult {
     public MapGames getGames() {
         return games;
     }
+
+    @Override
+    public String toString() {
+        return "LoginResult{" +
+                "success=" + success +
+                ", games=" + games +
+                '}';
+    }
 }

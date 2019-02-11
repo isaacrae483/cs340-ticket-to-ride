@@ -1,11 +1,12 @@
+
 package edu.byu.cs340.tickettoride.Client;
 
 import java.net.URL;
-import java.util.List;
 
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
-import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -16,11 +17,13 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ServerProxy implements IServer {
     private static ServerProxy _instance;
-    private ServerProxy(){
+
+    private ServerProxy() {
 
     }
-    public static ServerProxy instance(){
-        if (_instance == null){
+
+    public static ServerProxy instance() {
+        if (_instance == null) {
             _instance = new ServerProxy();
         }
         return _instance;
@@ -55,11 +58,13 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public List<ClientCommandData> getCommands(Username username) {
-        return null;
+    public ClientCommandList getCommands(Username username) {
+        data = new ServerCommandData(commandType.GETCOMMANDS, username);
+        return communicator.send(data, ClientCommandList.class);
     }
 
     public void setHost(URL host) {
         this.host = host;
     }
 }
+

@@ -5,7 +5,9 @@ import org.junit.Test;
 
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -46,8 +48,9 @@ public class ServerFacadeTest {
             System.out.println(e.getMessage());
         }
 
-        model = ServerModel.SINGLTON;
+        model = ServerModel.SINGLETON;
         facade = ServerFacade.SINGLETON;
+        facade.Reset();
     }
 
     @Test
@@ -101,7 +104,7 @@ public class ServerFacadeTest {
 
         facade.joinGame(user2, id);
 
-        List<ClientCommandData> commands = model.getCommandList().GetCommands(user);
+        ClientCommandList commands = model.getCommandList().GetCommands(user);
         assertEquals(1, commands.size());
         ClientCommandData command = commands.get(0);
 
@@ -129,7 +132,7 @@ public class ServerFacadeTest {
         assertEquals(1, game.getPlayerCount());
         assertEquals(user.getUsername(), game.getPlayers().get(0).getPlayerName().getUsername());
 
-        List<ClientCommandData> commands = model.getCommandList().GetCommands(user);
+        ClientCommandList commands = model.getCommandList().GetCommands(user);
         assertEquals(1, commands.size());
         ClientCommandData command = commands.get(0);
         //getting the command should clear it

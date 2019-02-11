@@ -18,4 +18,12 @@ public class CreateGameResult {
     public Game getGame() {
         return game;
     }
+
+    @Override
+    public String toString() {
+        return "CreateGameResult{" +
+                "success=" + success +
+                ", game=" + game +
+                '}';
+    }
 }

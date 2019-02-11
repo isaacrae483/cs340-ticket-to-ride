@@ -16,4 +16,6 @@ public class MapGames {
     public Game getGame(ID id){
         return games.get(id);
     }
+
+    public int size() { return games.size(); }
 }

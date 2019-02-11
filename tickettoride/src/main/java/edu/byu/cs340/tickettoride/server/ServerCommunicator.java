@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 
@@ -28,15 +29,14 @@ public class ServerCommunicator implements AutoCloseable {
         return exchange.getRequestMethod();
     }
 
-    Class getRequestBodyType() throws ClassNotFoundException {
-        return Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
-    }
-
-    <T> T getRequestBody(Class<T> type) {
-        T result = null;
+    Object getRequestBody() {
+        Object result = null;
 
         try (Reader requestBody = new InputStreamReader(exchange.getRequestBody())) {
+            Class type = Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
             result = Codec.SINGLETON.decode(requestBody, type);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,6 +51,19 @@ public class ServerCommunicator implements AutoCloseable {
 
     void error() {
 
+    }
+
+    Object getHeaderData() {
+        Object o = null;
+        try {
+            StringReader userHeader = new StringReader(exchange.getRequestHeaders().getFirst("Data"));
+            Class type = Class.forName(exchange.getRequestHeaders().getFirst("Java-Class"));
+            o = Codec.SINGLETON.decode(userHeader, type);
+        }
+        catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return o;
     }
 
     @Override
