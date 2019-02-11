@@ -14,7 +14,7 @@ public class JoinGameService {
         Game game = ServerModel.SINGLETON.getMapGames().getGame(id);
 
         if (game == null || username == null) {
-            return new JoinGameResult(false, null);
+            return new JoinGameResult(false, null, null);
         }
 
         boolean alreadyJoined = false; {
@@ -28,8 +28,8 @@ public class JoinGameService {
         if(game.getPlayerCount() < 5 && !alreadyJoined){ //***Fix the player count.
             Player player = new Player(username, IPlayer.Color.values()[game.getPlayerCount()]);
             game.addPlayer(player);
-            return new JoinGameResult(true, id);
+            return new JoinGameResult(true, player, id);
         }
-        return new JoinGameResult(false, null);
+        return new JoinGameResult(false, null, null);
     }
 }
