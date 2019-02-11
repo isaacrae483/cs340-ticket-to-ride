@@ -47,6 +47,11 @@ public class ClientProxy implements IClientObserver, IClient {
         );
     }
 
+    @Override
+    public void startGame(ID gameId) {
+
+    }
+
 
     @Override
     public boolean equals(Object o) {
