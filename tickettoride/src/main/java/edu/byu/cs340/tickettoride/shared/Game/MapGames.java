@@ -29,4 +29,12 @@ public class MapGames {
         }
         return list;
     }
+
+    public List<Game> getAsListGames() {
+        ArrayList<Game> list = new ArrayList<>();
+        for (Map.Entry<ID, Game> entry : games.entrySet()) {
+            list.add(entry.getValue());
+        }
+        return list;
+    }
 }
