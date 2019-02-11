@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -69,8 +70,8 @@ public class ClientFacade implements IClient, ICallBack {
         task.execute(info);
 
     }
-
     public void joinGame(ID id){
+
         Username username = ClientModel.instance().getUsername();
         JoinGameResult result = ServerProxy.instance().joinGame(username, id);
         if(result.getSuccess()){
@@ -82,14 +83,12 @@ public class ClientFacade implements IClient, ICallBack {
     }
 
     public void createGame(){
-        Username username = ClientModel.instance().getUsername();
-        CreateGameResult result = ServerProxy.instance().createGame(username);
-        if(result.getSuccess()){
-            addGame(result.getGame());
-        }
-        else{
-            //calls the presenter to display a toast with the error
-        }
+        GenericData info = new GenericData("createGame",
+                new Class<?>[] {Username.class},
+                new Object[] {model.getUsername()});
+
+        GenericTask task = new GenericTask<LoginResult>(this);
+        task.execute(info);
     }
 
 
@@ -111,22 +110,34 @@ public class ClientFacade implements IClient, ICallBack {
 
     public <T> void update(T response){
 
-        if(response.getClass() == LoginResult.class){
+        if(response.getClass() == LoginResult.class && response != null){
             LoginResult result = (LoginResult) response;
             if(result.getSuccess()){
-                model.setUsername(_username);
                 model.setGames(result.getGames());
+                model.setUsername(_username);
                 new Poller().startPolling(_username);
             }
             else{
                 ClientModel.instance().passErrorEvent(new LoginFailed());
             }
         }
-        else if(response.getClass() == CreateGameResult.class){
-
+        else if(response.getClass() == CreateGameResult.class && response != null){
+            CreateGameResult result = (CreateGameResult) response;
+            if(result.getSuccess()){
+                model.addGame(result.getGame());
+            }
+            else{
+                ClientModel.instance().passErrorEvent(new GameJoinError());
+            }
         }
-        else if(response.getClass() == JoinGameResult.class){
-
+        else if(response.getClass() == JoinGameResult.class && response != null){
+            JoinGameResult result = (JoinGameResult) response;
+            if(result.getSuccess()){
+                //model.setActiveGameID();
+            }
+            else{
+                ClientModel.instance().passErrorEvent(new GameJoinError());
+            }
         }
         else{
             //report error
@@ -153,7 +164,6 @@ public class ClientFacade implements IClient, ICallBack {
 
         @Override
         protected T doInBackground(Object...datas){
-            System.out.print(datas.getClass().getName());
             GenericData data = (GenericData) datas[0];
 
             _className = data.get_className();
