@@ -24,29 +24,29 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
         mGameLobbyView = view;
         mClientFacade = ClientFacade.instance();
 
-        // TODO: FOR TESTING PURPOSES ONLY
-        class Player implements IPlayer {
-            @Override
-            public Color getColor() {
-                return Color.BLACK;
-            }
-
-            @Override
-            public Username getPlayerName() {
-                Username user = null;
-                try {
-                    user = new Username("hi");
-                } catch (Throwable e) {
-
-                }
-                return user;
-            }
-        }
-        ArrayList<IPlayer> playerList = new ArrayList<IPlayer>();
-        playerList.add(new Player());
-        playerList.add(new Player());
-
-        mGameLobbyView.setPlayerSet(playerList);
+//        // TODO: FOR TESTING PURPOSES ONLY
+//        class Player implements IPlayer {
+//            @Override
+//            public Color getColor() {
+//                return Color.BLACK;
+//            }
+//
+//            @Override
+//            public Username getPlayerName() {
+//                Username user = null;
+//                try {
+//                    user = new Username("hi");
+//                } catch (Throwable e) {
+//
+//                }
+//                return user;
+//            }
+//        }
+//        ArrayList<IPlayer> playerList = new ArrayList<IPlayer>();
+//        playerList.add(new Player());
+//        playerList.add(new Player());
+//
+//        mGameLobbyView.setPlayerSet(playerList);
 
         mGameLobbyView.displayStartGame(true);
     }
@@ -58,7 +58,7 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
         mGameLobbyView.setPlayerSet(mClientModel.getActiveGame().getPlayers());
         Username thisUser = mClientModel.getUsername();
         if (mClientModel.getActiveGame().canGameBeStarted() &&
-                game.GetLeader().equals(thisUser)) {
+                game.GetLeader().getPlayerName().equals(thisUser)) {
             mGameLobbyView.displayStartGame(true);
         } else {
             mGameLobbyView.displayStartGame(false);
@@ -93,7 +93,10 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
                 return;
             playerCountChanged(e.getGame());
         } else if (o instanceof GameStarted) {
-            mGameLobbyView.moveToStartGame();
+            GameStarted e = (GameStarted) o;
+            Game game = e.getGame();
+            if (game.getId().equals(mClientModel.getActiveGameID()))
+                mGameLobbyView.moveToStartGame();
         }
     }
 }

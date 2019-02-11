@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -64,6 +65,11 @@ public class ClientModel extends Observable implements IClient {
         Game game = games.getGame(id);
         game.addPlayer(newUser);
         emitEvent(new PlayerCountChanged(game));
+    }
+
+    public void startGame(ID gameId) {
+        games.getGame(gameId).startGame();
+        emitEvent(new GameStarted(games.getGame(gameId)));
     }
 
     public ID getActiveGameID() {

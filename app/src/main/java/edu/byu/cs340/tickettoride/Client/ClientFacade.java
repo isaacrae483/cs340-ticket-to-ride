@@ -80,6 +80,11 @@ public class ClientFacade implements IClient {
         ClientModel.instance().addGame(game);
     }
 
+    @Override
+    public void startGame(ID gameId) {
+        ClientModel.instance().startGame(gameId);
+    }
+
     /**
      * Async task that attempts to login
      */

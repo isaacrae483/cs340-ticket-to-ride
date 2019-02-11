@@ -48,6 +48,10 @@ public class Game implements IGameListEntry {
         return gameStarted;
     }
 
+    public void startGame() {
+        gameStarted = true;
+    }
+
     public Player GetLeader() {
         if (players != null && !players.isEmpty()) {
             return players.get(0);
