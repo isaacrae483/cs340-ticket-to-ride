@@ -61,8 +61,8 @@ public class ServerProxy implements IServer {
 
     @Override
     public ClientCommandList getCommands(Username username) {
-        data = new ServerCommandData(commandType.GETCOMMANDS, username);
-        return communicator.send(data, ClientCommandList.class);
+        //data = new ServerCommandData(commandType.GETCOMMANDS, username);
+        return communicator.get(username, ClientCommandList.class);
     }
 
     public void setHost(URL host) {

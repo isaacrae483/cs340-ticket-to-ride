@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 import edu.byu.cs340.tickettoride.shared.Codec;
 
@@ -39,9 +40,7 @@ public class ClientCommunicator {
             } else {
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
-
                 connection.setRequestProperty("Java-Class", data.getClass().getName());
-
                 try (Writer requestBody = new OutputStreamWriter(connection.getOutputStream())) {
                     Codec.SINGLETON.encode(data, requestBody);
                 }
@@ -49,12 +48,10 @@ public class ClientCommunicator {
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (Reader responseBody = new InputStreamReader(connection.getInputStream())) {
-//                    BufferedReader reader = new BufferedReader(responseBody);
-//                    String line;
-//                    while (reader.ready()) {
-//                        Log.d("Reader", reader.readLine());
+//                    Scanner scan = new Scanner(responseBody);
+//                    while (scan.hasNext()) {
+//                        System.out.println(scan.nextLine());
 //                    }
-//                    reader.reset();
                     result = Codec.SINGLETON.decode(responseBody, returnType);
                 }
             } else {

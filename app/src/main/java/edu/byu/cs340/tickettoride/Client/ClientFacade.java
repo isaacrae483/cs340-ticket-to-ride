@@ -109,6 +109,7 @@ public class ClientFacade implements IClient {
             if(result != null && result.getSuccess()){
                 ClientModel.instance().setUsername(username);
                 ClientModel.instance().setGames(result.getGames());
+                new Poller().startPolling(username);
             }
             else{
                 ClientModel.instance().passErrorEvent(new LoginFailed());
@@ -151,6 +152,7 @@ public class ClientFacade implements IClient {
             if(result != null && result.getSuccess()){
                 ClientModel.instance().setUsername(username);
                 ClientModel.instance().setGames(result.getGames());
+                new Poller().startPolling(username);
             }
             else{
                 ClientModel.instance().passErrorEvent(new RegisterFailed());
