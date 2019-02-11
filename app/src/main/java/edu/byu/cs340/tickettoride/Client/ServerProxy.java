@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import java.net.URL;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
@@ -25,6 +26,7 @@ public class ServerProxy implements IServer {
         return _instance;
     }
 
+    private URL host;
     private ServerCommandData data;
     private ClientCommunicator communicator = new ClientCommunicator();
 
@@ -55,5 +57,9 @@ public class ServerProxy implements IServer {
     @Override
     public List<ClientCommandData> getCommands(Username username) {
         return null;
+    }
+
+    public void setHost(URL host) {
+        this.host = host;
     }
 }
