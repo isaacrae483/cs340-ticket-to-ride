@@ -11,6 +11,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -18,19 +19,33 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 import static org.junit.Assert.*;
 
 public class ServerProxyTest {
-    private Username user;
-    private Username fakeUser;
-    private Username user2;
+
     private Password password;
     private Password fakePassword;
-    private Password password2;
     private ServerProxy server;
     private ClientModel model;
 
     private static boolean started = false;
 
+
+    static int num = 0;
+    private Username NextUser() {
+        Username toReturn = null;
+        try {
+            ++num;
+            toReturn = new Username("USERTEST" + num);
+        }
+        catch (Username.InvalidUserNameException e) {
+            System.out.println(e.getMessage());
+        }
+        return toReturn;
+    }
+
     @Test
     public void login() {
+        Username user = NextUser();
+        Username fakeUser = NextUser();
+
         server.register(user, password);
 
         LoginResult res = server.login(user, password);
@@ -48,6 +63,9 @@ public class ServerProxyTest {
 
     @Test
     public void register() {
+        Username user = NextUser();
+        Username user2 = NextUser();
+
         assertNull(model.getUsername());
 
         LoginResult res = server.register(user, password);
@@ -56,17 +74,51 @@ public class ServerProxyTest {
         res = server.register(null, null);
         assertFalse(res.getSuccess());
 
-        res = server.register(user2, password2);
+        res = server.register(user2, password);
         assertTrue(res.getSuccess());
     }
 
     @Test
     public void joinGame() {
+        Username user = NextUser();
+        Username user2 = NextUser();
+        Username fake = NextUser();
+
+        LoginResult res = server.register(user, password);
+        assertTrue(res.getSuccess());
+        res = server.register(user2, password);
+        assertTrue(res.getSuccess());
+
+        CreateGameResult create = server.createGame(user);
+        assertTrue(create.getSuccess());
+        ID id = create.getGame().getId();
+        assertNotNull(id);
+
+        JoinGameResult join = server.joinGame(user2, id);
+        assertTrue(join.getSuccess());
+
+        join= server.joinGame(user2, id);
+        assertFalse(join.getSuccess());
+
+        join = server.joinGame(user, null);
+        assertFalse(join.getSuccess());
+
+        join = server.joinGame(fake, null);
+        assertFalse(join.getSuccess());
+
+        join = server.joinGame(user2, ID.generate());
+        assertFalse(join.getSuccess());
+
+        join = server.joinGame(null, id);
+        assertFalse(join.getSuccess());
     }
 
     @Test
     public void createGame() {
-        this.login();
+        Username user = NextUser();
+        Username fakeUser = NextUser();
+
+        server.register(user, password);
 
         assertNull(model.getGames());
 
@@ -95,16 +147,10 @@ public class ServerProxyTest {
     @Before
     public void setUp() throws Exception {
         try {
-            user = new Username("UserTEST");
-            fakeUser = new Username("FAKE");
-            user2 = new Username("UserTEST2");
-
             password = new Password("****");
             fakePassword = new Password("password");
-            password2 = new Password("DISBEPASSWURD");
-        } catch (Username.InvalidUserNameException e) {
-            System.out.println(e.getMessage());
-        } catch (Password.InvalidPasswordException e) {
+        }
+        catch (Password.InvalidPasswordException e) {
             System.out.println(e.getMessage());
         }
 
@@ -113,10 +159,10 @@ public class ServerProxyTest {
 
         if (!started) {
             edu.byu.cs340.tickettoride.server.Server.main();
+            URL url = new URL("http://localhost:8080");
+            server.setHost(url);
             started = true;
         }
 
-        URL url = new URL("http://localhost:8080");
-        server.setURL(url);
     }
 }
