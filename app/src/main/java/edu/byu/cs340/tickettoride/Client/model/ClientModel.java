@@ -32,7 +32,7 @@ public class ClientModel extends Observable implements IClient {
     }
 
     private Username username;
-    private MapGames games;
+    private MapGames games = new MapGames();
     private ID activeGameID;
 
     public Username getUsername() {
