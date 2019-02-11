@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -91,6 +92,8 @@ public class ClientFacade implements IClient, ICallBack {
         }
     }
 
+
+
     @Override
     public void incrementPlayers(ID id, Player player) {
         ClientModel.instance().incrementPlayers(id, player);
@@ -99,6 +102,11 @@ public class ClientFacade implements IClient, ICallBack {
     @Override
     public void addGame(Game game) {
         ClientModel.instance().addGame(game);
+    }
+
+    @Override
+    public void startGame(ID gameId) {
+        return;
     }
 
     public <T> void update(T response){
