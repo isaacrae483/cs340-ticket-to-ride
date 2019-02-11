@@ -5,8 +5,14 @@ package edu.byu.cs340.tickettoride.Client.views;
  */
 public interface ILoginView {
 
-    void warnUsername(String error);
-    void warnPassword(String error);
-    void warnServerHost(String error);
+    void warnUsername();
+    void warnPassword();
+    void warnHost();
+    void moveToGameList();
+    void enableButtons(Boolean isEnabled);
+    void displayRegisterSuccess();
+    void displayRegisterFailed();
+    void displayLoginSuccess();
+    void displayLoginFailed();
 
 }

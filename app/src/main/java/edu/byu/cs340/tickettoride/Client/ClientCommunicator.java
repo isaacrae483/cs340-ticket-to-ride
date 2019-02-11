@@ -1,5 +1,8 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import android.util.Log;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -7,6 +10,7 @@ import java.io.Reader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Scanner;
 
 import edu.byu.cs340.tickettoride.shared.Codec;
 
@@ -36,9 +40,7 @@ public class ClientCommunicator {
             } else {
                 connection.setRequestMethod("POST");
                 connection.setDoOutput(true);
-
                 connection.setRequestProperty("Java-Class", data.getClass().getName());
-
                 try (Writer requestBody = new OutputStreamWriter(connection.getOutputStream())) {
                     Codec.SINGLETON.encode(data, requestBody);
                 }
@@ -46,6 +48,10 @@ public class ClientCommunicator {
 
             if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 try (Reader responseBody = new InputStreamReader(connection.getInputStream())) {
+//                    Scanner scan = new Scanner(responseBody);
+//                    while (scan.hasNext()) {
+//                        System.out.println(scan.nextLine());
+//                    }
                     result = Codec.SINGLETON.decode(responseBody, returnType);
                 }
             } else {

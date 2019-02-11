@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
  * Created by Thomas Lewis on 2/5/19.
  */
 
-public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyView {
+public class GameLobbyActivity extends PresenterViewActivity implements IGameLobbyView {
 
     RecyclerView mPlayerRecyclerView;
     PlayerAdapter mPlayerAdapter;
@@ -38,11 +36,6 @@ public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyVi
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, GameLobbyActivity.class);
-    }
-
-    @Override
-    public void displayToast(String toastText) {
-        Toast.makeText(this.getApplicationContext(), toastText, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -64,7 +57,9 @@ public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyVi
             }
         });
 
-        mGameLobbyPresenter = new GameLobbyPresenter(this);
+        GameLobbyPresenter gameLobbyPresenter = new GameLobbyPresenter(this);
+        mGameLobbyPresenter = gameLobbyPresenter;
+        setPresenter(gameLobbyPresenter);
     }
 
     @Override
@@ -76,13 +71,18 @@ public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyVi
     }
 
     @Override
-    public void setPlayerSet(List<IPlayer> playerSet) {
+    public void setPlayerSet(List<? extends IPlayer> playerSet) {
         mPlayerAdapter.setNewDataset(playerSet);
     }
 
     @Override
     public void moveToStartGame() {
         startActivity(GameActivity.newIntent(getApplicationContext()));
+    }
+
+    @Override
+    public void finishView() {
+        finish();
     }
 
     private class PlayerHolder extends RecyclerView.ViewHolder {
@@ -120,7 +120,7 @@ public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyVi
 
     private class PlayerAdapter extends RecyclerView.Adapter {
 
-        List<IPlayer> mPlayerSet;
+        List<? extends IPlayer> mPlayerSet;
 
         PlayerAdapter(List<IPlayer> initialPlayerSet) {
             if (initialPlayerSet != null)
@@ -146,7 +146,7 @@ public class GameLobbyActivity extends AppCompatActivity implements IGameLobbyVi
             return mPlayerSet.size();
         }
 
-        public void setNewDataset(List<IPlayer> playerSet) {
+        public void setNewDataset(List<? extends IPlayer> playerSet) {
             mPlayerSet = playerSet;
             notifyDataSetChanged();
         }

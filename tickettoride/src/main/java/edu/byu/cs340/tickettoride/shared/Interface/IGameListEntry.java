@@ -11,4 +11,5 @@ public interface IGameListEntry {
     int getPlayerCount();
     boolean isGameFull();
     Player GetLeader();
+    boolean canGameBeStarted();
 }

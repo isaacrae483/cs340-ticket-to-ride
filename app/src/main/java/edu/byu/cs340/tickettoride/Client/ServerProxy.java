@@ -1,6 +1,8 @@
 
 package edu.byu.cs340.tickettoride.Client;
 
+import android.os.AsyncTask;
+
 import java.net.URL;
 
 import edu.byu.cs340.tickettoride.server.Model.CommandList;
@@ -59,12 +61,13 @@ public class ServerProxy implements IServer {
 
     @Override
     public ClientCommandList getCommands(Username username) {
-        data = new ServerCommandData(commandType.GETCOMMANDS, username);
-        return communicator.send(data, ClientCommandList.class);
+        //data = new ServerCommandData(commandType.GETCOMMANDS, username);
+        return communicator.get(username, ClientCommandList.class);
     }
 
     public void setHost(URL host) {
         this.host = host;
+        communicator.setURL(host);
     }
 }
 

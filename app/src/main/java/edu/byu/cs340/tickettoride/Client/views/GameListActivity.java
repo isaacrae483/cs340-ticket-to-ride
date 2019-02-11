@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +25,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 /**
  * Created by Thomas Lewis on 2/4/19.
  */
-public class GameListActivity extends AppCompatActivity implements IGameListView {
+public class GameListActivity extends PresenterViewActivity implements IGameListView {
 
     RecyclerView mGameList;
     GameAdapter mGameAdapter;
@@ -54,8 +52,9 @@ public class GameListActivity extends AppCompatActivity implements IGameListView
         mGameAdapter.gameChanged(game);
     }
 
-    public void displayToast(String text) {
-        Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    @Override
+    public void displayGameJoinError() {
+        makeToast(getString(R.string.game_join_error));
     }
 
     @Override
@@ -77,7 +76,9 @@ public class GameListActivity extends AppCompatActivity implements IGameListView
         mGameList.setAdapter(mGameAdapter);
 
         // Initialize presenter after all members have been defined
-        mGameListPresenter = new GameListPresenter(this);
+        GameListPresenter gameListPresenter = new GameListPresenter(this);
+        mGameListPresenter = gameListPresenter;
+        setPresenter(gameListPresenter);
 
         mAddGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +126,10 @@ public class GameListActivity extends AppCompatActivity implements IGameListView
 
     }
 
+    /**
+     * Adapter for holding objects that implement IGameListEntry
+     *
+     */
     private class GameAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<IGameListEntry> mGameList;
@@ -133,7 +138,7 @@ public class GameListActivity extends AppCompatActivity implements IGameListView
             if (initialGameList != null)
                 mGameList = initialGameList;
             else
-                mGameList = new ArrayList<IGameListEntry>();
+                mGameList = new ArrayList<>();
         }
 
         @NonNull
