@@ -5,6 +5,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.CreateGameComma
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.JoinGameCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.LoginCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.StartGameCommand;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 
 public class ServerCommandFactory {
@@ -18,6 +19,8 @@ public class ServerCommandFactory {
                 return new RegisterCommand(info.username, info.password);
             case CREATEGAME:
                 return new CreateGameCommand(info.username);
+            case STARTGAME:
+                return new StartGameCommand(info.username, info.gameID);
         }
         //tried to create non-existent command
         assert (false);

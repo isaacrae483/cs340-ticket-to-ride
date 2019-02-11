@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.net.URL;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -13,6 +14,7 @@ import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -142,6 +144,35 @@ public class ServerProxyTest {
 
     @Test
     public void getCommands() {
+    }
+
+    @Test
+    public void startGame() {
+        Username user = this.NextUser();
+        Username user2 = this.NextUser();
+
+        LoginResult register = server.register(user, password);
+        assertTrue(register.getSuccess());
+        register = server.register(user2, password);
+        assertTrue(register.getSuccess());
+
+        CreateGameResult create = server.createGame(user);
+        assertTrue(create.getSuccess());
+        ClientCommandList commandList = server.getCommands(user2);
+
+        ID id = create.getGame().getId();
+
+        StartGameResult start = server.startGame(user2, id);
+        assertFalse(start.getSuccess());
+
+        start = server.startGame(user, id);
+        assertTrue(start.getSuccess());
+
+        commandList = server.getCommands(user2);
+        assertEquals(1, commandList.size());
+        ClientCommandData createCommand = commandList.get(0);
+        assertEquals(ClientCommandData.CommandType.STARTGAME, createCommand.type);
+        assertEquals(id, createCommand.id);
     }
 
     @Before

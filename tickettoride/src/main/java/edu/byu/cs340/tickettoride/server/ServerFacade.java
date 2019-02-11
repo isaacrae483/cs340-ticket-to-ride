@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
+import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
@@ -18,6 +19,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -64,6 +66,17 @@ public class ServerFacade implements IServer, IClientObservable{
     @Override
     public ClientCommandList getCommands(Username username) {
         return ServerModel.SINGLETON.getCommandList().GetCommands(username);
+    }
+
+    @Override
+    public StartGameResult startGame(Username username, ID id) {
+        StartGameResult res = new StartGameService().startGame(username, id);
+        if (res.getSuccess()) {
+            for(IClientObserver o : observers) {
+                o.OnGameStart(id);
+            }
+        }
+        return res;
     }
 
     @Override

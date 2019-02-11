@@ -8,5 +8,6 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public interface IClientObserver {
     void OnPlayerJoin(Player player, ID game);
     void OnNewGame(Game game);
+    void OnGameStart(ID gameStart);
 }
 

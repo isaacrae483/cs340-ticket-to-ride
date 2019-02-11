@@ -37,4 +37,8 @@ public class MapGames {
         }
         return list;
     }
+
+    public void remove(ID id) {
+        games.remove(id);
+    }
 }

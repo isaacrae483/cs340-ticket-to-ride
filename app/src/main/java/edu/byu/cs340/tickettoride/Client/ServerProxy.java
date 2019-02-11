@@ -14,6 +14,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -63,6 +64,12 @@ public class ServerProxy implements IServer {
     public ClientCommandList getCommands(Username username) {
         //data = new ServerCommandData(commandType.GETCOMMANDS, username);
         return communicator.get(username, ClientCommandList.class);
+    }
+
+    @Override
+    public StartGameResult startGame(Username username, ID id) {
+        data = new ServerCommandData(commandType.STARTGAME, username, id);
+        return communicator.send(data, StartGameResult.class);
     }
 
     public void setHost(URL host) {
