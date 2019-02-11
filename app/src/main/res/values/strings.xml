@@ -29,4 +29,5 @@
     <string name="start_game">Start Game</string>
     <string name="game_list_screen_title">Game List</string>
     <string name="game_started">The game has started!</string>
+    <string name="game_join_error">Cannot Join Game</string>
 </resources>

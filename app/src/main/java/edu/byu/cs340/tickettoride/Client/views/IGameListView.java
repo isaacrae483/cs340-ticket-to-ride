@@ -30,15 +30,20 @@ public interface IGameListView {
      */
     void updateGame(IGameListEntry game);
 
-    /** displayToast - Given a string, display a toast on the view with that text
+    /** makeToast - Given a string, display a toast on the view with that text
      *
      *
      * @param toastText The text to display
      */
-    void displayToast(String toastText);
+    void makeToast(String toastText);
 
     /**
      * Starts and moves to the game lobby view
      */
     void moveToGameLobby();
+
+    /**
+     * If the game was not able to be joined, whether full or some other reason, display an error to the user
+     */
+    void displayGameJoinError();
 }

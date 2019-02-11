@@ -1,13 +1,10 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import edu.byu.cs340.tickettoride.Client.presenters.ILoginPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.LoginPresenter;
@@ -19,7 +16,7 @@ import edu.byu.cs340.tickettoride.R;
  *
  * Point of entry for the app
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends PresenterViewActivity implements ILoginView {
 
     private Button mSignInButton;
     private Button mRegisterButton;
@@ -40,20 +37,22 @@ public class LoginActivity extends AppCompatActivity {
         mUsernameField = findViewById(R.id.usernameField);
         mPasswordField = findViewById(R.id.passwordField);
 
-        // Attach a login presenter to this View after all members have been defined
-        mILoginPresenter = new LoginPresenter(this);
+        // Attach a login presenter to this PresenterViewActivity after all members have been defined
+        LoginPresenter loginPresenter = new LoginPresenter(this);
+        mILoginPresenter = loginPresenter;
+        setPresenter(loginPresenter);
 
         // Attach event handlers
-        mSignInButton.setOnClickListener(new View.OnClickListener() {
+        mSignInButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(android.view.View view) {
                 mILoginPresenter.loginPressed();
             }
         });
 
-        mRegisterButton.setOnClickListener(new View.OnClickListener() {
+        mRegisterButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(android.view.View view) {
                 mILoginPresenter.registerPressed();
             }
         });
@@ -110,40 +109,46 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mILoginPresenter.viewResumed();
-    }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mILoginPresenter.viewPaused();
+    public void warnHost() {
+        mServerHostField.setError(getString(R.string.url_incorrect_format));
+    }
+
+    public void warnPassword() {
+        mPasswordField.setError(getString(R.string.password_incorrect_format));
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mILoginPresenter.viewDestroyed();
+    public void moveToGameList() {
+        startActivity(GameListActivity.newIntent(getApplicationContext()));
     }
 
-    public void displayToast(String text) {
-        Toast.makeText(this.getApplicationContext(), text, Toast.LENGTH_LONG).show();
+    public void warnUsername() {
+        mUsernameField.setError(getString(R.string.username_incorrect_format));
     }
 
-    public void warnHost(String error) {
-        mServerHostField.setError(error);
+    @Override
+    public void displayRegisterSuccess() {
+        makeToast(getString(R.string.register_success));
     }
 
-    public void warnPassword(String error) {
-        mPasswordField.setError(error);
+    @Override
+    public void displayRegisterFailed() {
+        makeToast(getString(R.string.register_failed));
     }
 
-    public void warnUsername(String error) {
-        mUsernameField.setError(error);
+    @Override
+    public void displayLoginSuccess() {
+        makeToast(getString(R.string.login_success));
     }
 
+    @Override
+    public void displayLoginFailed() {
+        makeToast(getString(R.string.login_failed));
+    }
+
+    @Override
     public void enableButtons(Boolean isEnabled) {
         mSignInButton.setEnabled(isEnabled);
         mRegisterButton.setEnabled(isEnabled);

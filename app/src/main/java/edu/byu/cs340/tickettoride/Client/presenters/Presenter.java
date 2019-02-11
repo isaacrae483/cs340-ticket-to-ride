@@ -3,7 +3,7 @@ package edu.byu.cs340.tickettoride.Client.presenters;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.byu.cs340.tickettoride.Client.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 
 /**
  * Created by Thomas Lewis on 2/5/19.
