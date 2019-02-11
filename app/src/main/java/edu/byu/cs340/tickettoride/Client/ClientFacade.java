@@ -1,10 +1,13 @@
 package edu.byu.cs340.tickettoride.Client;
 
 import android.os.AsyncTask;
+import android.widget.Switch;
 
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -17,7 +20,7 @@ import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientFacade implements IClient {
+public class ClientFacade implements IClient, ICallBack {
     private static ClientFacade _instance;
     private ClientFacade(){
 
@@ -30,6 +33,9 @@ public class ClientFacade implements IClient {
         return _instance;
     }
 
+    private ClientModel model = ClientModel.instance();
+    private Username _username;
+
     /**
      * Called asynchronously from the presenters to login
      *
@@ -39,17 +45,27 @@ public class ClientFacade implements IClient {
      */
     public void login(Username username, Password password, URL host){
         ServerProxy.instance().setHost(host);
-        User user = new User(username, password);
-        LoginTask task = new LoginTask();
-        task.execute(user);
+        _username = username;
+
+        GenericData info = new GenericData("login",
+                new Class<?>[] {Username.class, Password.class},
+                new Object[] {username, password});
+
+        GenericTask task = new GenericTask<LoginResult>(this);
+        task.execute(info);
 
     }
 
     public void register(Username username, Password password, URL host){
         ServerProxy.instance().setHost(host);
-        User user = new User(username, password);
-        RegisterTask task = new RegisterTask();
-        task.execute(user);
+        _username = username;
+
+        GenericData info = new GenericData("register",
+                new Class<?>[] {Username.class, Password.class},
+                new Object[] {username, password});
+
+        GenericTask task = new GenericTask<LoginResult>(this);
+        task.execute(info);
 
     }
 
@@ -85,101 +101,78 @@ public class ClientFacade implements IClient {
         ClientModel.instance().addGame(game);
     }
 
-    /**
-     * Async task that attempts to login
-     */
-    public class LoginTask extends AsyncTask<User, Integer, LoginResult> {
-        User user;
-        Username username;
-        Password password;
+    public <T> void update(T response){
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        if(response.getClass() == LoginResult.class){
+            LoginResult result = (LoginResult) response;
+            if(result.getSuccess()){
+                model.setUsername(_username);
+                model.setGames(result.getGames());
+                new Poller().startPolling(_username);
+            }
+            else{
+                ClientModel.instance().passErrorEvent(new LoginFailed());
+            }
+        }
+        else if(response.getClass() == CreateGameResult.class){
+
+        }
+        else if(response.getClass() == JoinGameResult.class){
+
+        }
+        else{
+            //report error
         }
 
+    }
+
+    /**
+     * Generic Async task
+     */
+    public class GenericTask<T> extends AsyncTask<Object, GenericData, T> {
+
+        private ICallBack callBack;
+
+        public GenericTask(ICallBack callBack){
+            this.callBack = callBack;
+        }
+
+        ServerProxy server = ServerProxy.instance();
+        private String _className;
+        private String _methodName;
+        private Class<?>[] _paramTypes;
+        private Object[] _paramValues;
 
         @Override
-        protected LoginResult doInBackground(User...users){
-            user = users[0];
-            username = user.getUserName();
-            password = user.getPassword();
+        protected T doInBackground(Object...datas){
+            System.out.print(datas.getClass().getName());
+            GenericData data = (GenericData) datas[0];
 
-            LoginResult result = ServerProxy.instance().login(username, password);
+            _className = data.get_className();
+            _methodName = data.get_methodName();
+            _paramTypes = data.get_paramTypes();
+            _paramValues = data.get_paramValues();
+            T result = null;
+
+            try {
+                Class<?> receiver = Class.forName(_className);
+                Method method = receiver.getMethod(_methodName, _paramTypes);
+                result = (T) method.invoke(server, _paramValues);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+
             return result;
         }
 
         @Override
-       protected void onPostExecute(LoginResult result){
-
-            if(result.getSuccess()){
-                // Can't manipulate model from network thread
-                ClientModel.instance().setUsername(username);
-                ClientModel.instance().setGames(result.getGames());
-                // mLoginActivity.displayToast(mLoginActivity.getResources().getString(R.string.login_success));
-                //stopObserving();
-                //mLoginActivity.startActivity(GameListActivity.newIntent(mLoginActivity), new Bundle());
-            }
-            else{
-                //calls the presenter to display a toast with the error
-            }
-
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //super.onProgressUpdate(values);
+       protected void onPostExecute(T result){
+            callBack.update(result);
         }
 
 
     }
-
-    public class RegisterTask extends AsyncTask<User, Integer, Boolean> {
-        User user;
-        Username username;
-        Password password;
-        LoginResult result;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-
-        @Override
-        protected Boolean doInBackground(User...users){
-            user = users[0];
-            username = user.getUserName();
-            password = user.getPassword();
-
-            ServerProxy.instance().register(username, password);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean success){
-            super.onPostExecute(success);
-            if (success) {
-                if(result.getSuccess()){
-                    // Can't manipulate model from network thread
-                    ClientModel.instance().setUsername(username);
-                    ClientModel.instance().setGames(result.getGames());
-                    // mLoginActivity.displayToast(mLoginActivity.getResources().getString(R.string.login_success));
-                    //stopObserving();
-                    //mLoginActivity.startActivity(GameListActivity.newIntent(mLoginActivity), new Bundle());
-                }
-                else{
-                    //calls the presenter to display a toast with the error
-                }
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            //super.onProgressUpdate(values);
-        }
-
-    }
-
 
 }
