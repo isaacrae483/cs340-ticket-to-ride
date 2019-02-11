@@ -117,7 +117,8 @@ public class ClientFacade implements IClient, ICallBack {
         else if(response.getClass() == CreateGameResult.class && response != null){
             CreateGameResult result = (CreateGameResult) response;
             if(result.getSuccess()){
-                model.addGame(result.getGame());
+                return;
+                //model.addGame(result.getGame());
             }
             else{
                 ClientModel.instance().passErrorEvent(new GameJoinError());
