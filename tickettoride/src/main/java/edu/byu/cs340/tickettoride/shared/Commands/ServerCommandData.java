@@ -5,7 +5,7 @@ import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ServerCommandData {
-    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, GETCOMMANDS}
+    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME}
 
     public ServerCommandData(commandType type, Username username, Password password) {
         this.type = type;

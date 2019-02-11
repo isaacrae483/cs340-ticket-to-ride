@@ -30,6 +30,11 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
+    public void OnGameStart(ID gameStart) {
+        this.startGame(gameStart);
+    }
+
+    @Override
     public void incrementPlayers(ID id, Player player) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 user, new ClientCommandData(
@@ -49,7 +54,11 @@ public class ClientProxy implements IClientObserver, IClient {
 
     @Override
     public void startGame(ID gameId) {
-        //WHY DOES THIS EXIS
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                user, new ClientCommandData(
+                        ClientCommandData.CommandType.STARTGAME, gameId
+                )
+        );
     }
 
 

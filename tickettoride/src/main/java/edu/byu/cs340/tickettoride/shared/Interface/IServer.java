@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -17,4 +18,5 @@ public interface IServer {
     JoinGameResult joinGame(Username username, ID id);
     CreateGameResult createGame(Username username);
     ClientCommandList getCommands(Username username);
+    StartGameResult startGame(Username username, ID id);
 }

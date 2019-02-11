@@ -19,6 +19,11 @@ public class ClientCommandData {
         this.type = type;
     }
 
+    public  ClientCommandData(CommandType type, ID id) {
+        this.type = type;
+        this.id = id;
+    }
+
     public ID id;
     public Game game;
     public Player player;
