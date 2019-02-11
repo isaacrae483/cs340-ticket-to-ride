@@ -76,14 +76,12 @@ public class ClientFacade implements IClient, ICallBack {
     }
 
     public void createGame(){
-        Username username = ClientModel.instance().getUsername();
-        CreateGameResult result = ServerProxy.instance().createGame(username);
-        if(result.getSuccess()){
-            addGame(result.getGame());
-        }
-        else{
-            //calls the presenter to display a toast with the error
-        }
+        GenericData info = new GenericData("createGame",
+                new Class<?>[] {Username.class},
+                new Object[] {model.getUsername()});
+
+        GenericTask task = new GenericTask<LoginResult>(this);
+        task.execute(info);
     }
 
 
@@ -108,8 +106,8 @@ public class ClientFacade implements IClient, ICallBack {
         if(response.getClass() == LoginResult.class && response != null){
             LoginResult result = (LoginResult) response;
             if(result.getSuccess()){
-                model.setUsername(_username);
                 model.setGames(result.getGames());
+                model.setUsername(_username);
                 new Poller().startPolling(_username);
             }
             else{
