@@ -12,7 +12,7 @@ public class CommandFactory {
             case INCREMENTPLAYER:
                 return new IncrementPlayersCommand(info.player, info.id);
             case STARTGAME:
-                return new GameStartedCommand(info.game.getId());
+                return new GameStartedCommand(info.id);
         }
         //tried to create non-existent command
         assert (false);

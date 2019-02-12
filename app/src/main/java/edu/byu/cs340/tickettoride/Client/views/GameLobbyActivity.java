@@ -81,6 +81,11 @@ public class GameLobbyActivity extends PresenterViewActivity implements IGameLob
     }
 
     @Override
+    public void displayStartGameError() {
+        makeToast(getString(R.string.start_game_error));
+    }
+
+    @Override
     public void finishView() {
         finish();
     }
