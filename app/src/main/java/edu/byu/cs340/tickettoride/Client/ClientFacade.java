@@ -98,6 +98,9 @@ public class ClientFacade implements IClient, ICallBack {
     @Override
     public void incrementPlayers(ID id, Player player) {
         ClientModel.instance().incrementPlayers(id, player);
+        if(model.getUsername().equals(player.getPlayerName())){
+            model.setActiveGameID(id);
+        }
     }
 
     @Override
@@ -123,7 +126,6 @@ public class ClientFacade implements IClient, ICallBack {
         else if(response != null && response.getClass() == CreateGameResult.class){
             CreateGameResult result = (CreateGameResult) response;
             if(result.getSuccess()){
-                joinGame(result.getGame().getId());
                 return;
                 //model.addGame(result.getGame());
             }
