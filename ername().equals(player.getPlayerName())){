@@ -1,0 +1,275 @@
+[33mcommit 2a54d34fa6ab5bd08ac3e9e083ba95ea4d433344[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Tue Feb 12 11:26:08 2019 -0700
+
+    Start game code
+
+[33mcommit 772ab04b5a8682bf3808d82db01e2cfae844f660[m
+Merge: de37dc7 024c1d5
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Tue Feb 12 11:11:52 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit de37dc7f430a3508d20e19c52c38577629ee583a[m
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Tue Feb 12 11:11:42 2019 -0700
+
+    Presenter Bug fixed
+
+[33mcommit 024c1d599c36cc5e42ebb9354e83103f253d55d4[m
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Tue Feb 12 11:09:29 2019 -0700
+
+    Can re-join game without asking server
+
+[33mcommit e37f99af7c99178164fb2deb7d2b1cec2f37e9b6[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Tue Feb 12 11:08:02 2019 -0700
+
+    fixed joinGame for first player
+
+[33mcommit 68cc31136a6e4a40029ebeef1757ec6f2e9d9168[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Tue Feb 12 10:49:17 2019 -0700
+
+    pushing joinGame updates
+
+[33mcommit ea1b0f79bfc49da7f9e5e759060b2ef14d1e30d9[m
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Tue Feb 12 10:26:05 2019 -0700
+
+    Clear commands on login or register
+
+[33mcommit d233213e0adc76e28a621769833ee26623bf74ae[m
+Merge: 7307033 490c525
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 21:26:39 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+
+[33mcommit 7307033c8de573ad22e17c99c694fbf4b43b28b6[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 21:26:27 2019 -0700
+
+    adding joinGame, first player still doesn't get to lobby
+
+[33mcommit 490c52507bc5e25e8b4aff90310bdeb1b22467b6[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 19:54:43 2019 -0700
+
+    change to async
+
+[33mcommit 1c9bdcdb498a7b66b8e2e99b0ab9087cca35e39a[m
+Author: James Ashdown <james.ashdown@byu.net>
+Date:   Mon Feb 11 13:04:29 2019 -0700
+
+    update joinGame to GenericTask, TODO: fix Reflection exception
+
+[33mcommit ec3ec5e1a5750b8a5dc1df1bbadd790ff0688d7f[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:36:10 2019 -0700
+
+    change to async
+
+[33mcommit 920e83bc11d3891d04cd75448f712aea461db9e3[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:28:45 2019 -0700
+
+    change to async
+
+[33mcommit f1b8dad46cb1c8dfd27a2f5d1dc9d5fd5f0910e4[m
+Merge: d4485f8 73174db
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:25:19 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit d4485f80e235a7dd2d4d80a4c8ff873f54b435e0[m
+Merge: 369cb25 70f90ef
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:23:40 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 73174db9a78392fd1e19d7ad02c57fb03795069e[m
+Merge: 2f934f0 70f90ef
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Mon Feb 11 12:23:20 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 2f934f0fb9097860cde6e73a282331e53fa0e119[m
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Mon Feb 11 12:22:59 2019 -0700
+
+    StartGameCommand
+
+[33mcommit 369cb25c4bed2f9c1ddfd7d0c2c1e28d49f08164[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:22:49 2019 -0700
+
+    change to async
+
+[33mcommit 70f90effc746fe4b6fbe13ab1b12c8001a463ae4[m
+Merge: 6412c9e 1878d58
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 12:20:28 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+
+[33mcommit 6412c9e0167c3bba1e42bd3f46daac05509644c3[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 12:20:22 2019 -0700
+
+    updated createGame in clientFacade and ClientModel
+
+[33mcommit 1878d58988e92dbd52e57e81c65918325bc01b34[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 12:08:44 2019 -0700
+
+    change to async
+
+[33mcommit 1ee907f51e4af10b460a4d688481e5b10ff53f31[m
+Merge: 26322d1 e3a7f3d
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 11:47:09 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+
+[33mcommit e3a7f3de8325cf1661a2799e5cd426cd5d6c46d1[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 11:45:32 2019 -0700
+
+    change to async
+
+[33mcommit 26322d11efc8b31a8a0b6bdc051b9cc7b75eb76b[m
+Merge: 6beef95 702f500
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 11:40:16 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+
+[33mcommit 6beef95b6a53a88be3720ddc21bfc5aab57f9b30[m
+Merge: 9b24896 d47fabd
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 11:40:01 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+    
+    # Conflicts:
+    #       tickettoride/src/main/java/edu/byu/cs340/tickettoride/server/Model/ClientProxy.java
+
+[33mcommit 9b24896416a716babc7af9a718f1efaa1b7ac691[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 11:37:51 2019 -0700
+
+    committing to update
+
+[33mcommit 702f500c359b71319bc2747a1a0819baa255fe2d[m
+Merge: 61e1ec7 d47fabd
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 11:36:15 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 61e1ec76057840c784938746316a28cc278ad452[m
+Author: Isaac <irae483@gmail.com>
+Date:   Mon Feb 11 11:34:37 2019 -0700
+
+    generic
+
+[33mcommit d47fabdee4caf2b3e7c84e0c1c61c2ac878ef87e[m
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Mon Feb 11 11:33:04 2019 -0700
+
+    The Server Proxy should be fully functional
+
+[33mcommit 229da76279e1dc90a0a7368c72ae8af2c826dd91[m
+Merge: 87610cc 761ab9e
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 11:26:48 2019 -0700
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       app/src/main/java/edu/byu/cs340/tickettoride/Client/ClientFacade.java
+
+[33mcommit 87610ccbe6914f9f475a106460c627c41134a543[m
+Author: irae4 <irae483@gmail.com>
+Date:   Mon Feb 11 11:26:24 2019 -0700
+
+    change to async
+
+[33mcommit 1c0a118962de7adf24d8f85679dd1ace576172e6[m
+Merge: 4e2a127 761ab9e
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 10:59:03 2019 -0700
+
+    Merge branch 'master' of https://bitbucket.org/BYUjashdown/cs340-ticket-to-ride
+
+[33mcommit 4e2a12788faaf503a1b06c668ac12d10e3f8b2f3[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Mon Feb 11 10:58:53 2019 -0700
+
+    committing .idea/misc.xml file
+
+[33mcommit 761ab9ef584eaa82e5091bf3bd52544b96f2723c[m
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Mon Feb 11 06:34:31 2019 -0700
+
+    Client ready to receive StartGame commands from the Server to start a game.
+
+[33mcommit 29fe4b2901e593ba28ac0e01abc0d2645c89d036[m
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Mon Feb 11 06:14:44 2019 -0700
+
+    Poller added.
+    
+    Game list will update with new games.
+    
+    Start Game still broken.
+    
+    Server does not serialize HashMap correctly.
+
+[33mcommit 55c868adbde2e6403efdb1a456448677c9d8f057[m
+Author: LewisToad <thomasbartlewis@gmail.com>
+Date:   Mon Feb 11 04:12:36 2019 -0700
+
+    Major code updates to Presenters, Client Model, Client Facade, some extension to Shared classes.
+    
+    Client is mostly finished.
+    
+    Async tasks created for local client actions
+
+[33mcommit 1b53d9c071b4f7238aa4aaef957d36271a8ae708[m
+Merge: c8632a1 e494e94
+Author: Isaac <irae483@gmail.com>
+Date:   Sun Feb 10 18:24:15 2019 -0700
+
+    merging
+
+[33mcommit c8632a1292b8041e8f38b1bbfe83f37e86df07b1[m
+Author: Isaac <irae483@gmail.com>
+Date:   Sun Feb 10 18:14:52 2019 -0700
+
+    updates to host and async
+
+[33mcommit e494e944baaef7fdf4800efe462dcc4bdb2b28bf[m
+Merge: d9f1ee5 ba6fc3a
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Sat Feb 9 23:05:37 2019 -0700
+
+    adding Poller
+
+[33mcommit ba6fc3a3bcdb0f6a9fbdd6e0800e68496dc1b4a1[m
+Author: bswhe_000 <bswheel@msn.com>
+Date:   Sat Feb 9 22:54:13 2019 -0700
+
+    added Poller class
+
+[33mcommit d9f1ee5a387e35fa31eb11d3da5c7352534dd956[m
+Author: green_admin <green.avery.s@gmail.com>
+Date:   Sat Feb 9 20:43:46 2019 -0700
+
+    Debugged the Se
