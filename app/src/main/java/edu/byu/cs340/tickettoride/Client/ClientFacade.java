@@ -97,7 +97,7 @@ public class ClientFacade implements IClient, ICallBack {
                 new Object[] {model.getUsername(), gameId});
 
         GenericTask task = new GenericTask<StartGameResult>(this);
-        task.equals(info);
+        task.execute(info);
     }
 
     @Override
