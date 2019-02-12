@@ -7,5 +7,5 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 public interface IClient {
     void incrementPlayers(ID id, Player newUser);
     void addGame(Game game);
-    void gameStarted(ID gameId);
+    void startGame(ID gameId);
 }

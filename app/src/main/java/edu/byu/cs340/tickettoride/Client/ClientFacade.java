@@ -91,7 +91,7 @@ public class ClientFacade implements IClient, ICallBack {
         task.execute(info);
     }
 
-    public void startGame(ID gameId) {
+    public void sendStartGame(ID gameId) {
         GenericData info = new GenericData("startGame",
                 new Class<?>[] {Username.class, ID.class},
                 new Object[] {model.getUsername(), gameId});
@@ -114,7 +114,7 @@ public class ClientFacade implements IClient, ICallBack {
     }
 
     @Override
-    public void gameStarted(ID gameId) {
+    public void startGame(ID gameId) {
         ClientModel.instance().startGame(gameId);
     }
 

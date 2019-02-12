@@ -68,7 +68,7 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
 
     @Override
     public void startGamePressed() {
-        mClientFacade.startGame(mClientModel.getActiveGameID());
+        mClientFacade.sendStartGame(mClientModel.getActiveGameID());
     }
 
     @Override
