@@ -91,7 +91,6 @@ public class ClientFacade implements IClient, ICallBack {
         task.execute(info);
     }
 
-    @Override
     public void startGame(ID gameId) {
         GenericData info = new GenericData("startGame",
                 new Class<?>[] {Username.class, ID.class},
@@ -104,9 +103,6 @@ public class ClientFacade implements IClient, ICallBack {
     @Override
     public void incrementPlayers(ID id, Player player) {
         ClientModel.instance().incrementPlayers(id, player);
-        if(model.getUsername().equals(player.getPlayerName())){
-            model.setActiveGameID(id);
-        }
     }
 
     @Override
@@ -115,6 +111,11 @@ public class ClientFacade implements IClient, ICallBack {
         if(model.getUsername().equals(game.GetLeader().getPlayerName())){
             model.setActiveGameID(game.getId());
         }
+    }
+
+    @Override
+    public void gameStarted(ID gameId) {
+        ClientModel.instance().startGame(gameId);
     }
 
 

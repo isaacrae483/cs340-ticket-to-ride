@@ -19,7 +19,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientModel extends Observable implements IClient {
+public class ClientModel extends Observable {
     private static ClientModel _instance;
     private ClientModel(){
 

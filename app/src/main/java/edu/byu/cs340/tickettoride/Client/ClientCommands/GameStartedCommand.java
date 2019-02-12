@@ -16,7 +16,7 @@ public class GameStartedCommand implements ICommand {
 
     @Override
     public Object execute() {
-        ClientFacade.instance().startGame(mGameId);
+        ClientFacade.instance().gameStarted(mGameId);
         return null;
     }
 }
