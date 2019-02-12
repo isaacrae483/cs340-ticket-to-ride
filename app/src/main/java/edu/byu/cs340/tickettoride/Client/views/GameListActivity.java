@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.presenters.GameListPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.IGameListPresenter;
 import edu.byu.cs340.tickettoride.R;
@@ -117,7 +118,9 @@ public class GameListActivity extends PresenterViewActivity implements IGameList
             mPlayerCount = game.getPlayerCount();
             mGameNameView.setText(mGameID.getId());
             mPlayerCountView.setText(mPlayerCount + playerCountTemplate);
-            if (game.isGameFull())
+            if (game.isGameFull() && !(
+                game.contains(ClientModel.instance().getUsername())
+            ))
                 mJoinGameButton.setVisibility(View.INVISIBLE);
             else
                 mJoinGameButton.setVisibility(View.VISIBLE);
