@@ -69,4 +69,14 @@ public class Game implements IGameListEntry {
         }
         players.add(player);
     }
+
+    public boolean contains(Username name) {
+        boolean isIn = false;
+        for (Player p : players) {
+            if (p.getPlayerName().equals(name)) {
+                isIn = true;
+            }
+        }
+        return isIn;
+    }
 }
