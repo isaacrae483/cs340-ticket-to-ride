@@ -14,6 +14,7 @@ public class RegisterService {
             && username != null && password != null) {
             ServerModel.SINGLETON.getMapUsers().addUser(new User(username, password));
             ServerFacade.SINGLETON.AddObserver(new ClientProxy(username));
+            ServerModel.SINGLETON.getCommandList().GetCommands(username);
             return new LoginResult(ServerModel.SINGLETON.getMapGames().getAsListGames(), true);
         }
         return new LoginResult(null, false);
