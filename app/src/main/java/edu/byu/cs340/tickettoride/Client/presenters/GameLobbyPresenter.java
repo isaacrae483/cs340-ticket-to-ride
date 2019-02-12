@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
 import edu.byu.cs340.tickettoride.Client.views.IGameLobbyView;
@@ -67,7 +68,7 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
 
     @Override
     public void startGamePressed() {
-        mGameLobbyView.moveToStartGame();
+        mClientFacade.startGame(mClientModel.getActiveGameID());
     }
 
     @Override
@@ -81,7 +82,8 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
             mGameLobbyView.moveToStartGame();
         } else {
             mGameLobbyView.setPlayerSet(mClientModel.getActiveGame().getPlayers());
-            mGameLobbyView.displayStartGame(currentGame.GetLeader().getPlayerName().equals(mClientModel.getUsername()));
+            mGameLobbyView.displayStartGame(currentGame.GetLeader().getPlayerName().equals(mClientModel.getUsername())
+            && currentGame.canGameBeStarted());
         }
     }
 

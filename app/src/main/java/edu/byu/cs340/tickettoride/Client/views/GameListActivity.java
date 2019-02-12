@@ -122,8 +122,6 @@ public class GameListActivity extends PresenterViewActivity implements IGameList
             else
                 mJoinGameButton.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     /**

@@ -18,5 +18,4 @@ public class CommandFactory {
         assert (false);
         return null;
     }
-
 }
