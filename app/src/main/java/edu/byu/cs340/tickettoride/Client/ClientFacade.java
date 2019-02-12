@@ -7,6 +7,7 @@ import java.net.URL;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -155,7 +156,7 @@ public class ClientFacade implements IClient, ICallBack {
         else if(response != null && response.getClass() == StartGameResult.class){
             StartGameResult result = (StartGameResult) response;
             if(!result.getSuccess()) {
-                //throw error
+                ClientModel.instance().passErrorEvent(new StartGameError());
             }
         }
         else{
