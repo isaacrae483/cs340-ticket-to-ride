@@ -1,16 +1,13 @@
 package edu.byu.cs340.tickettoride.Client;
 
 import android.os.AsyncTask;
-import android.widget.Switch;
 
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
-import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
@@ -18,8 +15,8 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
-import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientFacade implements IClient, ICallBack {
@@ -88,7 +85,15 @@ public class ClientFacade implements IClient, ICallBack {
         task.execute(info);
     }
 
+    @Override
+    public void startGame(ID gameId) {
+        GenericData info = new GenericData("startGame",
+                new Class<?>[] {Username.class, ID.class},
+                new Object[] {model.getUsername(), gameId});
 
+        GenericTask task = new GenericTask<StartGameResult>(this);
+        task.equals(info);
+    }
 
     @Override
     public void incrementPlayers(ID id, Player player) {
@@ -100,10 +105,7 @@ public class ClientFacade implements IClient, ICallBack {
         ClientModel.instance().addGame(game);
     }
 
-    @Override
-    public void startGame(ID gameId) {
-        return;
-    }
+
 
     public <T> void update(T response){
 
@@ -135,6 +137,12 @@ public class ClientFacade implements IClient, ICallBack {
             }
             else{
                 ClientModel.instance().passErrorEvent(new GameJoinError());
+            }
+        }
+        else if(response != null && response.getClass() == StartGameResult.class){
+            StartGameResult result = (StartGameResult) response;
+            if(!result.getSuccess()) {
+                //throw error
             }
         }
         else{
