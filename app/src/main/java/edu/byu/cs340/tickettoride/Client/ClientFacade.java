@@ -68,12 +68,18 @@ public class ClientFacade implements IClient, ICallBack {
 
     }
     public void joinGame(ID id){
-        GenericData info = new GenericData("joinGame",
-                new Class<?>[] {Username.class, ID.class},
-                new Object[] {model.getUsername(), id});
 
-        GenericTask task = new GenericTask<JoinGameResult>(this);
-        task.execute(info);
+        if (model.getGame(id).contains(model.getUsername())) {
+            model.setActiveGameID(id);
+        }
+        else {
+            GenericData info = new GenericData("joinGame",
+                    new Class<?>[]{Username.class, ID.class},
+                    new Object[]{model.getUsername(), id});
+
+            GenericTask task = new GenericTask<JoinGameResult>(this);
+            task.execute(info);
+        }
     }
 
     public void createGame(){
@@ -106,6 +112,9 @@ public class ClientFacade implements IClient, ICallBack {
     @Override
     public void addGame(Game game) {
         ClientModel.instance().addGame(game);
+        if(model.getUsername().equals(game.GetLeader().getPlayerName())){
+            model.setActiveGameID(game.getId());
+        }
     }
 
 
