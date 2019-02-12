@@ -106,6 +106,9 @@ public class ClientFacade implements IClient, ICallBack {
     @Override
     public void addGame(Game game) {
         ClientModel.instance().addGame(game);
+        if(model.getUsername().equals(game.GetLeader().getPlayerName())){
+            model.setActiveGameID(game.getId());
+        }
     }
 
 
