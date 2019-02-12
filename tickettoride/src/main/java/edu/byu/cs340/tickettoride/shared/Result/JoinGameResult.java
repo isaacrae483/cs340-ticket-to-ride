@@ -9,7 +9,9 @@ public class JoinGameResult {
     private Player player;
 
     public JoinGameResult(Boolean success, Player player, ID id) {
-
+        this.success = success;
+        this.id = id;
+        this.player = player;
     }
 
     public void setPlayer(Player player) {

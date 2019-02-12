@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.server.Model.Services;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -22,6 +24,8 @@ public class CreateGameService {
         Game newGame = new Game(ID.generate());
         Player first = new Player(username, IPlayer.Color.values()[0]);
         newGame.addPlayer(first);
+        //probably don't use the following line.
+        //JoinGameService.joinGame(username, newGame.getId()); //This Line will replace the two lines above.
         ServerModel.SINGLETON.getMapGames().addGame(newGame);
 
         return new CreateGameResult(true, newGame);

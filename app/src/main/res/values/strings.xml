@@ -19,7 +19,7 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="register">Register</string>
-    <string name="password_incorrect_format">Password must be filled</string>
+    <string name="password_incorrect_format">Invalid Password</string>
     <string name="username_incorrect_format">Invalid Username</string>
     <string name="login_success">Login Success</string>
     <string name="login_failed">Login Failed</string>
