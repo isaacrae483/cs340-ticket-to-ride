@@ -21,5 +21,6 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        makeToast(getString(R.string.game_started));
     }
 }
