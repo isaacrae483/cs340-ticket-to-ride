@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.views.IGameLobbyView;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
@@ -99,6 +100,8 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
             Game game = e.getGame();
             if (game.getId().equals(mClientModel.getActiveGameID()))
                 mGameLobbyView.moveToStartGame();
+        } else if (o instanceof StartGameError) {
+
         }
     }
 }

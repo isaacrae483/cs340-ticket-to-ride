@@ -42,5 +42,6 @@ public interface IGameLobbyView {
      */
     void finishView();
 
+    void displayStartGameError();
 
 }
