@@ -36,5 +36,22 @@ public class DestCardDeckTest {
 
     @Test
     public void returnCard() {
+        int size = deck.size();
+        Set<DestCard> cards = deck.drawCards();
+        assertEquals(size - 3, deck.size());
+        size = deck.size();
+
+        DestCard toReturn = cards.iterator().next();
+        deck.returnCard(toReturn);
+        assertEquals(size + 1, deck.size());
+
+        deck.returnCard(toReturn);
+        assertEquals(size + 1, deck.size());
+
+        while (deck.size() > 3) {
+            deck.drawCards();
+        }
+        cards = deck.drawCards();
+        assertTrue(cards.contains(toReturn));
     }
 }
