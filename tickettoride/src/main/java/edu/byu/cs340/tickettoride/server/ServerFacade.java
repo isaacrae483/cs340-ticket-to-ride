@@ -13,12 +13,17 @@ import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
+import edu.byu.cs340.tickettoride.shared.Result.BeginPlayingResult;
+import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -130,6 +135,26 @@ public class ServerFacade implements IServer, IClientObservable{
             }
         }
         return res;
+    }
+
+    @Override
+    public BeginPlayingResult beginPlaying(Username username, ID game) {
+        return null;
+    }
+
+    @Override
+    public DrawTicketsResult drawTickets(Username username, ID game) {
+        return null;
+    }
+
+    @Override
+    public ChatResult chat(Username username, String message, ID game) {
+        return null;
+    }
+
+    @Override
+    public ReturnCardResult returnCards(Username username, DestCard card, ID game) {
+        return null;
     }
 
     /**
