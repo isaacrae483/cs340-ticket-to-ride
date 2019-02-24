@@ -74,8 +74,6 @@ public class ServerFacade implements IServer, IClientObservable{
      */
     @Override
     public JoinGameResult joinGame(Username username, ID id) {
-        //return new JoinGameResult(true, null, null);
-
         JoinGameResult res =  JoinGameService.joinGame(username, id);
         if (res.getSuccess()) {
             for (IClientObserver observer : observers) {
@@ -83,7 +81,6 @@ public class ServerFacade implements IServer, IClientObservable{
             }
         }
         return res;
-
     }
 
     /**

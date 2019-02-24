@@ -79,22 +79,26 @@ public class ServerProxy implements IServer {
 
     @Override
     public BeginPlayingResult beginPlaying(Username username, ID game) {
+        //data = new ServerCommandData(commandType.BEGINPLAYING, username, game);
         return null;
     }
 
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {
-        return null;
+        data = new ServerCommandData(commandType.DRAWTICKETS, username, game);
+        return communicator.send(data, DrawTicketsResult.class);
     }
 
     @Override
     public ChatResult chat(Username username, String message, ID game) {
-        return null;
+        data = new ServerCommandData(commandType.DRAWTICKETS, username, game);
+        return communicator.send(data, ChatResult.class);
     }
 
     @Override
     public ReturnCardResult returnCards(Username username, DestCard card, ID game) {
-        return null;
+        data = new ServerCommandData(commandType.RETURNCARD, username, card, game);
+        return communicator.send(data, ReturnCardResult.class);
     }
 
     public void setHost(URL host) {
