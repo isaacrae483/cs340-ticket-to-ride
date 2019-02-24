@@ -25,6 +25,7 @@ public class ServerCommandData {
         this.username = username;
     }
 
+    // RETURNCARD
     public ServerCommandData(commandType type, Username username, DestCard destCard, ID gameID) {
         this.type = type;
         this.username = username;
@@ -32,9 +33,18 @@ public class ServerCommandData {
         this.destCard = destCard;
     }
 
+    // CHAT
+    public ServerCommandData(commandType type, Username username, ID gameID, String message) {
+        this.type = type;
+        this.username = username;
+        this.gameID = gameID;
+        this.message = message;
+    }
+
     public commandType type;
     public Username username;
     public Password password;
     public ID gameID;
     public DestCard destCard;
+    public String message;
 }

@@ -91,7 +91,7 @@ public class ServerProxy implements IServer {
 
     @Override
     public ChatResult chat(Username username, String message, ID game) {
-        data = new ServerCommandData(commandType.DRAWTICKETS, username, game);
+        data = new ServerCommandData(commandType.DRAWTICKETS, username, game, message);
         return communicator.send(data, ChatResult.class);
     }
 

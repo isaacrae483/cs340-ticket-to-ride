@@ -14,7 +14,7 @@ public class ChatCommand implements ICommand {
     private String message;
     private ID gameId;
 
-    public ChatCommand(String message, Username username, ID gameId) {
+    public ChatCommand(Username username, ID gameId, String message) {
         this.originUser = username;
         this.message = message;
         this.gameId = gameId;
