@@ -13,6 +13,8 @@ public class CommandFactory {
                 return new IncrementPlayersCommand(info.player, info.id);
             case STARTGAME:
                 return new GameStartedCommand(info.id);
+            case CHAT:
+                return new ChatCommand(info.username, info.id, info.message);
         }
         //tried to create non-existent command
         assert (false);

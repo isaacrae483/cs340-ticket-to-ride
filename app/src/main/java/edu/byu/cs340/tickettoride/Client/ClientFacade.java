@@ -119,7 +119,10 @@ public class ClientFacade implements IClient, ICallBack {
         ClientModel.instance().startGame(gameId);
     }
 
+    @Override
+    public void receiveChat(Username originUser, ID gameId, String message) {
 
+    }
 
     public <T> void update(T response){
 

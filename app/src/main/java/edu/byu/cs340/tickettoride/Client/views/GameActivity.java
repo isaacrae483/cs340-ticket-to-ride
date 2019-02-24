@@ -23,4 +23,24 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         setContentView(R.layout.activity_game);
         makeToast(getString(R.string.game_started));
     }
+
+    @Override
+    public void moveToChat() {
+
+    }
+
+    @Override
+    public void moveToPlayerView() {
+
+    }
+
+    @Override
+    public void moveToDestCards() {
+
+    }
+
+    @Override
+    public void viewDeck() {
+
+    }
 }
