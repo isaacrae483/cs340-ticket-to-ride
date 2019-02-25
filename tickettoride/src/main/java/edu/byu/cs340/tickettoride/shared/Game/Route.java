@@ -7,8 +7,16 @@ public class Route {
     City endCity;
     Length length;
     Colors color;
-    Boolean claimed = false;
+    Boolean claimed;
     Username claimedBy;
+
+    public Route(City startCity, City endCity, Length length, Colors color) {
+        this.startCity = startCity;
+        this.endCity = endCity;
+        this.length = length;
+        this.color = color;
+        this.claimed = false;
+    }
 
     public Colors getColor() { return color; }
 
@@ -26,6 +34,14 @@ public class Route {
 
     public Boolean getClaimed() {
         return claimed;
+    }
+
+    public void setClaimed(Boolean claimed) {
+        this.claimed = claimed;
+    }
+
+    public void setClaimedBy(Username claimedBy) {
+        this.claimedBy = claimedBy;
     }
 
     public Username getClaimedBy() {
