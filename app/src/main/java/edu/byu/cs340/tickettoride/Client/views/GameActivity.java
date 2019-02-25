@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
 
 /**
@@ -12,6 +13,7 @@ import edu.byu.cs340.tickettoride.R;
  */
 public class GameActivity extends PresenterViewActivity implements IGameView {
 
+    private GamePresenter mGamePresenter;
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, GameActivity.class);
@@ -22,5 +24,30 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         makeToast(getString(R.string.game_started));
+
+
+        GamePresenter gamePresenter = new GamePresenter(this);
+        mGamePresenter = gamePresenter;
+        setPresenter(mGamePresenter);
+    }
+
+    @Override
+    public void moveToChat() {
+
+    }
+
+    @Override
+    public void moveToPlayerView() {
+
+    }
+
+    @Override
+    public void moveToDestCards() {
+
+    }
+
+    @Override
+    public void viewDeck() {
+
     }
 }

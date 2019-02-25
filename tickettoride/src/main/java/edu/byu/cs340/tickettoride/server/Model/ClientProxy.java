@@ -61,6 +61,14 @@ public class ClientProxy implements IClientObserver, IClient {
         );
     }
 
+    @Override
+    public void receiveChat(Username originUser, ID gameId, String message) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                user, new ClientCommandData(
+                        ClientCommandData.CommandType.CHAT, originUser, gameId, message
+                )
+        );
+    }
 
     @Override
     public boolean equals(Object o) {

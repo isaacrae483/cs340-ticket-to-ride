@@ -6,18 +6,54 @@
     android:layout_height="match_parent">
     <!--tools:context="edu.byu.cs340.tickettoride.Client.views.LoginActivityy"-->
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/game_started"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/chatButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/chat_button"
+            app:srcCompat="@drawable/ic_chat_bubble_black_45dp" />
+
+        <ImageButton
+            android:id="@+id/playersButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/players_button"
+            app:srcCompat="@drawable/ic_people_black_45dp" />
+
+        <ImageButton
+            android:id="@+id/destCardsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/dest_cards_button"
+            app:srcCompat="@drawable/ic_add_location_black_45dp" />
+
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="edu.byu.cs340.tickettoride.Client.views.MapFragment"
+        android:layout_width="605dp"
+        android:layout_height="349dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="The Game has started." />
+        app:layout_constraintVertical_bias="0.425"
+        tools:layout="@layout/fragment_game_map" />
+
 </android.support.constraint.ConstraintLayout>

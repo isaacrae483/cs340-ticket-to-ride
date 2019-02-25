@@ -9,11 +9,16 @@ import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
+import edu.byu.cs340.tickettoride.shared.Result.BeginPlayingResult;
+import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -70,6 +75,30 @@ public class ServerProxy implements IServer {
     public StartGameResult startGame(Username username, ID id) {
         data = new ServerCommandData(commandType.STARTGAME, username, id);
         return communicator.send(data, StartGameResult.class);
+    }
+
+    @Override
+    public BeginPlayingResult beginPlaying(Username username, ID game) {
+        //data = new ServerCommandData(commandType.BEGINPLAYING, username, game);
+        return null;
+    }
+
+    @Override
+    public DrawTicketsResult drawTickets(Username username, ID game) {
+        data = new ServerCommandData(commandType.DRAWTICKETS, username, game);
+        return communicator.send(data, DrawTicketsResult.class);
+    }
+
+    @Override
+    public ChatResult chat(Username username, String message, ID game) {
+        data = new ServerCommandData(commandType.DRAWTICKETS, username, game, message);
+        return communicator.send(data, ChatResult.class);
+    }
+
+    @Override
+    public ReturnCardResult returnCards(Username username, DestCard card, ID game) {
+        data = new ServerCommandData(commandType.RETURNCARD, username, card, game);
+        return communicator.send(data, ReturnCardResult.class);
     }
 
     public void setHost(URL host) {

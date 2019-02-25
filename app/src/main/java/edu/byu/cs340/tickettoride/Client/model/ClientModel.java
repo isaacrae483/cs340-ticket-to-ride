@@ -76,6 +76,8 @@ public class ClientModel extends Observable {
         emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
+
+    // Active Game is defined as the game the user is currently observing, whether or not it has started.
     public ID getActiveGameID() {
         return activeGameID;
     }

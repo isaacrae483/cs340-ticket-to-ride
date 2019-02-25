@@ -6,7 +6,7 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientCommandData {
-    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME}
+    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT}
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;
@@ -24,9 +24,18 @@ public class ClientCommandData {
         this.id = id;
     }
 
+    public ClientCommandData(CommandType type, Username username, ID id, String message) {
+        this.id = id;
+        this.message = message;
+        this.username = username;
+        this.type = type;
+    }
+
     public ID id;
     public Game game;
     public Player player;
+    public String message;
+    public Username username;
 
     public CommandType type;
 }
