@@ -13,7 +13,7 @@ public class GamePresenter extends Presenter implements IGamePresenter {
     IGameView mGameView;
     private ClientFacade mClientFacade;
 
-    GamePresenter(IGameView view) {
+    public GamePresenter(IGameView view) {
         super();
         mGameView = view;
         mClientFacade = ClientFacade.instance();

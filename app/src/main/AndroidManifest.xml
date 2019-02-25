@@ -32,7 +32,7 @@
         <activity android:name=".Client.views.GameLobbyActivity"></activity>
         <activity android:name=".Client.views.GameActivity"
             android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         </activity>
     </application>
 
