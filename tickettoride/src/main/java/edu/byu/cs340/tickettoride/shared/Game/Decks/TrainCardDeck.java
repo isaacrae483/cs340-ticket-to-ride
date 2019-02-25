@@ -7,7 +7,7 @@ import java.util.Deque;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
-import edu.byu.cs340.tickettoride.shared.Game.Colors;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class TrainCardDeck {
     private Deque<TrainCard> deck;

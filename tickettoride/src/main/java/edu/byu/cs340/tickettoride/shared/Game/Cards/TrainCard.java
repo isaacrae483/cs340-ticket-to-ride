@@ -1,6 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Game.Cards;
 
-import edu.byu.cs340.tickettoride.shared.Game.Colors;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class TrainCard {
     private Colors color;

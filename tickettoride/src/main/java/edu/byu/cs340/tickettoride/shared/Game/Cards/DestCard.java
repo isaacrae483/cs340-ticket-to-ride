@@ -2,7 +2,7 @@ package edu.byu.cs340.tickettoride.shared.Game.Cards;
 
 import java.util.Objects;
 
-import edu.byu.cs340.tickettoride.shared.Game.City;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 
 public class DestCard {
 

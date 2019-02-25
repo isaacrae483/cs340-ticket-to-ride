@@ -1,4 +1,4 @@
-package edu.byu.cs340.tickettoride.shared.Game;
+package edu.byu.cs340.tickettoride.shared.Game.Enums;
 
 public enum City {
     ATLANTA, BOSTON, CALGARY, CHARLESTON, CHICAGO,

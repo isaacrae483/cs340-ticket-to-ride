@@ -8,7 +8,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
-import edu.byu.cs340.tickettoride.shared.Game.City;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 
 public class DestCardDeck {
     public DestCardDeck() {

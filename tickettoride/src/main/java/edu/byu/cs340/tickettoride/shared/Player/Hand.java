@@ -5,7 +5,7 @@ import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
-import edu.byu.cs340.tickettoride.shared.Game.Colors;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class Hand {
     private List<TrainCard> trainCards = new ArrayList<>();

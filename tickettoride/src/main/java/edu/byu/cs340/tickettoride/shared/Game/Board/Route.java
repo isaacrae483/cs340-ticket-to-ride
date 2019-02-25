@@ -1,5 +1,7 @@
-package edu.byu.cs340.tickettoride.shared.Game;
+package edu.byu.cs340.tickettoride.shared.Game.Board;
 
+import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Route {
