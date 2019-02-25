@@ -5,7 +5,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class Route {
     City startCity;
     City endCity;
-    int length;
+    Length length;
     Colors color;
     Boolean claimed = false;
     Username claimedBy;
@@ -20,7 +20,7 @@ public class Route {
         return endCity;
     }
 
-    public int getLength() {
+    public Length getLength() {
         return length;
     }
 
