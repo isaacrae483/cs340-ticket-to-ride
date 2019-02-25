@@ -49,4 +49,10 @@ public class Route {
     public Username getClaimedBy() {
         return claimedBy;
     }
+
+    public void claimRoute () {
+        //set claimed
+        //set claimedBy
+        // you can probably delete setClaimed and setClaimedBy
+    }
 }
