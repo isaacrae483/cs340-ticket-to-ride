@@ -2,8 +2,10 @@ package edu.byu.cs340.tickettoride.server;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Observer;
 import java.util.Set;
 
+import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
@@ -17,6 +19,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.BeginPlayingResult;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -134,10 +137,6 @@ public class ServerFacade implements IServer, IClientObservable{
         return res;
     }
 
-    @Override
-    public BeginPlayingResult beginPlaying(Username username, ID game) {
-        return null;
-    }
 
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {
@@ -146,7 +145,15 @@ public class ServerFacade implements IServer, IClientObservable{
 
     @Override
     public ChatResult chat(Username username, String message, ID game) {
-        return null;
+        ChatResult res = new ChatService().chat(username, message, game);
+
+        if (res.getSuccess()) {
+            for (IClientObserver o : observers) {
+                o.OnChat(res.getMessage());
+            }
+        }
+
+        return res;
     }
 
     @Override

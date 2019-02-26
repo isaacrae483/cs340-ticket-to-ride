@@ -24,7 +24,6 @@ public interface IServer {
     CreateGameResult createGame(Username username);
     ClientCommandList getCommands(Username username);
     StartGameResult startGame(Username username, ID id);
-    BeginPlayingResult beginPlaying(Username username, ID game);
     DrawTicketsResult drawTickets(Username username, ID game);
     ChatResult chat(Username username, String message, ID game);
     ReturnCardResult returnCards(Username username, DestCard card, ID game);

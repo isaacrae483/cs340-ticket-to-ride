@@ -8,14 +8,19 @@ public class ServerModel {
     public static final ServerModel SINGLETON = new ServerModel();
     private ServerModel(){}
     private MapGames mapGames = new MapGames();
+    private MapGames startedGames = new MapGames();
     private MapUsers mapUsers = new MapUsers();
 
     public CommandList getCommandList() { return commandList; }
 
     private CommandList commandList = new CommandList();
 
-    public MapGames getMapGames() {
+    public MapGames getMapNewGames() {
         return mapGames;
+    }
+
+    public MapGames getMapStartedGames() {
+        return startedGames;
     }
 
     public MapUsers getMapUsers() {

@@ -9,6 +9,7 @@ import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
@@ -120,7 +121,7 @@ public class ClientFacade implements IClient, ICallBack {
     }
 
     @Override
-    public void receiveChat(Username originUser, ID gameId, String message) {
+    public void receiveChat(ChatMessage chatMessage) {
 
     }
 
