@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.shared.Game.Board.Board;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -17,7 +21,11 @@ public class Game implements IGameListEntry {
     private final int MIN_PLAYERS = 2;
     boolean gameStarted = false;
     private Chat chat;
-
+    private Board board;
+    private TrainCardDeck trainCardDeck;
+    private DestCardDeck destCardDeck;
+    private Bank bank;
+    private Username playerTurn;
     public Game() {
         id = ID.generate();
         chat = new Chat(id);
