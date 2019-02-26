@@ -8,13 +8,14 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class StartGameService  {
     public StartGameResult startGame(Username username, ID id) {
-        Game game = ServerModel.SINGLETON.getMapGames().getGame(id);
+        ServerModel model = ServerModel.SINGLETON;
+        Game game = model.getMapNewGames().getGame(id);
         StartGameResult res = null;
 
         if (game != null && game.GetLeader().getPlayerName().equals(username)) {
             game.startGame();
-            ServerModel.SINGLETON.getMapGames().remove(id);
-            //TODO add the game to a list of started games
+            model.getMapNewGames().remove(id);
+            model.getMapStartedGames().addGame(game);
             res = new StartGameResult(true);
         }
         else {

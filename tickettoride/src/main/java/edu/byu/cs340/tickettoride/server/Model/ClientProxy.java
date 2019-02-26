@@ -5,6 +5,7 @@ import java.util.Objects;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
@@ -35,6 +36,15 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
+    public void OnChat(ChatMessage message) {
+        ServerModel model = ServerModel.SINGLETON;
+        Game game = model.getMapStartedGames().getGame(message.getGame());
+        if (game.contains(user)) {
+            receiveChat(message);
+        }
+    }
+
+    @Override
     public void incrementPlayers(ID id, Player player) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 user, new ClientCommandData(
@@ -62,10 +72,11 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
-    public void receiveChat(Username originUser, ID gameId, String message) {
+    public void receiveChat(ChatMessage message) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 user, new ClientCommandData(
-                        ClientCommandData.CommandType.CHAT, originUser, gameId, message
+                        ClientCommandData.CommandType.CHAT,
+                        message.getUser(), message.getGame(), message.getMessage()
                 )
         );
     }
