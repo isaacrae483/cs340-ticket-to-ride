@@ -5,8 +5,8 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class Board {
     Routes routes;
 
-    public Board(Routes routes) {
-        this.routes = routes;
+    public Board() {
+        this.routes = new Routes();
     }
 
     public void claimRoute(Route route, Username username){
