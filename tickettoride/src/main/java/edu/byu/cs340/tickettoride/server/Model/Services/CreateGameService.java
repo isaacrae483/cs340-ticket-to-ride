@@ -24,7 +24,7 @@ public class CreateGameService {
         newGame.addPlayer(first);
         //probably don't use the following line.
         //JoinGameService.joinGame(username, newGame.getId()); //This Line will replace the two lines above.
-        ServerModel.SINGLETON.getMapGames().addGame(newGame);
+        ServerModel.SINGLETON.getMapNewGames().addGame(newGame);
 
         return new CreateGameResult(true, newGame);
     }

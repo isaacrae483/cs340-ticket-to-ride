@@ -77,11 +77,6 @@ public class ServerProxy implements IServer {
         return communicator.send(data, StartGameResult.class);
     }
 
-    @Override
-    public BeginPlayingResult beginPlaying(Username username, ID game) {
-        //data = new ServerCommandData(commandType.BEGINPLAYING, username, game);
-        return null;
-    }
 
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {

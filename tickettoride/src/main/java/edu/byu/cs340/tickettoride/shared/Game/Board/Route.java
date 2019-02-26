@@ -40,21 +40,14 @@ public class Route {
         return claimed;
     }
 
-    public void setClaimed(Boolean claimed) {
-        this.claimed = claimed;
-    }
-
-    public void setClaimedBy(Username claimedBy) {
-        this.claimedBy = claimedBy;
-    }
-
     public Username getClaimedBy() {
         return claimedBy;
     }
 
-    public void claimRoute () {
+    public void claimRoute (Username claimedBy) {
         //set claimed
+        this.claimed = true;
         //set claimedBy
-        // you can probably delete setClaimed and setClaimedBy
+        this.claimedBy = claimedBy;
     }
 }

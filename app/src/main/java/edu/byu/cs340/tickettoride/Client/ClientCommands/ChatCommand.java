@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.Client.ClientCommands;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -22,7 +23,7 @@ public class ChatCommand implements ICommand {
 
     @Override
     public Object execute() {
-        ClientFacade.instance().receiveChat(mOriginUser, mGameId, mMessage);
+        ClientFacade.instance().receiveChat(new ChatMessage(mMessage, mOriginUser, mGameId));
         return null;
     }
 }

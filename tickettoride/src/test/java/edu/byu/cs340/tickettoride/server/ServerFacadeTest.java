@@ -3,15 +3,15 @@ package edu.byu.cs340.tickettoride.server;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
-import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -112,9 +112,9 @@ public class ServerFacadeTest {
         assertNull(command.game);
         assertEquals(id, command.id);
         assertEquals(user2, command.player.getPlayerName());
-        assertEquals(2, model.getMapGames().getGame(id).getPlayerCount());
+        assertEquals(2, model.getMapNewGames().getGame(id).getPlayerCount());
         assertEquals(user2.getUsername(),
-                model.getMapGames().getGame(id).getPlayers().get(1).getPlayerName().getUsername());
+                model.getMapNewGames().getGame(id).getPlayers().get(1).getPlayerName().getUsername());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class ServerFacadeTest {
 
         this.login();
 
-        assertNull(model.getMapGames().getGame(id));
+        assertNull(model.getMapNewGames().getGame(id));
         assertEquals(0, facade.getCommands(user).size());
 
         CreateGameResult res = facade.createGame(user);
@@ -143,11 +143,64 @@ public class ServerFacadeTest {
         assertEquals(user, command.game.getPlayers().get(0).getPlayerName());
         assertNull(command.player);
         assertEquals(id, command.game.getId());
-        assertNotNull(model.getMapGames().getGame(id));
+        assertNotNull(model.getMapNewGames().getGame(id));
 
         res = facade.createGame(null);
 
         assertFalse(res.getSuccess());
         assertEquals(0, model.getCommandList().GetCommands(user).size());
+    }
+
+    @Test
+    public void drawTickets() {
+    }
+
+    @Test
+    public void chat() {
+        LoginResult login = facade.register(user, password);
+        assertTrue(login.getSuccess());
+        CreateGameResult create = facade.createGame(user);
+        assertTrue(create.getSuccess());
+        ID gameID = create.getGame().getId();
+
+        login = facade.register(user2, password);
+        assertTrue(login.getSuccess());
+        JoinGameResult join = facade.joinGame(user2, gameID);
+        assertTrue(join.getSuccess());
+
+        StartGameResult start = facade.startGame(user, gameID);
+        assertTrue(start.getSuccess());
+
+        facade.getCommands(user);
+        facade.getCommands(user2);
+//TEST NORMAL CHATS
+        ChatResult chat = facade.chat(user, "TEST", gameID);
+        assertTrue(chat.getSuccess());
+
+        assertEquals(1, facade.getCommands(user).size());
+        assertEquals(1, facade.getCommands(user2).size());
+
+        chat = facade.chat(user2, "TEST", gameID);
+        assertTrue(chat.getSuccess());
+
+        assertEquals(1, facade.getCommands(user).size());
+        assertEquals(1, facade.getCommands(user2).size());
+//TEST INVALID USER
+        chat = facade.chat(fakeUser, "TEST", gameID);
+        assertFalse(chat.getSuccess());
+        assertEquals(0, facade.getCommands(user).size());
+//TEST INVALID GAME
+        chat = facade.chat(user, "TEST", ID.generate());
+        assertFalse(chat.getSuccess());
+        assertEquals(0, facade.getCommands(user).size());
+//MAKE SURE NOT EVERYONE GETS CHAT
+        facade.register(fakeUser, password);
+        chat = facade.chat(user, "TEST", gameID);
+        assertTrue(chat.getSuccess());
+        assertEquals(0, facade.getCommands(fakeUser).size());
+    }
+
+    @Test
+    public void returnCards() {
     }
 }

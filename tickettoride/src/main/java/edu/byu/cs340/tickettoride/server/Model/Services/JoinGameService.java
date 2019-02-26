@@ -11,7 +11,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class JoinGameService {
 
     public static JoinGameResult joinGame(Username username, ID id){
-        Game game = ServerModel.SINGLETON.getMapGames().getGame(id);
+        Game game = ServerModel.SINGLETON.getMapNewGames().getGame(id);
 
         if (game == null || username == null) {
             return new JoinGameResult(false, null, null);

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -15,13 +16,16 @@ public class Game implements IGameListEntry {
     private final int MAX_PLAYERS = 5;
     private final int MIN_PLAYERS = 2;
     boolean gameStarted = false;
+    private Chat chat;
 
     public Game() {
         id = ID.generate();
+        chat = new Chat(id);
     }
 
     public Game(ID id) {
         this.id = id;
+        chat = new Chat(this.id);
     }
 
     @Override
@@ -78,5 +82,9 @@ public class Game implements IGameListEntry {
             }
         }
         return isIn;
+    }
+
+    public Chat getChat() {
+        return chat;
     }
 }
