@@ -35,4 +35,6 @@
     <string name="chat_button">Chat Button</string>
     <string name="players_button">Players Button</string>
     <string name="dest_cards_button">Destination Cards Button</string>
+    <string name="compose_chat_message">Compose Chat</string>
+    <string name="send">Send</string>
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chatMessageList"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        tools:listitem="@layout/list_chat_history">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <EditText
+        android:id="@+id/composeMessage"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="605dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:hint="@string/compose_chat_message"
+        android:inputType="textCapSentences|textMultiLine"
+        android:textAlignment="textStart"
+        tools:text="I just want to see if the text will wrap down to a new line..."
+        />
+
+    <Button
+        android:id="@+id/sendButton"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="315dp"
+        android:layout_marginTop="675dp"
+        android:layout_marginRight="20dp"
+        android:text="@string/send"
+        android:textSize="14sp" />
+</RelativeLayout>
