@@ -11,11 +11,13 @@ public class Route {
     Colors color;
     Boolean claimed;
     Username claimedBy;
+    Integer id;
 
-    public Route(City startCity, City endCity, Length length, Colors color) {
+    public Route(Integer id, City startCity, City endCity, Integer length, Colors color) {
+        this.id = id;
         this.startCity = startCity;
         this.endCity = endCity;
-        this.length = length;
+        this.length = new Length(length);
         this.color = color;
         this.claimed = false;
     }
