@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Board.Board;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -26,6 +27,7 @@ public class Game implements IGameListEntry {
     private DestCardDeck destCardDeck;
     private Bank bank;
     private Username playerTurn;
+    private int playerTurnIndex;
     public Game() {
         id = ID.generate();
         chat = new Chat(id);
@@ -34,6 +36,21 @@ public class Game implements IGameListEntry {
     public Game(ID id) {
         this.id = id;
         chat = new Chat(this.id);
+        playerTurnIndex = 0;
+    }
+
+    private void nextPlayerTurn(){
+        playerTurnIndex = (playerTurnIndex + 1) % (players.size() - 1);
+        playerTurn = players.get(playerTurnIndex).getPlayerName();
+    }
+
+    public void claimRoute(Route route, Username player){
+        //This may need some help and extra thought.
+        board.claimRoute(route, player);
+    }
+
+    private void initializeGame(){
+        //Do stuff
     }
 
     @Override
