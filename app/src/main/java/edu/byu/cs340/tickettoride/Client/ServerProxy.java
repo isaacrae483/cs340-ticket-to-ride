@@ -82,12 +82,12 @@ public class ServerProxy implements IServer {
 
     @Override
     public ChatResult chat(Username username, String message, ID game) {
-        data = new ServerCommandData(commandType.DRAWTICKETS, username, game, message);
+        data = new ServerCommandData(commandType.CHAT, username, game, message);
         return communicator.send(data, ChatResult.class);
     }
 
     @Override
-    public ReturnTicketResult returnCards(Username username, DestCard card, ID game) {
+    public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         data = new ServerCommandData(commandType.RETURNCARD, username, card, game);
         return communicator.send(data, ReturnTicketResult.class);
     }
