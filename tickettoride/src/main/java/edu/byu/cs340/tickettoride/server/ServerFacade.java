@@ -1,8 +1,6 @@
 package edu.byu.cs340.tickettoride.server;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Observer;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
@@ -13,20 +11,17 @@ import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
-import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
-import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.Result.BeginPlayingResult;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
-import edu.byu.cs340.tickettoride.shared.Result.ReturnCardResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -157,7 +152,7 @@ public class ServerFacade implements IServer, IClientObservable{
     }
 
     @Override
-    public ReturnCardResult returnCards(Username username, DestCard card, ID game) {
+    public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         return null;
     }
 

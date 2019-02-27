@@ -1,24 +1,20 @@
 
 package edu.byu.cs340.tickettoride.Client;
 
-import android.os.AsyncTask;
-
 import java.net.URL;
 
-import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
-import edu.byu.cs340.tickettoride.shared.Result.BeginPlayingResult;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
-import edu.byu.cs340.tickettoride.shared.Result.ReturnCardResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -91,9 +87,9 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public ReturnCardResult returnCards(Username username, DestCard card, ID game) {
+    public ReturnTicketResult returnCards(Username username, DestCard card, ID game) {
         data = new ServerCommandData(commandType.RETURNCARD, username, card, game);
-        return communicator.send(data, ReturnCardResult.class);
+        return communicator.send(data, ReturnTicketResult.class);
     }
 
     public void setHost(URL host) {

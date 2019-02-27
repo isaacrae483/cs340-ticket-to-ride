@@ -9,14 +9,17 @@ import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -102,6 +105,34 @@ public class ClientFacade implements IClient, ICallBack {
         task.execute(info);
     }
 
+    public void sendChat(String message){
+        GenericData info = new GenericData("chat",
+                new Class<?>[] {Username.class, String.class, ID.class},
+                new Object[] {model.getUsername(), message, model.getActiveGameID()});
+
+        GenericTask task = new GenericTask<ChatResult>(this);
+        task.execute();
+
+    }
+
+    public void drawTickets(){
+        GenericData info = new GenericData("drawTickets",
+                new Class<?>[] {Username.class, ID.class},
+                new Object[] {model.getUsername(), model.getActiveGameID()});
+
+        GenericTask task = new GenericTask<ChatResult>(this);
+        task.execute();
+    }
+
+    public void returnTicket(DestCard card){
+        GenericData info = new GenericData("returnTickets",
+                new Class<?>[] {Username.class, DestCard.class, ID.class},
+                new Object[] {model.getUsername(), card, model.getActiveGameID()});
+
+        GenericTask task = new GenericTask<ChatResult>(this);
+        task.execute();
+    }
+
     @Override
     public void incrementPlayers(ID id, Player player) {
         ClientModel.instance().incrementPlayers(id, player);
@@ -161,6 +192,21 @@ public class ClientFacade implements IClient, ICallBack {
             StartGameResult result = (StartGameResult) response;
             if(!result.getSuccess()) {
                 ClientModel.instance().passErrorEvent(new StartGameError());
+            }
+        }
+        else if(response != null && response.getClass() == ChatResult.class){
+            ChatResult result = (ChatResult) response;
+            if(!result.getSuccess()) {
+                //sends an error if unsuccessful
+                //ClientModel.instance().passErrorEvent(new Error());
+            }
+        }
+        else if(response != null && response.getClass() == ReturnTicketResult.class){
+            //execution on return ticket result
+            ReturnTicketResult result = (ReturnTicketResult) response;
+            if(!result.getSuccess()) {
+                //sends an error if unsuccessful
+                //ClientModel.instance().passErrorEvent(new Error());
             }
         }
         else{
