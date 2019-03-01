@@ -3,9 +3,11 @@ package edu.byu.cs340.tickettoride.shared.Game;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import edu.byu.cs340.tickettoride.shared.Game.Board.Board;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -24,7 +26,7 @@ public class Game implements IGameListEntry {
     private Chat chat;
     private Board board;
     private TrainCardDeck trainCardDeck;
-    private DestCardDeck destCardDeck;
+    private DestCardDeck destCardDeck  = new DestCardDeck();
     private Bank bank;
     private Username playerTurn;
     private int playerTurnIndex;
@@ -114,5 +116,13 @@ public class Game implements IGameListEntry {
 
     public Chat getChat() {
         return chat;
+    }
+
+    public Set<DestCard> draw() {
+        return destCardDeck.drawCards();
+    }
+
+    public void returnCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
+        destCardDeck.returnCard(card);
     }
 }

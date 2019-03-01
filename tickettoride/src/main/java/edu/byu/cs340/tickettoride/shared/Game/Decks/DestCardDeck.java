@@ -47,6 +47,12 @@ public class DestCardDeck {
         deck = new ArrayDeque<>(temp);
     }
 
+    public class AlreadyInDeckException extends Exception {
+        public AlreadyInDeckException(String message) {
+            super(message);
+        }
+    }
+
     public Set<DestCard> drawCards() {
         Set<DestCard> toReturn = new HashSet<>();
         final int NUM_CARDS = 3;
@@ -56,9 +62,12 @@ public class DestCardDeck {
         return toReturn;
     }
 
-    public void returnCard(DestCard card) {
+    public void returnCard(DestCard card) throws AlreadyInDeckException {
         if (!deck.contains(card)) {
             deck.add(card);
+        }
+        else {
+            throw new AlreadyInDeckException(card + " is already in the deck");
         }
     }
 

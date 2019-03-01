@@ -35,7 +35,7 @@ public class DestCardDeckTest {
     }
 
     @Test
-    public void returnCard() {
+    public void returnCard() throws DestCardDeck.AlreadyInDeckException {
         int size = deck.size();
         Set<DestCard> cards = deck.drawCards();
         assertEquals(size - 3, deck.size());
@@ -45,8 +45,15 @@ public class DestCardDeckTest {
         deck.returnCard(toReturn);
         assertEquals(size + 1, deck.size());
 
-        deck.returnCard(toReturn);
+        boolean success = true;
+        try {
+            deck.returnCard(toReturn);
+        }
+        catch (DestCardDeck.AlreadyInDeckException ex) {
+            success = false;
+        }
         assertEquals(size + 1, deck.size());
+        assertFalse(success);
 
         while (deck.size() > 3) {
             deck.drawCards();

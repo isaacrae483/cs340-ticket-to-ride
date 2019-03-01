@@ -23,7 +23,7 @@ public class ReturnCardCommand implements ICommand {
 
     @Override
     public Object execute() {
-        ServerFacade.SINGLETON.returnCards(mUsername, mDestCard, mGameId);
+        ServerFacade.SINGLETON.returnTickets(mUsername, mDestCard, mGameId);
         return null;
     }
 }

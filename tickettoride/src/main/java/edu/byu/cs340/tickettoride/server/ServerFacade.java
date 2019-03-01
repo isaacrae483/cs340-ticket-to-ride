@@ -5,6 +5,7 @@ import java.util.Set;
 
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
+import edu.byu.cs340.tickettoride.server.Model.Services.DestCardService;
 import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
@@ -135,7 +136,8 @@ public class ServerFacade implements IServer, IClientObservable{
 
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {
-        return null;
+        DrawTicketsResult res = new DestCardService().drawTickets(username, game);
+        return res;
     }
 
     @Override
@@ -153,7 +155,8 @@ public class ServerFacade implements IServer, IClientObservable{
 
     @Override
     public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
-        return null;
+        ReturnTicketResult res = new DestCardService().returnTickets(username, card, game);
+        return res;
     }
 
     /**

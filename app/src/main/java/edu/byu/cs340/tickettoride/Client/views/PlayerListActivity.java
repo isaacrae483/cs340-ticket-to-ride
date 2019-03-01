@@ -30,7 +30,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activityPlayerList);
+        setContentView(R.layout.activity_player_list);
 
         mPlayerList = findViewById(R.id.playerList);
         // TODO: link to live model data

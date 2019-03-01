@@ -47,4 +47,13 @@ public class DestCard {
         //order of cities should not matter
         return Objects.hash(city1, city2, points) + Objects.hash(city2, city1, points);
     }
+
+    @Override
+    public String toString() {
+        return "DestCard{" +
+                "from " + city1 +
+                " to " + city2 +
+                ", points=" + points +
+                '}';
+    }
 }
