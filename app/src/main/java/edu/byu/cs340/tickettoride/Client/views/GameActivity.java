@@ -38,7 +38,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
 
     @Override
     public void moveToPlayerView() {
-
+        startActivity(PlayerListActivity.newIntent(getApplicationContext()));
     }
 
     @Override
