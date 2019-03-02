@@ -3,14 +3,22 @@ package edu.byu.cs340.tickettoride.server;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -153,6 +161,28 @@ public class ServerFacadeTest {
 
     @Test
     public void drawTickets() {
+        this.createGame();
+
+        ID gameID = game.getId();
+        StartGameResult start = facade.startGame(user, gameID);
+        assertTrue(start.getSuccess());
+
+        DrawTicketsResult res = facade.drawTickets(user, gameID);
+        assertTrue(res.getSuccess());
+        assertNotEquals(0, res.getCards().size());
+
+        res = facade.drawTickets(null, null);
+        assertFalse(res.getSuccess());
+        assertNull(res.getCards());
+
+        res = facade.drawTickets(user2, gameID);
+        assertFalse(res.getSuccess());
+
+        res = facade.drawTickets(user, gameID);
+        assertTrue(res.getSuccess());
+
+        res = facade.drawTickets(user, ID.generate());
+        assertFalse(res.getSuccess());
     }
 
     @Test
@@ -202,5 +232,29 @@ public class ServerFacadeTest {
 
     @Test
     public void returnCards() {
+        this.createGame();
+        facade.startGame(user, id);
+
+        DrawTicketsResult draw = facade.drawTickets(user, id);
+        assertTrue(draw.getSuccess());
+        Set<DestCard> cards = draw.getCards();
+        assertNotEquals(0, cards.size());
+
+        Iterator<DestCard> it = cards.iterator();
+        DestCard first = it.next();
+        ReturnTicketResult res = facade.returnTickets(user, first, id);
+        assertTrue(res.getSuccess());
+
+        res = facade.returnTickets(null, null, null);
+        assertFalse(res.getSuccess());
+
+        res = facade.returnTickets(user2, it.next(), id);
+        assertFalse(res.getSuccess());
+
+        res = facade.returnTickets(user, it.next(), ID.generate());
+        assertFalse(res.getSuccess());
+
+        res = facade.returnTickets(user, first, id);
+        assertFalse(res.getSuccess());
     }
 }

@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.server.Model.Services;
 
+import java.util.Set;
+
 import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -32,6 +34,16 @@ public class DestCardService {
 
 
     public DrawTicketsResult drawTickets(Username username, ID game) {
-        return null;
+        boolean success = false;
+        Set<DestCard> cards = null;
+        ServerModel model = ServerModel.SINGLETON;
+
+        Game gameInfo = model.getMapStartedGames().getGame(game);
+        if (gameInfo != null && gameInfo.contains(username)) {
+            cards = gameInfo.draw();
+            success = true;
+        }
+
+        return new DrawTicketsResult(success, cards);
     }
 }

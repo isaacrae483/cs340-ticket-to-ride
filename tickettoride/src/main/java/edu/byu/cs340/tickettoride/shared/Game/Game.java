@@ -33,6 +33,7 @@ public class Game implements IGameListEntry {
     public Game() {
         id = ID.generate();
         chat = new Chat(id);
+
     }
 
     //this constructor is the initialize game constructor.... may need to be changed?
@@ -41,7 +42,7 @@ public class Game implements IGameListEntry {
         chat = new Chat(this.id);
         board = new Board();
         playerTurnIndex = 0;
-        playerTurn = players.get(playerTurnIndex).getPlayerName();
+//        playerTurn = players.get(playerTurnIndex).getPlayerName();
     }
 
     private void nextPlayerTurn(){
