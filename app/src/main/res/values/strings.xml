@@ -37,4 +37,6 @@
     <string name="dest_cards_button">Destination Cards Button</string>
     <string name="compose_chat_message">Compose Chat</string>
     <string name="send">Send</string>
+    <string name="title_activity_dest_card">DestCardActivity</string>
+    <string name="dest_card_draw_button">Draw</string>
 </resources>
