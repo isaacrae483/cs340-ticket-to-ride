@@ -1,17 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<edu.byu.cs340.tickettoride.Client.views.artifacts.ZoomableViewGroup xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="573dp"
+    android:layout_height="342dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="0dp"
         android:contentDescription="@string/map_desc"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/ttr_map" />
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/route_indicator"
+        android:cropToPadding="false"
+        android:translationX="30dp"
+        android:translationY="50dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_rhombus" />
+
+    <ImageView
+        android:id="@+id/imageView29"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/route_indicator"
+        android:cropToPadding="false"
+        android:translationX="48dp"
+        android:translationY="50dp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_rhombus" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/route_indicator"
+        android:cropToPadding="false"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_rhombus" />
+
+</edu.byu.cs340.tickettoride.Client.views.artifacts.ZoomableViewGroup>

@@ -39,4 +39,5 @@
     <string name="send">Send</string>
     <string name="title_activity_dest_card">DestCardActivity</string>
     <string name="dest_card_draw_button">Draw</string>
+    <string name="route_indicator">Route Indicator</string>
 </resources>

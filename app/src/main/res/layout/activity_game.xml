@@ -7,7 +7,7 @@
     <!--tools:context="edu.byu.cs340.tickettoride.Client.views.LoginActivityy"-->
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/viewSidebar"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="8dp"
@@ -44,16 +44,14 @@
     <fragment
         android:id="@+id/fragment"
         android:name="edu.byu.cs340.tickettoride.Client.views.MapFragment"
-        android:layout_width="605dp"
-        android:layout_height="349dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="573dp"
+        android:layout_height="342dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.425"
+        app:layout_constraintHorizontal_bias="0.027"
+        app:layout_constraintStart_toEndOf="@+id/viewSidebar"
         tools:layout="@layout/fragment_game_map" />
 
 </android.support.constraint.ConstraintLayout>
