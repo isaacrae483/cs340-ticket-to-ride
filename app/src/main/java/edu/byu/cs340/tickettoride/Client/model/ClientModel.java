@@ -6,6 +6,7 @@ import java.util.Observable;
 import edu.byu.cs340.tickettoride.Client.model.events.ErrorEvent;
 import edu.byu.cs340.tickettoride.Client.model.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -78,6 +79,15 @@ public class ClientModel extends Observable {
             hand.addTicket(card3);
         }
         emitEvent(new DestCardDraw(card1, card2, card3));
+    }
+
+    public void returnDestCard(DestCard toReturn) {
+        hand.getDestCards().remove(toReturn);
+        emitEvent(new DestCardReturned(toReturn));
+    }
+
+    public List<DestCard> getDestCards() {
+        return hand.getDestCards();
     }
 
     public void incrementPlayers(ID id, Player newUser){
