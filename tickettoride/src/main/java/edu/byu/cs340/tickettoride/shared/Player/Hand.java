@@ -9,10 +9,16 @@ import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class Hand {
     private List<TrainCard> trainCards = new ArrayList<>();
+
+
     private List<DestCard> destCards = new ArrayList<>();
 
     public Hand(){
 
+    }
+
+    public List<DestCard> getDestCards() {
+        return destCards;
     }
 
     public void addCard(TrainCard card){
