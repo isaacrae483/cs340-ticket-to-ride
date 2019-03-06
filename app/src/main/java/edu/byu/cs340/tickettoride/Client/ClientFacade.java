@@ -6,6 +6,9 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDrawFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
@@ -17,6 +20,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
@@ -166,7 +170,7 @@ public class ClientFacade implements IClient, ICallBack {
                 new Poller().startPolling(_username);
             }
             else{
-                ClientModel.instance().passErrorEvent(new LoginFailed());
+                model.passErrorEvent(new LoginFailed());
             }
         }
         else if(response != null && response.getClass() == CreateGameResult.class){
@@ -176,7 +180,7 @@ public class ClientFacade implements IClient, ICallBack {
                 //model.addGame(result.getGame());
             }
             else{
-                ClientModel.instance().passErrorEvent(new GameJoinError());
+                model.passErrorEvent(new GameJoinError());
             }
         }
         else if(response != null && response.getClass() == JoinGameResult.class){
@@ -185,20 +189,20 @@ public class ClientFacade implements IClient, ICallBack {
                 model.setActiveGameID(result.getId());
             }
             else{
-                ClientModel.instance().passErrorEvent(new GameJoinError());
+                model.passErrorEvent(new GameJoinError());
             }
         }
         else if(response != null && response.getClass() == StartGameResult.class){
             StartGameResult result = (StartGameResult) response;
             if(!result.getSuccess()) {
-                ClientModel.instance().passErrorEvent(new StartGameError());
+                model.passErrorEvent(new StartGameError());
             }
         }
         else if(response != null && response.getClass() == ChatResult.class){
             ChatResult result = (ChatResult) response;
             if(!result.getSuccess()) {
                 //sends an error if unsuccessful
-                //ClientModel.instance().passErrorEvent(new Error());
+                model.passErrorEvent(new ChatSendFailed());
             }
         }
         else if(response != null && response.getClass() == ReturnTicketResult.class){
@@ -206,7 +210,13 @@ public class ClientFacade implements IClient, ICallBack {
             ReturnTicketResult result = (ReturnTicketResult) response;
             if(!result.getSuccess()) {
                 //sends an error if unsuccessful
-                //ClientModel.instance().passErrorEvent(new Error());
+                model.passErrorEvent(new ReturnDestCardFailed());
+            }
+        }
+        else if(response != null && response.getClass() == DrawTicketsResult.class){
+            DrawTicketsResult result = (DrawTicketsResult) response;
+            if(!result.getSuccess()){
+                model.passErrorEvent(new DestDrawFailed());
             }
         }
         else{

@@ -9,25 +9,50 @@ import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class Hand {
     private List<TrainCard> trainCards = new ArrayList<>();
-
-
     private List<DestCard> destCards = new ArrayList<>();
 
     public Hand(){
 
     }
 
+    /**
+     * pre: None
+     * post: None
+     * @return destCards
+     */
     public List<DestCard> getDestCards() {
         return destCards;
     }
+
+    /**
+     * pre: card != Null
+     * post: size of trainCards one larger than it was
+     *      trainCards contains card as well as all cards it had before
+     * @param card
+     */
 
     public void addCard(TrainCard card){
         trainCards.add(card);
     }
 
+    /**
+     * pre: card != Null
+     * post: size of destCards one larger than it was
+     *     destCards contains card as well as all cards it had before
+     * @param card
+     */
+
     public void addTicket(DestCard card){
         destCards.add(card);
     }
+
+    /**
+     * pre: num != 0 and color != Null
+     * post:
+     * @param num
+     * @param color
+     * @return
+     */
 
     public boolean hasCards(int num, Enum color){
         int count = 0;
