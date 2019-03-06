@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.events.ErrorEvent;
 import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
@@ -14,6 +15,8 @@ import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
@@ -37,6 +40,7 @@ public class ClientModel extends Observable {
     private MapGames games = new MapGames();
     private ID activeGameID;
     private Hand hand;
+    private Chat chatMessages;
 
     public Username getUsername() {
         return username;
@@ -114,6 +118,21 @@ public class ClientModel extends Observable {
 
     public Game getActiveGame() {
         return getGame(getActiveGameID());
+    }
+
+    public void addChatMessage(ChatMessage chat){
+        if(chatMessages == null){
+            chatMessages = new Chat(activeGameID);
+        }
+        try{
+            chatMessages.add(chat);
+        }catch(Exception e){
+            passErrorEvent(new ChatSendFailed());
+        }
+    }
+
+    public Chat getChatMessages(){
+        return chatMessages;
     }
 
     public void passErrorEvent(ErrorEvent errorEvent) {
