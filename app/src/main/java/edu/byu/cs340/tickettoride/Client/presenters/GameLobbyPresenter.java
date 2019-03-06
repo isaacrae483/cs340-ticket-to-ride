@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
@@ -20,11 +21,11 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter, Observer {
 
     private IGameLobbyView mGameLobbyView;
-    private ClientFacade mClientFacade;
+    private ModelFacade mModelFacade;
 
     public GameLobbyPresenter(IGameLobbyView view) {
         mGameLobbyView = view;
-        mClientFacade = ClientFacade.instance();
+        mModelFacade = ModelFacade.instance();
 
 //        // TODO: FOR TESTING PURPOSES ONLY
 //        class Player implements IPlayer {
@@ -69,7 +70,7 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
 
     @Override
     public void startGamePressed() {
-        mClientFacade.sendStartGame(mClientModel.getActiveGameID());
+        mModelFacade.sendStartGame(mClientModel.getActiveGameID());
     }
 
     @Override
