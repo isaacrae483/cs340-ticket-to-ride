@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +37,11 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     private Button button;
     private RecyclerView list;
     private DestCardAdapter adapter;
+
+    private PopupWindow window;
+    private DestCard draw1;
+    private DestCard draw2;
+    private DestCard draw3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,26 +80,82 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     }
 
     @Override
-   public void OnCardDraw(DestCard card1, DestCard card2, DestCard card3) {
+   public void onCardDraw(DestCard card1, DestCard card2, DestCard card3) {
 
         View popupView = ((LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.draw_popup, null);
 
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, false);
-        popupWindow.getBackground();
-        popupWindow.showAtLocation(new View(this), Gravity.CENTER, 0, 0);
 
+        if (window == null) {
+            int height = this.getWindow().getDecorView().getHeight();
+            int width = this.getWindow().getDecorView().getWidth();
+            window = new PopupWindow(popupView, width, height, false);
+        }
+
+        window.showAtLocation(new View(this), Gravity.CENTER, 0, 0);
         button.setEnabled(false);
 
         popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 button.setEnabled(true);
-                popupWindow.dismiss();
+                window.dismiss();
             }
         });
+
+        draw1 = card1;
+        draw2 = card2;
+        draw3 = card3;
+        setCards();
+
+        adapter.addCard(draw1);
+        adapter.addCard(draw2);
+        adapter.addCard(draw3);
+    }
+
+    @Override
+    public void onCardReturn(DestCard card) {
+        adapter.removeCard(card);
+        if (card != null) {
+            if (card.equals(draw1)) {
+                draw1 = null;
+            }
+            else if (card.equals(draw2)) {
+                draw2 = null;
+            }
+            else if (card.equals(draw3)) {
+                draw3 = null;
+            }
+            setCards();
+        }
+    }
+
+    private void setCards() {
+        setDestCard(window.getContentView().findViewById(R.id.drawDest1), draw1);
+        setDestCard(window.getContentView().findViewById(R.id.drawDest2), draw2);
+        setDestCard(window.getContentView().findViewById(R.id.drawDest3), draw3);
+    }
+
+    private void setDestCard(View view, final DestCard card) {
+        if (card == null) {
+            ((TextView)view.findViewById(R.id.city1Select)).setText("");
+            ((TextView)view.findViewById(R.id.city2Select)).setText("");
+            ((TextView)view.findViewById(R.id.pointsSelect)).setText("");
+            view.findViewById(R.id.returnButton).setEnabled(false);
+        }
+        else {
+            ((TextView)view.findViewById(R.id.city1Select)).setText(card.getCity1().toString());
+            ((TextView)view.findViewById(R.id.city2Select)).setText(card.getCity2().toString());
+            ((TextView)view.findViewById(R.id.pointsSelect)).setText(card.getPoints() + " pts");
+            final Button returnButton = view.findViewById(R.id.returnButton);
+            returnButton.setEnabled(true);
+            returnButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    p.returnCard(card);
+                }
+            });
+        }
     }
 
     private class DestCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -123,12 +185,20 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         }
 
         public void setCards(List<DestCard> cards) {
+
             this.cards = cards;
+            this.notifyDataSetChanged();
         }
 
         public void addCard(DestCard card) {
             cards.add(card);
             this.notifyItemInserted(cards.size() - 1);
+        }
+
+        public void removeCard(DestCard card) {
+            int pos = cards.indexOf(card);
+            cards.remove(pos);
+            this.notifyItemRemoved(pos);
         }
 
         private class DestCardHolder extends RecyclerView.ViewHolder {
