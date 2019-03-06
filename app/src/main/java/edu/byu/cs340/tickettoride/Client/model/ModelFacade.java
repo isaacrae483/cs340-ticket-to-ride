@@ -28,7 +28,7 @@ import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ModelFacade implements ICallBack {
+public class ModelFacade implements IModelFacade, ICallBack {
     private static ModelFacade _instance;
     private ModelFacade(){
 
@@ -50,6 +50,7 @@ public class ModelFacade implements ICallBack {
      * @param password
      * @param host
      */
+    @Override
     public void login(Username username, Password password, URL host){
         ServerProxy.instance().setHost(host);
         _username = username;
@@ -63,6 +64,7 @@ public class ModelFacade implements ICallBack {
 
     }
 
+    @Override
     public void register(Username username, Password password, URL host){
         ServerProxy.instance().setHost(host);
         _username = username;
@@ -75,6 +77,8 @@ public class ModelFacade implements ICallBack {
         task.execute(info);
 
     }
+
+    @Override
     public void joinGame(ID id){
 
         if (model.getGame(id).contains(model.getUsername())) {
@@ -90,6 +94,7 @@ public class ModelFacade implements ICallBack {
         }
     }
 
+    @Override
     public void createGame(){
         GenericData info = new GenericData("createGame",
                 new Class<?>[] {Username.class},
@@ -99,6 +104,7 @@ public class ModelFacade implements ICallBack {
         task.execute(info);
     }
 
+    @Override
     public void sendStartGame(ID gameId) {
         GenericData info = new GenericData("startGame",
                 new Class<?>[] {Username.class, ID.class},
@@ -108,6 +114,7 @@ public class ModelFacade implements ICallBack {
         task.execute(info);
     }
 
+    @Override
     public void sendChat(String message){
         GenericData info = new GenericData("chat",
                 new Class<?>[] {Username.class, String.class, ID.class},
@@ -118,6 +125,7 @@ public class ModelFacade implements ICallBack {
 
     }
 
+    @Override
     public void drawTickets(){
         GenericData info = new GenericData("drawTickets",
                 new Class<?>[] {Username.class, ID.class},
@@ -127,6 +135,7 @@ public class ModelFacade implements ICallBack {
         task.execute();
     }
 
+    @Override
     public void returnTicket(DestCard card){
         GenericData info = new GenericData("returnTickets",
                 new Class<?>[] {Username.class, DestCard.class, ID.class},
