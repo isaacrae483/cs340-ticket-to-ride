@@ -5,37 +5,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chatMessageList"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="325dp"
         tools:listitem="@layout/list_chat_history">
 
     </android.support.v7.widget.RecyclerView>
 
     <EditText
         android:id="@+id/composeMessage"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
+        android:layout_width="602dp"
+        android:layout_height="49dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="11dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="605dp"
+        android:layout_marginTop="330dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
         android:hint="@string/compose_chat_message"
         android:inputType="textCapSentences|textMultiLine"
         android:textAlignment="textStart"
-        tools:text="I just want to see if the text will wrap down to a new line..."
-        />
+        tools:text="I just want to see if the text will wrap down to a new line..." />
 
     <Button
         android:id="@+id/sendButton"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="315dp"
-        android:layout_marginTop="675dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="650dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="21dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/send"
         android:textSize="14sp" />
 </RelativeLayout>
