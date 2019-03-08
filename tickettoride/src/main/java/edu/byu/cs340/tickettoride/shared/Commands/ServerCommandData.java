@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -34,10 +35,8 @@ public class ServerCommandData {
     }
 
     // CHAT
-    public ServerCommandData(commandType type, Username username, ID gameID, String message) {
+    public ServerCommandData(commandType type, ChatMessage message) {
         this.type = type;
-        this.username = username;
-        this.gameID = gameID;
         this.message = message;
     }
 
@@ -46,5 +45,5 @@ public class ServerCommandData {
     public Password password;
     public ID gameID;
     public DestCard destCard;
-    public String message;
+    public ChatMessage message;
 }

@@ -14,6 +14,7 @@ import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
@@ -141,8 +142,9 @@ public class ServerFacade implements IServer, IClientObservable{
     }
 
     @Override
-    public ChatResult chat(Username username, String message, ID game) {
-        ChatResult res = new ChatService().chat(username, message, game);
+    public ChatResult chat(ChatMessage message) {
+        ChatResult res = new ChatService().chat(message.getUser(), message.getMessage(),
+                message.getGame());
 
         if (res.getSuccess()) {
             for (IClientObserver o : observers) {

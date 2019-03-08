@@ -25,7 +25,7 @@ public class ServerCommandFactory {
             case STARTGAME:
                 return new StartGameCommand(info.username, info.gameID);
             case CHAT:
-                return new ChatCommand(info.username, info.gameID, info.message);
+                return new ChatCommand(info.message);
             case RETURNCARD:
                 return new ReturnCardCommand(info.username, info.destCard, info.gameID);
             case DRAWTICKETS:

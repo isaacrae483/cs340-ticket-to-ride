@@ -2,6 +2,7 @@ package edu.byu.cs340.tickettoride.shared.Interface;
 
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -21,6 +22,6 @@ public interface IServer {
     ClientCommandList getCommands(Username username);
     StartGameResult startGame(Username username, ID id);
     DrawTicketsResult drawTickets(Username username, ID game);
-    ChatResult chat(Username username, String message, ID game);
+    ChatResult chat(ChatMessage message);
     ReturnTicketResult returnTickets(Username username, DestCard card, ID game);
 }

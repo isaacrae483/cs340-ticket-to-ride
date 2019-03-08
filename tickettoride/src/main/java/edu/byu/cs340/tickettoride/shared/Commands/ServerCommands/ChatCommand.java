@@ -11,19 +11,15 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
  */
 public class ChatCommand implements ICommand {
 
-    private Username originUser;
-    private String message;
-    private ID gameId;
+    private ChatMessage message;
 
     public ChatCommand(ChatMessage message) {
-        this.originUser = message.getUser();
-        this.message = message.getMessage();
-        this.gameId = message.getGame();
+        this.message = message;
     }
 
     @Override
     public Object execute() {
-        ServerFacade.SINGLETON.chat(originUser, message, gameId);
+        ServerFacade.SINGLETON.chat(message);
         return null;
     }
 }

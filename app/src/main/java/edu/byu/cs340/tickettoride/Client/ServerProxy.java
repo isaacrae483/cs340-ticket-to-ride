@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
@@ -81,8 +82,8 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public ChatResult chat(Username username, String message, ID game) {
-        data = new ServerCommandData(commandType.CHAT, username, game, message);
+    public ChatResult chat(ChatMessage message) {
+        data = new ServerCommandData(commandType.CHAT, message);
         return communicator.send(data, ChatResult.class);
     }
 
