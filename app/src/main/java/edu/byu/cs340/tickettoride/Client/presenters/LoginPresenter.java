@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.login.RegisterFailed;
@@ -18,7 +19,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class LoginPresenter extends Presenter implements ILoginPresenter {
 
     private ILoginView mLoginView;
-    private ClientFacade mClientFacade;
+    private ModelFacade mModelFacade;
 
     private Username mUsername = null;
     private Password mPassword = null;
@@ -34,7 +35,7 @@ public class LoginPresenter extends Presenter implements ILoginPresenter {
             e.printStackTrace();
         }
         mLoginView = view;
-        mClientFacade = ClientFacade.instance();
+        mModelFacade = ModelFacade.instance();
 
         // If user is already logged in, start GameListActivity
     }
@@ -45,7 +46,7 @@ public class LoginPresenter extends Presenter implements ILoginPresenter {
      *
      */
     public void login(){
-        mClientFacade.login(mUsername, mPassword, mSeverHost);
+        mModelFacade.login(mUsername, mPassword, mSeverHost);
         //mLoginView.moveToGameList();
     }
 
@@ -54,7 +55,7 @@ public class LoginPresenter extends Presenter implements ILoginPresenter {
      * Asks the ClientFacade to do operations to login the user
      */
     public void register() {
-        mClientFacade.register(mUsername, mPassword, mSeverHost);
+        mModelFacade.register(mUsername, mPassword, mSeverHost);
     }
 
 

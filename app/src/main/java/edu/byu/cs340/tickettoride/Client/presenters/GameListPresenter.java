@@ -9,6 +9,7 @@ import java.util.Observer;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
@@ -26,12 +27,12 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class GameListPresenter extends Presenter implements IGameListPresenter, Observer {
 
     private IGameListView mGameListView;
-    private ClientFacade mClientFacade;
+    private ModelFacade mModelFacade;
     private boolean mWaitingToJoinGame = false;
 
     public GameListPresenter(GameListActivity activity) {
         mGameListView = activity;
-        mClientFacade = ClientFacade.instance();
+        mModelFacade = ModelFacade.instance();
 
         // TESTING PURPOSES ONLY
         ArrayList<IGameListEntry> testList = new ArrayList<IGameListEntry>();
@@ -82,7 +83,7 @@ public class GameListPresenter extends Presenter implements IGameListPresenter, 
 //        mGameListView.addGameToList(testList.get(1));
 //        mGameListView.makeToast("Add Game Pressed");
         mWaitingToJoinGame = true;
-        mClientFacade.createGame();
+        mModelFacade.createGame();
     }
 
     @Override
@@ -91,7 +92,7 @@ public class GameListPresenter extends Presenter implements IGameListPresenter, 
             return;
 
         mWaitingToJoinGame = true;
-        mClientFacade.joinGame(gameID);
+        mModelFacade.joinGame(gameID);
     }
 
     @Override

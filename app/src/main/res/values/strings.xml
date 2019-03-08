@@ -41,4 +41,6 @@
     <string name="dest_card_draw_button">Draw</string>
     <string name="route_indicator">Route Indicator</string>
     <string name="destCardQuit">Confirm</string>
+    <string name="returnDestCardButton">Return</string>
+    <string name="cityTo">to</string>
 </resources>

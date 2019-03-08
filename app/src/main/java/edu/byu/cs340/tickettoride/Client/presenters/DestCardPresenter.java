@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
@@ -30,14 +31,18 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
     @Override
     public void returnCard(DestCard card) {
-
+        model.returnDestCard(card);
     }
 
     @Override
     public void update(Observable obeservable, Object o) {
         if (o instanceof DestCardDraw) {
             DestCardDraw draw = (DestCardDraw) o;
-            view.OnCardDraw(draw.getCard1(), draw.getCard2(), draw.getCard3());
+            view.onCardDraw(draw.getCard1(), draw.getCard2(), draw.getCard3());
+        }
+        else if (o instanceof DestCardReturned) {
+            DestCardReturned returned = (DestCardReturned) o;
+            view.onCardReturn(returned.getReturned());
         }
     }
 }
