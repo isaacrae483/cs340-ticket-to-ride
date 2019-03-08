@@ -2,20 +2,13 @@ package edu.byu.cs340.tickettoride.Client.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -24,11 +17,8 @@ import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.presenters.DestCardPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.IDestCardPresenter;
-import edu.byu.cs340.tickettoride.Client.presenters.Presenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
-import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
-import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 
 public class DestCardActivity extends PresenterViewActivity implements IDestCardActivity {
 
@@ -42,6 +32,8 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     private DestCard draw1;
     private DestCard draw2;
     private DestCard draw3;
+
+    private int cardsReturned;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +71,11 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         p.drawPressed();
     }
 
+    private void closeWindow() {
+        window.dismiss();
+        button.setEnabled(true);
+    }
+
     @Override
    public void onCardDraw(DestCard card1, DestCard card2, DestCard card3) {
 
@@ -98,8 +95,7 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button.setEnabled(true);
-                window.dismiss();
+                closeWindow();
             }
         });
 
@@ -108,13 +104,16 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         draw3 = card3;
         setCards();
 
+        cardsReturned = 0;
+
         adapter.addCard(draw1);
         adapter.addCard(draw2);
         adapter.addCard(draw3);
     }
 
     @Override
-    public void onCardReturn(DestCard card) {
+    public void onCardReturn(DestCard card, ReturnCardLimit limit) {
+        ++cardsReturned;
         adapter.removeCard(card);
         if (card != null) {
             if (card.equals(draw1)) {
@@ -127,6 +126,9 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
                 draw3 = null;
             }
             setCards();
+        }
+        if (cardsReturned >= limit.value()) {
+            closeWindow();
         }
     }
 

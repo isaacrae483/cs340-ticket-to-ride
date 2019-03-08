@@ -29,7 +29,7 @@ public class DestCardService {
             }
         }
 
-        return new ReturnTicketResult(success);
+        return new ReturnTicketResult(success, card);
     }
 
 
