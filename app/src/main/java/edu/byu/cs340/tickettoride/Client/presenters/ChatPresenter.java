@@ -19,4 +19,14 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
     public void update(Observable observable, Object o) {
         super.update(observable, o);
     }
+
+    @Override
+    public void sendPressed() {
+
+    }
+
+    @Override
+    public void messageTextChanged(String toString) {
+
+    }
 }

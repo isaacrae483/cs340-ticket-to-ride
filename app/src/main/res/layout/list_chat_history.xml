@@ -35,14 +35,14 @@
         tools:text="Player" />
     <TextView
         android:id="@+id/chatMessage"
-        android:layout_width="105pt"
+        android:layout_width="205pt"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:text="TextView"
         android:textColor="@android:color/black"
-        android:textSize="14sp"
+        android:textSize="23sp"
         app:layout_constraintStart_toEndOf="@+id/playerName"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="This is an example chat message that should wrap to the next line.... but it currently needs some help." />
