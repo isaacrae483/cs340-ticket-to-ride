@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/map_desc"
         android:scaleType="fitXY"
+        android:tag="1"
         app:srcCompat="@drawable/ttr_map" />
 
     <ImageView
@@ -22,6 +23,7 @@
         android:layout_marginTop="60dp"
         android:contentDescription="@string/route_indicator"
         android:cropToPadding="false"
+        android:tag="0"
         android:translationX="30dp"
         android:translationY="50dp"
         android:visibility="visible"

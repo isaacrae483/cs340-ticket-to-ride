@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.Button;
 
 import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
@@ -14,6 +16,7 @@ import edu.byu.cs340.tickettoride.R;
 public class GameActivity extends PresenterViewActivity implements IGameView {
 
     private GamePresenter mGamePresenter;
+    private Button mViewChatButton;
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, GameActivity.class);
@@ -24,11 +27,18 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         makeToast(getString(R.string.game_started));
-
+        mViewChatButton = findViewById(R.id.chatButton);
 
         GamePresenter gamePresenter = new GamePresenter(this);
         mGamePresenter = gamePresenter;
         setPresenter(mGamePresenter);
+
+        mViewChatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGamePresenter.viewChatPressed();
+            }
+        });
     }
 
     @Override
