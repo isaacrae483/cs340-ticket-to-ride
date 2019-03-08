@@ -33,7 +33,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
 
     @Override
     public void moveToChat() {
-
+        startActivity(ChatActivity.newIntent(this));
     }
 
     @Override
