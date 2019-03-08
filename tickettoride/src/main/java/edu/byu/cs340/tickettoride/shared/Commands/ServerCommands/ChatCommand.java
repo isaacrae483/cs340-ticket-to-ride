@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Commands.ServerCommands;
 
 import edu.byu.cs340.tickettoride.server.ServerFacade;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -14,10 +15,10 @@ public class ChatCommand implements ICommand {
     private String message;
     private ID gameId;
 
-    public ChatCommand(Username username, ID gameId, String message) {
-        this.originUser = username;
-        this.message = message;
-        this.gameId = gameId;
+    public ChatCommand(ChatMessage message) {
+        this.originUser = message.getUser();
+        this.message = message.getMessage();
+        this.gameId = message.getGame();
     }
 
     @Override

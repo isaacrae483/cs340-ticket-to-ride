@@ -10,6 +10,9 @@ public class ChatMessage {
 
     public ChatMessage(String message, Username user, ID game) {
         this.message = message;
+        if(this.message == null){
+            this.message = "";
+        }
         this.user = user;
         this.game = game;
     }

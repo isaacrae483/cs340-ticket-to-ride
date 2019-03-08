@@ -17,6 +17,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
@@ -115,13 +116,13 @@ public class ModelFacade implements IModelFacade, ICallBack {
     }
 
     @Override
-    public void sendChat(String message){
+    public void sendChat(ChatMessage message){
         GenericData info = new GenericData("chat",
-                new Class<?>[] {Username.class, String.class, ID.class},
-                new Object[] {model.getUsername(), message, model.getActiveGameID()});
+                new Class<?>[] {ChatMessage.class},
+                new Object[] {message});
 
         GenericTask task = new GenericTask<ChatResult>(this);
-        task.execute();
+        task.execute(info);
 
     }
 
@@ -132,7 +133,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 new Object[] {model.getUsername(), model.getActiveGameID()});
 
         GenericTask task = new GenericTask<ChatResult>(this);
-        task.execute();
+        task.execute(info);
     }
 
     @Override
@@ -142,7 +143,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 new Object[] {model.getUsername(), card, model.getActiveGameID()});
 
         GenericTask task = new GenericTask<ChatResult>(this);
-        task.execute();
+        task.execute(info);
     }
 
 
