@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.Iterator;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.GenericData;
@@ -200,11 +201,28 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 //sends an error if unsuccessful
                 model.passErrorEvent(new ReturnDestCardFailed());
             }
+            else {
+                model.returnDestCard(result.getCard());
+            }
         }
         else if(response != null && response.getClass() == DrawTicketsResult.class){
             DrawTicketsResult result = (DrawTicketsResult) response;
             if(!result.getSuccess()){
                 model.passErrorEvent(new DestDrawFailed());
+            }
+            else {
+                DestCard card1 = null, card2 = null, card3 = null;
+                Iterator<DestCard> iter = result.getCards().iterator();
+                if (iter.hasNext()) {
+                    card1 = iter.next();
+                }
+                if (iter.hasNext()) {
+                    card2 = iter.next();
+                }
+                if (iter.hasNext()) {
+                    card3 = iter.next();
+                }
+                model.drawDestCards(card1, card2, card3);
             }
         }
         else{

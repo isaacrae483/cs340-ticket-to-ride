@@ -4,6 +4,7 @@ import edu.byu.cs340.tickettoride.server.ServerFacade;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
+import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 /**
@@ -22,8 +23,8 @@ public class ReturnCardCommand implements ICommand {
     }
 
     @Override
-    public Object execute() {
-        ServerFacade.SINGLETON.returnTickets(mUsername, mDestCard, mGameId);
-        return null;
+    public ReturnTicketResult execute() {
+        ReturnTicketResult res = ServerFacade.SINGLETON.returnTickets(mUsername, mDestCard, mGameId);
+        return res;
     }
 }
