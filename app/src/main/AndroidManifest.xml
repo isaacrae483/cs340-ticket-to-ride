@@ -36,6 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Client.views.GameListActivity" />
+        <activity android:name=".Client.views.ChatActivity" />
         <activity android:name=".Client.views.GameLobbyActivity" />
         <activity
             android:name=".Client.views.GameActivity"

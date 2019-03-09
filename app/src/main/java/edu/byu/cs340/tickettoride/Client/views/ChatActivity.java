@@ -20,6 +20,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.presenters.ChatPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.IChatPresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
@@ -47,6 +48,10 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
         mChatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mChatAdapter = new ChatAdapter(new ArrayList<ChatMessage>());
         mChatRecyclerView.setAdapter(mChatAdapter);
+        mSendButton = findViewById(R.id.sendButton);
+        mMessageText = findViewById(R.id.composeMessage);
+        mIChatPresenter = new ChatPresenter(this);
+        setPresenter(mIChatPresenter);
 
         mSendButton.setOnClickListener(new android.view.View.OnClickListener() {
             @Override

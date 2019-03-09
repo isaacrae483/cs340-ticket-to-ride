@@ -15,6 +15,7 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
     private ChatMessage mChatMessage = null;
 
     public ChatPresenter(IChatView view) {
+
         this.view = view;
     }
 
@@ -25,6 +26,7 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
 
     @Override
     public void update(Observable observable, Object o) {
+
         super.update(observable, o);
     }
 
