@@ -27,7 +27,6 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
     private DestCardActivity view;
     private ClientModel model;
-    private ClientFacade facade;
     private ModelFacade modelFacade;
 
     private IDestCardActivity.ReturnCardLimit limit = IDestCardActivity.ReturnCardLimit.One();
@@ -35,10 +34,9 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
     public DestCardPresenter(DestCardActivity view) {
         this.view = view;
         this.model = ClientModel.instance();
-        this.facade = ClientFacade.instance();
         this.modelFacade = ModelFacade.instance();
         //DEBUG SECTION
-        new DebugSetup().execute();
+        //new DebugSetup().execute();
         //END DEBUG SECTION
     }
 
