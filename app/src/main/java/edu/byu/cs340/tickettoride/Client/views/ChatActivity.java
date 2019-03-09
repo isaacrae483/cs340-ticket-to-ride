@@ -25,15 +25,30 @@ import edu.byu.cs340.tickettoride.Client.presenters.IChatPresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
+import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ChatActivity extends PresenterViewActivity implements IChatView {
-    RecyclerView mChatRecyclerView;
-    ChatAdapter mChatAdapter;
-    Button mSendButton;
-    IChatPresenter mIChatPresenter;
-    EditText mMessageText;
+    private RecyclerView mChatRecyclerView;
+    private ChatAdapter mChatAdapter;
+    private Button mSendButton;
+    private IChatPresenter mIChatPresenter;
+    private EditText mMessageText;
+
+    public void setChatList(List<ChatMessage> messages) {
+        mChatAdapter.setNewDataset(messages);
+        mChatAdapter.notifyDataSetChanged();
+    }
+
+    public void addChatToList(ChatMessage message) {
+        mChatAdapter.addChatEntry(message);
+    }
+
+    public void updateGame(ChatMessage message) {
+        mChatAdapter.chatChanged(message);
+    }
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, ChatActivity.class);
@@ -79,7 +94,7 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
     }
 
     @Override
-    public void displayNewMessage(Player player, String message) {
+    public void displayNewMessage(Username username, String message) {
 
     }
 
@@ -121,7 +136,7 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
 
     private class ChatAdapter extends RecyclerView.Adapter {
 
-        List<? extends ChatMessage> mChatSet;
+        List<ChatMessage> mChatSet;
 
         ChatAdapter(List<ChatMessage> initialChatSet) {
             if (initialChatSet != null)
@@ -148,9 +163,23 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
             return mChatSet.size();
         }
 
-        public void setNewDataset(List<? extends ChatMessage> ChatSet) {
+        public void setNewDataset(List<ChatMessage> ChatSet) {
             mChatSet = ChatSet;
             notifyDataSetChanged();
+        }
+
+        void addChatEntry(ChatMessage message) {
+            mChatSet.add(message);
+            this.notifyItemInserted(mChatSet.size() - 1);
+        }
+
+        void chatChanged(ChatMessage message) {
+            for (int i = 0; i < mChatSet.size(); i++) {
+                if (mChatSet.get(i).getUser().equals(message.getUser())) {
+                    mChatSet.set(i, message);
+                    notifyItemChanged(i);
+                }
+            }
         }
     }
 }

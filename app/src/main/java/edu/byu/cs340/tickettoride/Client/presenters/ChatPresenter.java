@@ -1,33 +1,47 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
+import java.util.List;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
-import edu.byu.cs340.tickettoride.Client.model.IModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
+import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatAdded;
+import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.views.IChatView;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
-import edu.byu.cs340.tickettoride.shared.User.Password;
 
 public class ChatPresenter extends Presenter implements IChatPresenter {
-    private IChatView view;
+    private IChatView mChatView;
     private ModelFacade mModelFacade;
     private ChatMessage mChatMessage = null;
 
     public ChatPresenter(IChatView view) {
-
-        this.view = view;
+        mModelFacade = ModelFacade.instance();
+        this.mChatView = view;
     }
 
     @Override
     public void syncWithModel() {
         super.syncWithModel();
+        if (mClientModel.getChatMessages() != null) {
+            List<ChatMessage> chatList = mClientModel.getChatMessages().getMessages(0);
+            mChatView.setChatList(chatList);
+        }
     }
 
     @Override
     public void update(Observable observable, Object o) {
-
         super.update(observable, o);
+        if (o instanceof ChatAdded) {
+            ChatAdded e = (ChatAdded) o;
+            mChatView.displayNewMessage(e.getMessage().getUser(), e.getMessage().getMessage());
+        } else if (o instanceof GameListChanged) {
+            syncWithModel();
+        }
     }
 
     @Override

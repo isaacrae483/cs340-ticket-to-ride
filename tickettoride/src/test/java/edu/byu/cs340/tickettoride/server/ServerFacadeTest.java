@@ -10,6 +10,7 @@ import java.util.Set;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -204,28 +205,28 @@ public class ServerFacadeTest {
         facade.getCommands(user);
         facade.getCommands(user2);
 //TEST NORMAL CHATS
-        ChatResult chat = facade.chat(user, "TEST", gameID);
+        ChatResult chat = facade.chat(new ChatMessage("TEST", user, gameID));
         assertTrue(chat.getSuccess());
 
         assertEquals(1, facade.getCommands(user).size());
         assertEquals(1, facade.getCommands(user2).size());
 
-        chat = facade.chat(user2, "TEST", gameID);
+        chat = facade.chat(new ChatMessage("TEST", user2, gameID));
         assertTrue(chat.getSuccess());
 
         assertEquals(1, facade.getCommands(user).size());
         assertEquals(1, facade.getCommands(user2).size());
 //TEST INVALID USER
-        chat = facade.chat(fakeUser, "TEST", gameID);
+        chat = facade.chat(new ChatMessage("TEST", fakeUser, gameID));
         assertFalse(chat.getSuccess());
         assertEquals(0, facade.getCommands(user).size());
 //TEST INVALID GAME
-        chat = facade.chat(user, "TEST", ID.generate());
+        chat = facade.chat(new ChatMessage("TEST", user, ID.generate()));
         assertFalse(chat.getSuccess());
         assertEquals(0, facade.getCommands(user).size());
 //MAKE SURE NOT EVERYONE GETS CHAT
         facade.register(fakeUser, password);
-        chat = facade.chat(user, "TEST", gameID);
+        chat = facade.chat(new ChatMessage("TEST", user, gameID));
         assertTrue(chat.getSuccess());
         assertEquals(0, facade.getCommands(fakeUser).size());
     }
