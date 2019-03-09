@@ -22,7 +22,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 
 public class DestCardActivity extends PresenterViewActivity implements IDestCardActivity {
 
-    private IDestCardPresenter p;
+    private IDestCardPresenter presenter;
 
     private Button button;
     private RecyclerView list;
@@ -38,9 +38,10 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        p = new DestCardPresenter(this);
-        this.setPresenter(p);
         setContentView(R.layout.activity_dest_card);
+
+        presenter = new DestCardPresenter(this);
+        this.setPresenter(presenter);
 
         button = findViewById(R.id.drawDestCard);
         list = findViewById(R.id.DestCardList);
@@ -57,6 +58,7 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         list.setAdapter(adapter);
     }
 
+
     @Override
     public void addCard(DestCard card) {
         adapter.addCard(card);
@@ -68,7 +70,7 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     }
 
     private void drawCards() {
-        p.drawPressed();
+        presenter.drawPressed();
     }
 
     private void closeWindow() {
@@ -132,6 +134,12 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         }
     }
 
+    @Override
+    public void SetDeckSize(int size) {
+        TextView cardsLeft = findViewById(R.id.destCardsLeft);
+        cardsLeft.setText(size + " cards left");
+    }
+
     private void setCards() {
         setDestCard(window.getContentView().findViewById(R.id.drawDest1), draw1);
         setDestCard(window.getContentView().findViewById(R.id.drawDest2), draw2);
@@ -154,7 +162,7 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
             returnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    p.returnCard(card);
+                    presenter.returnCard(card);
                 }
             });
         }

@@ -119,11 +119,15 @@ public class Game implements IGameListEntry {
         return chat;
     }
 
-    public Set<DestCard> draw() {
+    public Set<DestCard> drawTickets() {
         return destCardDeck.drawCards();
     }
 
-    public void returnCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
+    public void returnTickets(DestCard card) throws DestCardDeck.AlreadyInDeckException {
         destCardDeck.returnCard(card);
+    }
+
+    public int destCardDeckSize() {
+        return destCardDeck.size();
     }
 }

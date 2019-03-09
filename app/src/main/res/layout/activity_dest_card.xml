@@ -25,5 +25,11 @@
             android:layout_height="wrap_content"
             android:text="@string/dest_card_draw_button"
             tools:text="@string/dest_card_draw_button" />
+
+        <TextView
+            android:id="@+id/destCardsLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 
 public class DestCardDeck {
+
     public DestCardDeck() {
         ArrayList<DestCard> temp = new ArrayList<>();
         temp.add(new DestCard(City.LOS_ANGELES, City.NEW_YORK, 21));
@@ -46,6 +47,8 @@ public class DestCardDeck {
         Collections.shuffle(temp);
         deck = new ArrayDeque<>(temp);
     }
+
+    public static final int standardSize = 30;
 
     public class AlreadyInDeckException extends Exception {
         public AlreadyInDeckException(String message) {
