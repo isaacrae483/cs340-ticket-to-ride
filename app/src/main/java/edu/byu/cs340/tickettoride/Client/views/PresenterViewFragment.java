@@ -44,4 +44,5 @@ abstract public class PresenterViewFragment extends Fragment implements IPresent
     public void makeToast(String toastText) {
         Toast.makeText(this.getContext(), toastText, Toast.LENGTH_LONG).show();
     }
+
 }

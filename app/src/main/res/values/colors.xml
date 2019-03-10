@@ -8,5 +8,6 @@
     <color name="greenPlayer">#2D6F30</color>
     <color name="blackPlayer">#000000</color>
     <color name="yellowPlayer">#FBC02D</color>
+    <color name="neutral">#696969</color>
     <color name="popupBackground">#CCCCCCCC</color>
 </resources>

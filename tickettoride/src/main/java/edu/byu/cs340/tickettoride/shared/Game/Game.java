@@ -50,7 +50,7 @@ public class Game implements IGameListEntry {
         playerTurn = players.get(playerTurnIndex).getPlayerName();
     }
 
-    public void claimRoute(Route route, Username player){
+    public void claimRoute(Route route, Player player){
         //This may need some help and extra thought.
         board.claimRoute(route, player);
     }
