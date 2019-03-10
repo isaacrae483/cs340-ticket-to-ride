@@ -119,7 +119,7 @@ public class MapFragment extends PresenterViewFragment implements IMapView{
         @Override
         public void onClick(View view) {
             mGameMapPresenter.routePressed(routeId);
-            makeToast("Route presesd with ID: " + routeId);
+            makeToast("Route pressed with ID: " + routeId);
             setColor((ImageView)view, IPlayer.Color.RED);
         }
     }

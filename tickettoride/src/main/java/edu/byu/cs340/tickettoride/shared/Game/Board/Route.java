@@ -63,4 +63,22 @@ public class Route implements IRoute {
         //set claimedBy
         this.claimedBy = claimedBy;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (o == null)
+            return false;
+        if (!(o.getClass().equals(getClass())))
+            return false;
+        Route otherRoute = (Route) o;
+        if (!((startCity.equals(otherRoute.startCity) && endCity.equals(otherRoute.getEndCity()))
+                || (startCity.equals(otherRoute.getEndCity()) && endCity.equals(otherRoute.getStartCity())))) {
+            return false;
+        }
+        if (length.equals(otherRoute.getLength()))
+            return true;
+        return false;
+    }
 }

@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -33,6 +35,13 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
         ArrayList<IRoute> routeArrayList = new ArrayList<>();
         for (int i = 0; i < NUM_ROUTES; i++) {
             routeArrayList.add(routes.getRoute(i));
+            for (int j = 0; j < NUM_ROUTES; j++) {
+                if (i == j)
+                    continue;
+                if (routes.getRoute(j).equals(routes.getRoute(i))) {
+                    Log.d("route", routes.getRoute(i).getStartCity().toString());
+                }
+            }
         }
         mMapView.setRouteList(routeArrayList);
     }
