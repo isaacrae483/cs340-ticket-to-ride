@@ -11,7 +11,6 @@ import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
 import edu.byu.cs340.tickettoride.Client.views.GameActivity;
 import edu.byu.cs340.tickettoride.Client.views.PlayerListActivity;
-import edu.byu.cs340.tickettoride.shared.Player.Hand;
 
 public class Demo {
 
