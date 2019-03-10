@@ -17,6 +17,8 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
 
     private GamePresenter mGamePresenter;
     private ImageButton mViewChatButton;
+    private ImageButton mViewPlayersButton;
+    private ImageButton mViewDestCardsButton;
 
     public static Intent newIntent(Context packageContext) {
         return new Intent(packageContext, GameActivity.class);
@@ -28,6 +30,8 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         setContentView(R.layout.activity_game);
         makeToast(getString(R.string.game_started));
         mViewChatButton = findViewById(R.id.chatButton);
+        mViewPlayersButton = findViewById(R.id.playersButton);
+        mViewDestCardsButton = findViewById(R.id.destCardsButton);
 
         GamePresenter gamePresenter = new GamePresenter(this);
         mGamePresenter = gamePresenter;
@@ -39,11 +43,26 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
                 mGamePresenter.viewChatPressed();
             }
         });
+
+
+        mViewPlayersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGamePresenter.viewPlayersPressed();
+            }
+        });
+
+        mViewDestCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGamePresenter.viewDestCardsPressed();
+            }
+        });
     }
 
     @Override
     public void moveToChat() {
-        startActivity(ChatActivity.newIntent(this));
+        startActivity(ChatActivity.newIntent(getApplicationContext()));
     }
 
     @Override
@@ -53,7 +72,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
 
     @Override
     public void moveToDestCards() {
-
+        //startActivity(DestCardActivity.newIntent(getApplicationContext()));
     }
 
     @Override
