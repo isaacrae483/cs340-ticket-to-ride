@@ -22,6 +22,10 @@ import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 
 /**
  * Created by Thomas Lewis on 2/24/19.
+ *
+ * // Dimensions
+ * 573 dp
+ * 342 dp
  */
 public class MapFragment extends PresenterViewFragment implements IMapView{
 
