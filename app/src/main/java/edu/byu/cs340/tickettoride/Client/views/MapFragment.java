@@ -119,4 +119,24 @@ public class MapFragment extends PresenterViewFragment implements IMapView{
             setColor((ImageView)view, IPlayer.Color.RED);
         }
     }
- }
+
+    @Override
+    public void displayClaimSuccess() {
+        makeToast(getResources().getString(R.string.claim_success));
+    }
+
+    @Override
+    public void displayClaimFail() {
+
+    }
+
+    @Override
+    public void displayNotEnoughCards() {
+
+    }
+
+    @Override
+    public void displayOwnedByOtherPlayer() {
+
+    }
+}

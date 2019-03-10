@@ -10,4 +10,8 @@ import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
 public interface IMapView {
     void setRouteList(List<IRoute> routeList);
     void claimRoute(IRoute route);
+    void displayClaimSuccess();
+    void displayClaimFail();
+    void displayNotEnoughCards();
+    void displayOwnedByOtherPlayer();
 }
