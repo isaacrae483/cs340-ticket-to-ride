@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -17,6 +18,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
@@ -28,6 +30,7 @@ public class ClientModel extends Observable {
     private static ClientModel _instance;
     private ClientModel(){
         hand = new Hand();
+        destCardDeckSize = DestCardDeck.standardSize;
     }
     public static ClientModel instance(){
         if (_instance == null){
@@ -41,6 +44,8 @@ public class ClientModel extends Observable {
     private ID activeGameID;
     private Hand hand;
     private Chat chatMessages;
+
+    private int destCardDeckSize;
 
     public Username getUsername() {
         return username;
@@ -75,19 +80,30 @@ public class ClientModel extends Observable {
     public void drawDestCards(DestCard card1, DestCard card2, DestCard card3) {
         if (card1 != null) {
             hand.addTicket(card1);
+            destCardDeckSize -= 1;
         }
         if (card2 != null) {
             hand.addTicket(card2);
+            destCardDeckSize -= 1;
         }
         if (card3 != null) {
             hand.addTicket(card3);
+            destCardDeckSize -=1;
         }
+
         emitEvent(new DestCardDraw(card1, card2, card3));
+        emitEvent(new DestDeckSizeChanged());
     }
 
     public void returnDestCard(DestCard toReturn) {
         hand.getDestCards().remove(toReturn);
+        destCardDeckSize += 1;
         emitEvent(new DestCardReturned(toReturn));
+        emitEvent(new DestDeckSizeChanged());
+    }
+
+    public int getDestCardDeckSize() {
+        return destCardDeckSize;
     }
 
     public List<DestCard> getDestCards() {

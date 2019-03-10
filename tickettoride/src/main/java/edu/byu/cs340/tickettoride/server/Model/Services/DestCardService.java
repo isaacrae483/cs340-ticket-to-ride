@@ -2,7 +2,6 @@ package edu.byu.cs340.tickettoride.server.Model.Services;
 
 import java.util.Set;
 
-import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -21,7 +20,7 @@ public class DestCardService {
         Game gameInfo = model.getMapStartedGames().getGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
             try {
-                gameInfo.returnCard(card);
+                gameInfo.returnTickets(card);
                 success = true;
             }
             catch (DestCardDeck.AlreadyInDeckException ex) {
@@ -40,7 +39,7 @@ public class DestCardService {
 
         Game gameInfo = model.getMapStartedGames().getGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
-            cards = gameInfo.draw();
+            cards = gameInfo.drawTickets();
             success = true;
         }
 

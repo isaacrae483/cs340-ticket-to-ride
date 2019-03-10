@@ -9,6 +9,7 @@ public interface IDestCardActivity {
     void setCards(List<DestCard> cards);
     void onCardDraw(DestCard card1, DestCard card2, DestCard card3);
     void onCardReturn(DestCard card, ReturnCardLimit cardLimit);
+    void SetDeckSize(int size);
 
     class ReturnCardLimit {
         private int limit;

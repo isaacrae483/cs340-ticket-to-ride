@@ -28,11 +28,24 @@ import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
+/**
+ * The ServerFacade class holds all operations that the client needs to perform on the server.
+ * It is a singleton with the instance stored as the static SINGLETON field.
+ */
 public class ServerFacade implements IServer, IClientObservable{
+    /**
+     * The set of observers that need to be notified when the server state changes
+     */
     private Set<IClientObserver> observers = new HashSet<>();
 
+    /**
+     * This class is a singleton, so here is the instance
+     */
     public static final ServerFacade SINGLETON = new ServerFacade();
 
+    /**
+     * Only to be called internally since this class is a singleton
+     */
     private ServerFacade () {}
 
     /**
@@ -135,12 +148,29 @@ public class ServerFacade implements IServer, IClientObservable{
     }
 
 
+    /**
+     * pre: username is a valid user that is a part of game
+     * post: the DrawTickets results ha success set to true and contains at most three cards from
+     *  the deck; less if the deck is nearly empty or 0 if empty. Those cards are not longer stored
+     *  on the server.
+     * @param username the user drawing the tickets
+     * @param game the game the user wishes to drawTickets tickets from
+     * @return a DrawTicketsResult containing the success of the operation
+     *  as well as the cards drawn if the operation was a success
+     */
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {
         DrawTicketsResult res = new DestCardService().drawTickets(username, game);
         return res;
     }
 
+    /**
+     * pre: ChatMessage contains a valid user that is a part of the specified game (in the chat message).
+     *  the message is not null
+     * post: The chat is added to the game and a command saying so is given to each other user in the game.
+     * @param message the ChatMessage sent to the server
+     * @return a ChatResult with the success of the operation
+     */
     @Override
     public ChatResult chat(ChatMessage message) {
         ChatResult res = new ChatService().chat(message.getUser(), message.getMessage(),
@@ -155,6 +185,14 @@ public class ServerFacade implements IServer, IClientObservable{
         return res;
     }
 
+    /**
+     * pre: Username is a valid user and a part of the game spacified by the ID.
+     * post: the card is added to the end of the destination card deck for the game.
+     * @param username the user returning tickets
+     * @param card the card that the user is returning
+     * @param game the game the user is playing
+     * @return a ReturnTicketResult conatining the success of the operation and the ticket returned.
+     */
     @Override
     public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         ReturnTicketResult res = new DestCardService().returnTickets(username, card, game);
@@ -174,6 +212,8 @@ public class ServerFacade implements IServer, IClientObservable{
 
     /**
      *  FOR TESTING PURPOSES ONLY
+     *  pre: none
+     *  post: returns the number of observers
      * @return the number of observers.
      */
     public int NumObservers() {
@@ -181,7 +221,10 @@ public class ServerFacade implements IServer, IClientObservable{
     }
 
     /**
-     *REsets the facade. FOR TESTING PURPOSES ONLY
+     *Resets the facade. FOR TESTING PURPOSES ONLY
+     * pre: none
+     * post: the Serverfacade and ServerModel are in the state as if their constructors were just
+     *  called
      */
     public void Reset() {
         observers = new HashSet<>();

@@ -13,6 +13,7 @@ import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
+import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
@@ -38,14 +39,13 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         //DEBUG SECTION
         //new DebugSetup().execute();
         //END DEBUG SECTION
+        view.SetDeckSize(model.getDestCardDeckSize());
     }
 
-    private boolean done;
+
     @Override
     public void drawPressed() {
-        if (done) {
-            modelFacade.drawTickets();
-        }
+        modelFacade.drawTickets();
     }
 
     @Override
@@ -72,6 +72,9 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         }
         else if (o instanceof ReturnDestCardFailed) {
             view.makeToast("RETURNING A DEST CARD FAILED");
+        }
+        else if (o instanceof DestDeckSizeChanged) {
+            view.SetDeckSize(model.getDestCardDeckSize());
         }
     }
 
@@ -115,7 +118,7 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
         @Override
         protected void onPostExecute(Void result) {
-            DestCardPresenter.this.done = true;
+            //DestCardPresenter.this.done = true;
         }
     }
 }
