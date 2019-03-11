@@ -239,6 +239,7 @@ public class ClientModel extends EventEmitter {
 
     public void updatePlayerTurn(){
         activeGame.nextPlayerTurn();
+        emitEvent(new Event(){});
     }
 
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {
