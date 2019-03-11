@@ -2,7 +2,6 @@ package edu.byu.cs340.tickettoride.Client;
 
 
 import android.os.Handler;
-import android.util.Log;
 
 import edu.byu.cs340.tickettoride.Client.ClientCommands.CommandFactory;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;

@@ -4,7 +4,6 @@ import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class IncrementPlayersCommand implements ICommand {
     public IncrementPlayersCommand(Player player, ID gameID) {
