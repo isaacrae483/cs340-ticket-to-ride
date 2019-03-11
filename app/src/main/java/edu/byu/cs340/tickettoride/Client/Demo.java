@@ -213,7 +213,7 @@ public class Demo {
             model.addChatMessage(
                     new ChatMessage("DIS BE A TEST MESSAGE",
                             new Username("JOE"),
-                            ID.generate()));
+                            model.getActiveGameID()));
         }
         catch (Username.InvalidUserNameException e){
             e.printStackTrace();
