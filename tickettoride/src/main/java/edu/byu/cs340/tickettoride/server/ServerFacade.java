@@ -13,6 +13,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
+import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
@@ -191,6 +192,18 @@ public class ServerFacade implements IServer, IClientObservable{
     public void playerDrew(Player p, List<TrainCard> cards) {
         for (IClientObserver o : observers) {
             o.OnDraw(cards, p);
+        }
+    }
+
+    public void SetFaceUpCard(Game game, TrainCard card, int pos) {
+        for (Player p : game.getPlayers()) {
+            ServerModel.SINGLETON.getCommandList().AddCommand(
+                    p.getPlayerName(), new ClientCommandData(
+                            ClientCommandData.CommandType.REPLACE_FACE_UP,
+                            card,
+                            pos
+                    )
+            );
         }
     }
 

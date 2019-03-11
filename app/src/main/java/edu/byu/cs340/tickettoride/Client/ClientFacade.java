@@ -65,8 +65,10 @@ public class ClientFacade implements IClient {
         }
     }
 
-
-
+    @Override
+    public void setFaceUpCard(TrainCard cards, int pos) {
+        model.replaceFaceUpTrainCard(cards, pos);
+    }
 
 
 }

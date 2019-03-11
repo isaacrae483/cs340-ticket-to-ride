@@ -43,6 +43,11 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
+    public void OnFaceUpUpdate(TrainCard card, int pos) {
+        this.setFaceUpCard(card, pos);
+    }
+
+    @Override
     public void OnChat(ChatMessage message) {
         ServerModel model = ServerModel.SINGLETON;
         Game game = model.getMapStartedGames().getGame(message.getGame());
@@ -96,6 +101,17 @@ public class ClientProxy implements IClientObserver, IClient {
                         ClientCommandData.CommandType.ADD_CARDS,
                         cards,
                         p
+                )
+        );
+    }
+
+    @Override
+    public void setFaceUpCard(TrainCard card, int pos) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                user, new ClientCommandData(
+                        ClientCommandData.CommandType.REPLACE_FACE_UP,
+                        card,
+                        pos
                 )
         );
     }

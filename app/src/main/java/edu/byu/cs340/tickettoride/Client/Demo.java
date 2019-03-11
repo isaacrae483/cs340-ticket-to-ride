@@ -191,13 +191,9 @@ public class Demo {
         model.updateOppDestCard(new DestCard(City.WASHINGTON, City.MIAMI, 15));
     }
 
-//second half of the demo, Avery is writing
-    private void secondHalf() {
-        context.startActivity(new Intent(context, GameActivity.class));
-    }
-
     //Update the visible (face up) cards in the train card deck
     private void updateFaceUp() {
+        context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "UPDATING FACE UP CARDS", Toast.LENGTH_LONG).show();
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 1);

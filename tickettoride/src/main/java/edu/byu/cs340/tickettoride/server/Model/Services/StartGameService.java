@@ -6,6 +6,7 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerFacade;
 import edu.byu.cs340.tickettoride.server.ServerModel;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -27,6 +28,12 @@ public class StartGameService  {
             for (Player p : game.getPlayers()) {
                 this.PlayerDrawCards(p, game);
             }
+            final int DEST_CARD_SIZE = 5;
+            List<TrainCard> cards = new ArrayList<>();
+            for (int i = 0; i < DEST_CARD_SIZE; ++i) {
+                cards.add(game.drawCard());
+            }
+            InitializeFaceUp(cards, game);
         }
         else {
             res = new StartGameResult(false);
@@ -42,5 +49,11 @@ public class StartGameService  {
             hand.add(game.drawCard());
         }
         ServerFacade.SINGLETON.playerDrew(p, hand);
+    }
+
+    private void InitializeFaceUp(List<TrainCard> cards, Game game) {
+        for (int i = 0; i < cards.size(); ++i) {
+            ServerFacade.SINGLETON.SetFaceUpCard(game, cards.get(i), i);
+        }
     }
 }

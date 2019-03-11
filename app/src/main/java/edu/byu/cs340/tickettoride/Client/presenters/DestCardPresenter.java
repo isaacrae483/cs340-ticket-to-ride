@@ -66,10 +66,12 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         if (o instanceof DestCardDraw) {
             DestCardDraw draw = (DestCardDraw) o;
             view.onCardDraw(draw.getCard1(), draw.getCard2(), draw.getCard3());
+            syncWithModel();
         }
         else if (o instanceof DestCardReturned) {
             DestCardReturned returned = (DestCardReturned) o;
             view.onCardReturn(returned.getReturned(), limit);
+            syncWithModel();
             if (limit.value() == 1) {
                 limit = IDestCardActivity.ReturnCardLimit.Two();
             }
