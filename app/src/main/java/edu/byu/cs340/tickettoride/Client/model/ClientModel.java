@@ -155,7 +155,6 @@ public class ClientModel extends EventEmitter {
     public void addChatMessage(ChatMessage chat){
         if(chatMessages == null){
             chatMessages = new Chat(activeGameID);
-            emitEvent(new ChatAdded(chat));
         }
         try{
             chatMessages.add(chat);

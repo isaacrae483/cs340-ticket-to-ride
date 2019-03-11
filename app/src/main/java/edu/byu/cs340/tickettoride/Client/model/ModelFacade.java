@@ -118,14 +118,12 @@ public class ModelFacade implements IModelFacade, ICallBack {
 
     @Override
     public void sendChat(ChatMessage message){
-        //model.addChatMessage(message);
         GenericData info = new GenericData("chat",
                 new Class<?>[] {ChatMessage.class},
                 new Object[] {message});
 
         GenericTask task = new GenericTask<ChatResult>(this);
         task.execute(info);
-
     }
 
     @Override
