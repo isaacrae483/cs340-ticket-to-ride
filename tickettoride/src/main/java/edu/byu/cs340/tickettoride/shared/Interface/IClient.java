@@ -1,5 +1,9 @@
 package edu.byu.cs340.tickettoride.shared.Interface;
 
+import java.util.List;
+
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -11,4 +15,5 @@ public interface IClient {
     void addGame(Game game);
     void startGame(ID gameId);
     void receiveChat(ChatMessage chatMessage);
+    void addCards(List<TrainCard> cards);
 }

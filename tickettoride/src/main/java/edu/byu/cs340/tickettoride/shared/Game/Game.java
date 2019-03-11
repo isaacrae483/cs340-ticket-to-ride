@@ -8,6 +8,7 @@ import java.util.Set;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Board;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -129,6 +130,10 @@ public class Game extends EventBubbler implements IGameListEntry {
 
     public void returnTickets(DestCard card) throws DestCardDeck.AlreadyInDeckException {
         destCardDeck.returnCard(card);
+    }
+
+    public TrainCard drawCard() {
+        return trainCardDeck.drawCard();
     }
 
     public int destCardDeckSize() {
