@@ -12,6 +12,7 @@ import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
 import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
 import edu.byu.cs340.tickettoride.Client.views.GameActivity;
 import edu.byu.cs340.tickettoride.Client.views.PlayerListActivity;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -194,7 +195,7 @@ public class Demo {
     private void addClaimedRoute(final Handler handler) {
         context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "CLAIMING ROUTE", Toast.LENGTH_LONG).show();
-        //model.
+        model.claimRoute(model.getRoutes().getRoute(0));
         run(handler, new Runnable() {
             @Override
             public void run() {
