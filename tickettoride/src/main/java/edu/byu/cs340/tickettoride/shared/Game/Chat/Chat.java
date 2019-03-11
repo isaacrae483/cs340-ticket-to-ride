@@ -6,8 +6,9 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.shared.Game.EventBubbler;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 
-public class Chat {
+public class Chat extends EventBubbler {
 
     private List<ChatMessage> messages;
     private ID game;
@@ -29,8 +30,10 @@ public class Chat {
     }
 
     public void add(ChatMessage message) throws InvalidChatException {
-        if (!game.getId().equals(message.getGame().toString())) {
-            messages.add(message);;
+        if (game.getId().equals(message.getGame().toString())) {
+            messages.add(message);
+/*            ChatAdded  chatEvent = new ChatAdded(message);
+            update(chatEvent);*/
         }
         else {
             InvalidChatException ex =
