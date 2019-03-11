@@ -1,7 +1,7 @@
-package edu.byu.cs340.tickettoride.Client.model.events.destCard;
+package edu.byu.cs340.tickettoride.shared.Game.events.destCard;
 
 
-import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 
 public class DestCardDraw implements Event {

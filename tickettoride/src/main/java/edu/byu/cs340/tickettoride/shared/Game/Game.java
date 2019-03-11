@@ -16,7 +16,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Game implements IGameListEntry {
+public class Game extends EventBubbler implements IGameListEntry {
     private ID id;
     private List<Player> players;
     private int numPlayers;
@@ -25,9 +25,9 @@ public class Game implements IGameListEntry {
     boolean gameStarted = false;
     private Chat chat;
     private Board board;
-    private TrainCardDeck trainCardDeck;
+    private TrainCardDeck trainCardDeck = new TrainCardDeck();
     private DestCardDeck destCardDeck  = new DestCardDeck();
-    private Bank bank;
+    private Bank bank = new Bank();
     private Username playerTurn;
     private int playerTurnIndex;
     public Game() {
@@ -43,6 +43,10 @@ public class Game implements IGameListEntry {
         board = new Board();
         playerTurnIndex = 0;
 //        playerTurn = players.get(playerTurnIndex).getPlayerName();
+    }
+
+    public int getPlayerTurnIndex() {
+        return playerTurnIndex;
     }
 
     private void nextPlayerTurn(){

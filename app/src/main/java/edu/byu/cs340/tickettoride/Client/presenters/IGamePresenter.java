@@ -7,5 +7,4 @@ public interface IGamePresenter extends IPresenter {
     void viewChatPressed();
     void viewPlayersPressed();
     void viewDestCardsPressed();
-    void viewDeckPressed();
 }

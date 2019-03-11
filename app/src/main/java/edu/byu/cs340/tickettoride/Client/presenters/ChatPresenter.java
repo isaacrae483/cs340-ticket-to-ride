@@ -5,11 +5,7 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
-import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatAdded;
-import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
+import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
 import edu.byu.cs340.tickettoride.Client.views.IChatView;

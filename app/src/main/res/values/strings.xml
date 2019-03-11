@@ -44,4 +44,5 @@
     <string name="returnDestCardButton">Return</string>
     <string name="cityTo">to</string>
     <string name="claim_success">Route Claimed!</string>
+    <string name="title_activity_player_list">PlayerListActivity</string>
 </resources>

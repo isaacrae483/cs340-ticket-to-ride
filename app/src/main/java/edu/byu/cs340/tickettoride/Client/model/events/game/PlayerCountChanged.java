@@ -1,6 +1,6 @@
 package edu.byu.cs340.tickettoride.Client.model.events.game;
 
-import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 
 /**

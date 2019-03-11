@@ -3,6 +3,8 @@ package edu.byu.cs340.tickettoride.shared.Game.Chat;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.shared.Game.EventBubbler;
+import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 
 public class Chat {
@@ -28,7 +30,7 @@ public class Chat {
 
     public void add(ChatMessage message) throws InvalidChatException {
         if (!game.getId().equals(message.getGame().toString())) {
-            messages.add(message);
+            messages.add(message);;
         }
         else {
             InvalidChatException ex =

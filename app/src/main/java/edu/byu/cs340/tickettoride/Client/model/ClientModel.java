@@ -1,14 +1,19 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
 import java.util.List;
-import java.util.Observable;
 
-import edu.byu.cs340.tickettoride.Client.model.events.ErrorEvent;
-import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
+import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
+import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -26,10 +31,12 @@ import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientModel extends Observable {
+public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
         hand = new Hand();
+        trainCardDeck = new TrainCardDeck();
+        bank = new Bank();
         destCardDeckSize = DestCardDeck.standardSize;
     }
     public static ClientModel instance(){
@@ -39,11 +46,14 @@ public class ClientModel extends Observable {
         return _instance;
     }
 
+    private Game activeGame;
     private Username username;
     private MapGames games = new MapGames();
     private ID activeGameID;
     private Hand hand;
     private Chat chatMessages;
+    private TrainCardDeck trainCardDeck;
+    private Bank bank;
 
     private int destCardDeckSize;
 
@@ -53,8 +63,7 @@ public class ClientModel extends Observable {
 
     public void setUsername(Username username) {
         this.username = username;
-        setChanged();
-        notifyObservers(new LoginSuccess());
+        emitEvent(new LoginSuccess());
     }
 
     public MapGames getGames() {
@@ -121,7 +130,6 @@ public class ClientModel extends Observable {
         emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
-
     // Active Game is defined as the game the user is currently observing, whether or not it has started.
     public ID getActiveGameID() {
         return activeGameID;
@@ -129,11 +137,12 @@ public class ClientModel extends Observable {
 
     public void setActiveGameID(ID activeGameID) {
         this.activeGameID = activeGameID;
+        activeGame = getGame(getActiveGameID());
         emitEvent(new ActiveGameChanged());
     }
 
     public Game getActiveGame() {
-        return getGame(getActiveGameID());
+        return activeGame;
     }
 
     public void addChatMessage(ChatMessage chat){
@@ -151,13 +160,99 @@ public class ClientModel extends Observable {
         return chatMessages;
     }
 
-    public void passErrorEvent(ErrorEvent errorEvent) {
-        emitEvent(errorEvent);
+    public List<TrainCard> getPlayerTrainCards() {
+        return hand.getTrainCards();
     }
 
-    private void emitEvent(Event event) {
-        setChanged();
-        notifyObservers(event);
+    public List<TrainCard> getCardsInBank() {
+        return bank.getCards();
     }
+
+    public int getTrainCardDeckSize() {
+        return trainCardDeck.getSize();
+    }
+
+//    public void passErrorEvent(ErrorEvent errorEvent) {
+//        emitEvent(errorEvent);
+//    }
+//
+//    private void emitEvent(Event event) {
+//        setChanged();
+//        notifyObservers(event);
+//    }
+
+    //for Demo first half
+    public void updatePoints(int points){
+        for(Player player : activeGame.getPlayers()){
+            if(player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.addPoints(points);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void addTrainCard(TrainCard card){
+        hand.addCard(card);
+        emitEvent(new HandChanged());//should pass a real event
+    }
+    public void removeTrainCard(TrainCard card){
+        hand.removeCards(1, card.getColor());
+        emitEvent(new HandChanged());//should pass a real event
+    }
+
+    public void addDestCard(DestCard card){
+        hand.addTicket(card);
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppTrainCard(TrainCard card){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.getHand().addCard(card);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppTrainCars(int cars){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.playTrains(cars);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppDestCard(DestCard card){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.getHand().addTicket(card);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+
+    public void replaceFaceUpTrainCard(TrainCard card, int pos) {
+        bank.replaceCard(pos, card);
+        emitEvent(new BankCardsChanged());
+    }
+
+
+
+    public void modifyTrainCardDeckSize(int deckSize) {
+        trainCardDeck.drawCard();
+        emitEvent(new TCDeckSizeChanged());
+    }
+
+
+
+//    public void passErrorEvent(ErrorEvent errorEvent) {
+//        emitEvent(errorEvent);
+//    }
+//
+//    private void emitEvent(Event event) {
+//        setChanged();
+//        notifyObservers(event);
+//    }
 
 }
