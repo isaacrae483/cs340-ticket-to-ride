@@ -20,8 +20,8 @@ public class ChatService {
         }
         else {
             try {
-                chatGame.getChat().add(new ChatMessage(message, username, game));
                 chat = new ChatMessage(message, username, game);
+                chatGame.getChat().add(chat);
             } catch (Chat.InvalidChatException ex) {
                 success = false;
             }

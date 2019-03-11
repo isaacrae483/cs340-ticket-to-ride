@@ -10,5 +10,5 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public interface IChatView {
     void setChatList(List<ChatMessage> messages);
 
-    void displayNewMessage(Username username, String message);
+    void displayNewMessage(ChatMessage message);
 }

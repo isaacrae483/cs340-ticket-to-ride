@@ -204,6 +204,7 @@ public class Demo {
     //Advance player turn (change the turn indicator so it indicates another player)
     private void advanceTurn(final Handler handler) {
         context.startActivity(new Intent(context, PlayerListActivity.class));
+        model.updatePlayerTurn();
         Toast.makeText(context, "ADVANCING PLAYER TURN", Toast.LENGTH_LONG).show();
     }
 }
