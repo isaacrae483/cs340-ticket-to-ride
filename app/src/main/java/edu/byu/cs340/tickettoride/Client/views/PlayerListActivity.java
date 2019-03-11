@@ -27,11 +27,11 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class PlayerListActivity extends PresenterViewActivity implements IPlayerListView {
-    Game mGame;
-
     private IPlayerListPresenter mPlayerListPresenter;
     private RecyclerView mPlayerList;
     private PlayerAdapter mPlayerAdapter;
+
+    private int mCurrentPlayer;
 
     public static Intent newIntent(Context context) {
         return new Intent(context, PlayerListActivity.class);
@@ -42,8 +42,6 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_list);
 
-        mGame = ClientModel.instance().getActiveGame();
-
         mPlayerList = findViewById(R.id.playerList);
         mPlayerList.setLayoutManager(new LinearLayoutManager(this));
         mPlayerList.addItemDecoration(
@@ -53,18 +51,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
                 )
         );
 
-/*
-        List<Player> list = new ArrayList<>();
-        try {
-            list.add(new Player(new Username("dude"), IPlayer.Color.GREEN));
-            list.add(new Player(new Username("guy"), IPlayer.Color.BLUE));
-        } catch (Username.InvalidUserNameException e) {
-            e.printStackTrace();
-        }
-
-        mPlayerAdapter = new PlayerAdapter(list);
-*/
-        mPlayerAdapter = new PlayerAdapter(mGame.getPlayers());
+        mPlayerAdapter = new PlayerAdapter(new ArrayList<Player>());
         mPlayerList.setAdapter(mPlayerAdapter);
 
         mPlayerListPresenter = new PlayerListPresenter(this);
@@ -72,8 +59,8 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
     }
 
     @Override
-    public void updateData() {
-        mPlayerAdapter.notifyDataSetChanged();
+    public void updateData(List<Player> players, int currentPlayer) {
+        mPlayerAdapter.updateDataSet(players, currentPlayer);
     }
 
     private class PlayerHolder extends RecyclerView.ViewHolder {
@@ -95,7 +82,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         }
 
         public void bind(Player player, int i) {
-            if (i != mGame.getPlayerTurnIndex()) {
+            if (i != mCurrentPlayer) {
 //            if (i != 0) {
                 mTurnIndicator.setVisibility(View.INVISIBLE);
             }
@@ -151,6 +138,13 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         @Override
         public int getItemCount() {
             return mPlayerList.size();
+        }
+
+        public void updateDataSet(List<Player> data, int currentPlayer) {
+            mPlayerList.clear();
+            mPlayerList.addAll(data);
+            mCurrentPlayer = currentPlayer;
+            notifyDataSetChanged();
         }
     }
 }

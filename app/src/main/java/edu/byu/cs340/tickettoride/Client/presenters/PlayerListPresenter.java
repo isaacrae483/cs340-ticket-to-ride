@@ -1,20 +1,30 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
+import java.util.Observable;
+
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.views.IPlayerListView;
+import edu.byu.cs340.tickettoride.shared.Game.Game;
 
 public class PlayerListPresenter extends Presenter implements IPlayerListPresenter {
     private IPlayerListView mPlayerListView;
-    private ClientModel model = ClientModel.instance();
+    private Game mGame = ClientModel.instance().getActiveGame();
 
     public PlayerListPresenter(IPlayerListView view) {
         super();
-        this.mPlayerListView = mPlayerListView;
+        this.mPlayerListView = view;
+        mPlayerListView.updateData(mGame.getPlayers(), mGame.getPlayerTurnIndex());
     }
 
     @Override
     public void syncWithModel() {
         super.syncWithModel();
-        mPlayerListView.updateData();
+        mPlayerListView.updateData(mGame.getPlayers(), mGame.getPlayerTurnIndex());
+    }
+
+    @Override
+    public void update(Observable observable, Object o) {
+        super.update(observable, o);
+        syncWithModel();
     }
 }
