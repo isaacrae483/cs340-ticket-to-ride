@@ -67,8 +67,13 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         mPlayerAdapter = new PlayerAdapter(mGame.getPlayers());
         mPlayerList.setAdapter(mPlayerAdapter);
 
-        mPlayerListPresenter = new PlayerListPresenter();
+        mPlayerListPresenter = new PlayerListPresenter(this);
         setPresenter(mPlayerListPresenter);
+    }
+
+    @Override
+    public void updateData() {
+        mPlayerAdapter.notifyDataSetChanged();
     }
 
     private class PlayerHolder extends RecyclerView.ViewHolder {
