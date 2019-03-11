@@ -13,4 +13,9 @@ public class Points {
     public int getPoints() {
         return points;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(points);
+    }
 }

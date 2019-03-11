@@ -36,8 +36,6 @@ public class ID{
 
     @Override
     public String toString() {
-        return "ID{" +
-                "id='" + id + '\'' +
-                '}';
+        return id;
     }
 }
