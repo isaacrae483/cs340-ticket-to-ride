@@ -1,10 +1,12 @@
 package edu.byu.cs340.tickettoride.server.Model;
 
+import java.util.List;
 import java.util.Objects;
 
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -36,6 +38,13 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
+    public void OnDraw(List<TrainCard> cards, Player p) {
+        if (p.getPlayerName().equals(this.user)) {
+            this.addCards(cards);
+        }
+    }
+
+    @Override
     public void OnChat(ChatMessage message) {
         ServerModel model = ServerModel.SINGLETON;
         Game game = model.getMapStartedGames().getGame(message.getGame());
@@ -43,6 +52,7 @@ public class ClientProxy implements IClientObserver, IClient {
             receiveChat(message);
         }
     }
+
 
     @Override
     public void incrementPlayers(ID id, Player player) {
@@ -77,6 +87,16 @@ public class ClientProxy implements IClientObserver, IClient {
                 user, new ClientCommandData(
                         ClientCommandData.CommandType.CHAT,
                         message.getUser(), message.getGame(), message.getMessage()
+                )
+        );
+    }
+
+    @Override
+    public void addCards(List<TrainCard> cards) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                user, new ClientCommandData(
+                        ClientCommandData.CommandType.ADD_CARDS,
+                        cards
                 )
         );
     }

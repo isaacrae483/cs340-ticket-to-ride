@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.server;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
@@ -14,10 +15,12 @@ import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
 import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
@@ -183,6 +186,12 @@ public class ServerFacade implements IServer, IClientObservable{
         }
 
         return res;
+    }
+
+    public void playerDrew(Player p, List<TrainCard> cards) {
+        for (IClientObserver o : observers) {
+            o.OnDraw(cards, p);
+        }
     }
 
     /**
