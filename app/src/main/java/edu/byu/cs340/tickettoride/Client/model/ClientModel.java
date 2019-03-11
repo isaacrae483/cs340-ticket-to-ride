@@ -1,12 +1,12 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
 import java.util.List;
-import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
-import edu.byu.cs340.tickettoride.shared.Game.EventBubbler;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
-import edu.byu.cs340.tickettoride.shared.Game.events.ErrorEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
@@ -33,6 +33,8 @@ public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
         hand = new Hand();
+        trainCardDeck = new TrainCardDeck();
+        bank = new Bank();
         destCardDeckSize = DestCardDeck.standardSize;
     }
     public static ClientModel instance(){
@@ -48,6 +50,8 @@ public class ClientModel extends EventEmitter {
     private ID activeGameID;
     private Hand hand;
     private Chat chatMessages;
+    private TrainCardDeck trainCardDeck;
+    private Bank bank;
 
     private int destCardDeckSize;
 
@@ -124,7 +128,6 @@ public class ClientModel extends EventEmitter {
         emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
-
     // Active Game is defined as the game the user is currently observing, whether or not it has started.
     public ID getActiveGameID() {
         return activeGameID;
@@ -155,6 +158,18 @@ public class ClientModel extends EventEmitter {
         return chatMessages;
     }
 
+    public List<TrainCard> getPlayerTrainCards() {
+        return hand.getTrainCards();
+    }
+
+    public List<TrainCard> getCardsInBank() {
+        return bank.getCards();
+    }
+
+    public int getTrainCardDeckSize() {
+        return trainCardDeck.getSize();
+    }
+
 //    public void passErrorEvent(ErrorEvent errorEvent) {
 //        emitEvent(errorEvent);
 //    }
@@ -176,12 +191,13 @@ public class ClientModel extends EventEmitter {
     }
     public void addTrainCard(TrainCard card){
         hand.addCard(card);
-        emitEvent(new Event() {});//should pass a real event
+        emitEvent(new HandChanged());//should pass a real event
     }
     public void removeTrainCard(TrainCard card){
         hand.removeCards(1, card.getColor());
-        emitEvent(new Event() {});//should pass a real event
+        emitEvent(new HandChanged());//should pass a real event
     }
+
     public void addDestCard(DestCard card){
         hand.addTicket(card);
         emitEvent(new Event() {});//should pass a real event
@@ -212,6 +228,14 @@ public class ClientModel extends EventEmitter {
             }
         }
         emitEvent(new Event() {});//should pass a real event
+    }
+
+    public void addFaceUpTrainCard(TrainCard card) {
+
+    }
+
+    public void modifyDeckSize(int deckSize) {
+
     }
 
 

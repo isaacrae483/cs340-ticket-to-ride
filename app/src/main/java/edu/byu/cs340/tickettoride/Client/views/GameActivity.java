@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,11 +16,12 @@ import edu.byu.cs340.tickettoride.Client.Demo;
 import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 /**
  * Created by Thomas Lewis on 2/6/19.
  */
-public class GameActivity extends PresenterViewActivity implements IGameView, IPlayerCardsView, IDeckView {
+public class GameActivity extends PresenterViewActivity implements IGameView {
 
     private GamePresenter mGamePresenter;
     private ImageButton mViewChatButton;
@@ -39,6 +41,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView, IP
     TextView mRainbowCards;
 
     //Deck cards members
+    TextView mDeckSize;
     ImageView mDeckButton;
     ImageView mCardOne;
     ImageView mCardTwo;
@@ -71,6 +74,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView, IP
         mRainbowCards = findViewById(R.id.wildCards);
 
         //Deck cards members
+        mDeckSize = findViewById(R.id.deckSize);
         mDeckButton = findViewById(R.id.deck);
         mCardOne = findViewById(R.id.cardOne);
         mCardTwo = findViewById(R.id.cardTwo);
@@ -125,13 +129,62 @@ public class GameActivity extends PresenterViewActivity implements IGameView, IP
     }
 
     @Override
+    public void setDeckSize(int size) {
+        mDeckSize.setText("Size: " + Integer.toString(size));
+    }
+
+    @Override
     public void setCardsAvailable(List<TrainCard> availableCards) {
+        // bank can only have 5 cards
+        bindTrainCardToButton(availableCards.get(0), mCardOne);
+        bindTrainCardToButton(availableCards.get(1), mCardTwo);
+        bindTrainCardToButton(availableCards.get(2), mCardThree);
+        bindTrainCardToButton(availableCards.get(3), mCardFour);
+        bindTrainCardToButton(availableCards.get(4), mCardFive);
+
+    }
+
+    private void bindTrainCardToButton(TrainCard card, ImageView cardButton) {
+        if (card == null) {
+            cardButton.setVisibility(View.GONE);
+            return;
+        }
+        Colors cardColor = card.getColor();
+        switch (cardColor) {
+            case BLACK:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.black));
+                break;
+            case WHITE:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.white));
+                break;
+            case ORANGE:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.orange));
+                break;
+            case BLUE:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.blue));
+                break;
+            case YELLOW:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.yellow));
+                break;
+            case PINK:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.pink));
+                break;
+            case GREEN:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.green));
+                break;
+            case RED:
+                cardButton.setBackgroundColor(getResources().getColor(R.color.red));
+                break;
+            case RAINBOW:
+                cardButton.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.wild_gradient));
+                break;
+        }
 
     }
 
     @Override
     public void setDeckVisible(Boolean isVisible) {
-
+        mDeckButton.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

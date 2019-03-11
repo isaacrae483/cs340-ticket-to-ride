@@ -25,9 +25,9 @@ public class Game extends EventBubbler implements IGameListEntry {
     boolean gameStarted = false;
     private Chat chat;
     private Board board;
-    private TrainCardDeck trainCardDeck;
+    private TrainCardDeck trainCardDeck = new TrainCardDeck();
     private DestCardDeck destCardDeck  = new DestCardDeck();
-    private Bank bank;
+    private Bank bank = new Bank();
     private Username playerTurn;
     private int playerTurnIndex;
     public Game() {

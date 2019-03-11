@@ -43,4 +43,8 @@ public class TrainCardDeck {
     public void returnCard(TrainCard card) {
         deck.addLast(card);
     }
+
+    public int getSize() {
+        return deck.size();
+    }
 }

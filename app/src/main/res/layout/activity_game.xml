@@ -256,6 +256,15 @@
             android:textAlignment="center"
             android:textColor="@color/black" />
 
+        <TextView
+            android:id="@+id/deckSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Size: 0"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
         <ImageView
             android:id="@+id/deck"
             android:layout_width="wrap_content"

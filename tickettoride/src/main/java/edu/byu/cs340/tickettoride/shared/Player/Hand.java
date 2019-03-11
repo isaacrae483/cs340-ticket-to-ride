@@ -32,6 +32,11 @@ public class Hand {
         return destCards;
     }
 
+    public List<TrainCard> getTrainCards() {
+        return trainCards;
+    }
+
+
     /**
      * pre: card != Null
      * post: size of trainCards one larger than it was
