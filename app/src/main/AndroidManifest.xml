@@ -27,6 +27,7 @@
         <activity
             android:name=".Client.views.DestCardActivity"
             android:label="@string/title_activity_dest_card"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
