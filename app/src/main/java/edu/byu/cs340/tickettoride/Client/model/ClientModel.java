@@ -1,10 +1,16 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
@@ -54,6 +60,7 @@ public class ClientModel extends EventEmitter {
     private Chat chatMessages;
     private TrainCardDeck trainCardDeck;
     private Bank bank;
+    private Routes mRoutes = new Routes();
 
     private int destCardDeckSize;
 
@@ -237,7 +244,14 @@ public class ClientModel extends EventEmitter {
         emitEvent(new BankCardsChanged());
     }
 
-
+    public Routes getRoutes() {
+        return getRoutes();
+    }
+    public void claimRoute(Route route) {
+        Route modelRoute = mRoutes.getRoute(route.getId());
+        modelRoute.claimRoute(route.getClaimedBy());
+        emitEvent(new RouteClaimed(modelRoute));
+    }
 
     public void modifyTrainCardDeckSize(int deckSize) {
         trainCardDeck.drawCard();
