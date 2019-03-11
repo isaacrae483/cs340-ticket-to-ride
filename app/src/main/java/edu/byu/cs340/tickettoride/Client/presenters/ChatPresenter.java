@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
+import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
 import edu.byu.cs340.tickettoride.Client.views.IChatView;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 
@@ -15,7 +16,7 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
     private ModelFacade mModelFacade;
     private ChatMessage mChatMessage = null;
 
-    public ChatPresenter(IChatView view) {
+    public ChatPresenter(ChatActivity view) {
         mModelFacade = ModelFacade.instance();
         this.mChatView = view;
     }
@@ -34,7 +35,7 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
         super.update(observable, o);
         if (o instanceof ChatAdded) {
             ChatAdded e = (ChatAdded) o;
-            mChatView.displayNewMessage(e.getMessage().getUser(), e.getMessage().getMessage());
+            mChatView.displayNewMessage(e.getMessage());
         } else if (o instanceof GameListChanged) {
             syncWithModel();
         }
