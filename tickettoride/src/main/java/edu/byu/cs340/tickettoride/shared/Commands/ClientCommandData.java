@@ -35,9 +35,10 @@ public class ClientCommandData {
         this.type = type;
     }
 
-    public ClientCommandData(CommandType type, List<TrainCard> cards) {
+    public ClientCommandData(CommandType type, List<TrainCard> cards, Player player) {
         this.type = type;
         this.cards = cards;
+        this.player = player;
     }
 
     public ID id;

@@ -53,11 +53,20 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void addCards(List<TrainCard> cards) {
+    public void addCards(List<TrainCard> cards, Player player) {
+
+        if (player.getPlayerName().equals(model.getUsername())) {
+            for (TrainCard card : cards) {
+                ClientModel.instance().addTrainCard(card);
+            }
+        }
         for (TrainCard card : cards) {
-            ClientModel.instance().addTrainCard(card);
+            model.getActiveGame().getPlayer(player.getColor()).getHand().addCard(card);
         }
     }
+
+
+
 
 
 }

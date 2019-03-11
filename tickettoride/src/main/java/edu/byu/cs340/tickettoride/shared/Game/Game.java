@@ -13,7 +13,9 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -138,5 +140,14 @@ public class Game extends EventBubbler implements IGameListEntry {
 
     public int destCardDeckSize() {
         return destCardDeck.size();
+    }
+
+    public Player getPlayer(IPlayer.Color color) {
+        for (Player p : players) {
+            if (p.getColor().equals(color)) {
+                return p;
+            }
+        }
+        return null;
     }
 }

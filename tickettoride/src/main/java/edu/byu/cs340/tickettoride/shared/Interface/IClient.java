@@ -15,5 +15,5 @@ public interface IClient {
     void addGame(Game game);
     void startGame(ID gameId);
     void receiveChat(ChatMessage chatMessage);
-    void addCards(List<TrainCard> cards);
+    void addCards(List<TrainCard> cards, Player player);
 }
