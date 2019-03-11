@@ -7,9 +7,9 @@ public class Player implements IPlayer {
 
     private Username username;
     private Color color;
-    private Hand hand;
-    private Points points;
-    private TrainPieces trainPieces;
+    private Hand hand = new Hand();
+    private Points points = new Points();
+    private TrainPieces trainPieces = new TrainPieces();
 
     public Player(Username username, Color color) {
         this.username = username;
@@ -27,6 +27,9 @@ public class Player implements IPlayer {
     }
 
     public void addPoints(int add){
+        if(points == null){
+            points = new Points();
+        }
         points.addPoints(add);
     }
 
@@ -35,6 +38,9 @@ public class Player implements IPlayer {
     }
 
     public void playTrains(int amount) {
+        if(trainPieces == null){
+            trainPieces = new TrainPieces();
+        }
         trainPieces.playTrains(amount);
     }
 
@@ -44,5 +50,12 @@ public class Player implements IPlayer {
 
     public boolean lastTurn(){
         return trainPieces.lastTurn();
+    }
+
+    public Hand getHand(){
+        if(hand == null){
+            hand = new Hand();
+        }
+        return hand;
     }
 }

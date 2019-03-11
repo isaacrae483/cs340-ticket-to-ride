@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageButton;
 
+import edu.byu.cs340.tickettoride.Client.Demo;
 import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
 
@@ -58,6 +59,9 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
                 mGamePresenter.viewDestCardsPressed();
             }
         });
+
+        //Demo demo = new Demo(this);
+        //demo.execute();
     }
 
     @Override

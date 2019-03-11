@@ -3,6 +3,7 @@ package edu.byu.cs340.tickettoride.Client.model;
 import java.util.List;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.events.ErrorEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
@@ -152,6 +153,59 @@ public class ClientModel extends Observable {
     public Chat getChatMessages(){
         return chatMessages;
     }
+
+
+    //for Demo first half
+    public void updatePoints(int points){
+        for(Player player : activeGame.getPlayers()){
+            if(player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.addPoints(points);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void addTrainCard(TrainCard card){
+        hand.addCard(card);
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void removeTrainCard(TrainCard card){
+        hand.removeCards(1, card.getColor());
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void addDestCard(DestCard card){
+        hand.addTicket(card);
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppTrainCard(TrainCard card){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.getHand().addCard(card);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppTrainCars(int cars){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.playTrains(cars);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+    public void updateOppDestCard(DestCard card){
+        for(Player player : activeGame.getPlayers()){
+            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+                player.getHand().addTicket(card);
+                break;
+            }
+        }
+        emitEvent(new Event() {});//should pass a real event
+    }
+
+
 
     public void passErrorEvent(ErrorEvent errorEvent) {
         emitEvent(errorEvent);
