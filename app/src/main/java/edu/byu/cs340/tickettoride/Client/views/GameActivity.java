@@ -28,6 +28,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
     private ImageButton mViewChatButton;
     private ImageButton mViewPlayersButton;
     private ImageButton mViewDestCardsButton;
+    private View mLayout;
 
     //Player cards members
     //    BLACK, WHITE, ORANGE, BLUE, YELLOW, PINK, GREEN, RED, RAINBOW
@@ -58,7 +59,9 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
         makeToast(getString(R.string.game_started));
+
         mViewChatButton = findViewById(R.id.chatButton);
         mViewPlayersButton = findViewById(R.id.playersButton);
         mViewDestCardsButton = findViewById(R.id.destCardsButton);
@@ -82,6 +85,9 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         mCardThree = findViewById(R.id.cardThree);
         mCardFour = findViewById(R.id.cardFour);
         mCardFive = findViewById(R.id.cardFive);
+
+        mLayout = findViewById(R.id.gameLayout);
+
 
 
         GamePresenter gamePresenter = new GamePresenter(this);
@@ -117,6 +123,17 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
                 new Demo(GameActivity.this).execute();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override
