@@ -180,6 +180,10 @@ public class ClientModel extends EventEmitter {
         return trainCardDeck.getSize();
     }
 
+    public void drewDestCards(int numCards) {
+        destCardDeckSize -= numCards;
+    }
+
 //    public void passErrorEvent(ErrorEvent errorEvent) {
 //        emitEvent(errorEvent);
 //    }
