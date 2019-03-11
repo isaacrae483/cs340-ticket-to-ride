@@ -3,7 +3,6 @@ package edu.byu.cs340.tickettoride.Client.ClientCommands;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
-import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;

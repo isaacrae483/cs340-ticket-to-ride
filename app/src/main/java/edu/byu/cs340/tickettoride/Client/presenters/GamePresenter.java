@@ -3,14 +3,11 @@ package edu.byu.cs340.tickettoride.Client.presenters;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
-import edu.byu.cs340.tickettoride.Client.model.ClientModel;
-import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.views.IGameView;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
-import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 /**
  * Created by Thomas Lewis on 2/6/19.

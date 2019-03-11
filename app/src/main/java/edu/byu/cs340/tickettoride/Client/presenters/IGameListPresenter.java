@@ -1,7 +1,5 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
-import java.util.Observer;
-
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 
 /**

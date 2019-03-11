@@ -1,12 +1,9 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import edu.byu.cs340.tickettoride.Client.presenters.IPresenter;
-import edu.byu.cs340.tickettoride.R;
-import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 
 /**
  * Created by Thomas Lewis on 2/10/19.

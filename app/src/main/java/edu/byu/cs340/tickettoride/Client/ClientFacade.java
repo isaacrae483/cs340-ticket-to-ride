@@ -3,7 +3,6 @@ package edu.byu.cs340.tickettoride.Client;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
-import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;

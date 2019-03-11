@@ -1,8 +1,5 @@
 package edu.byu.cs340.tickettoride.Client;
 
-import android.util.Log;
-
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -10,7 +7,6 @@ import java.io.Reader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 
 import edu.byu.cs340.tickettoride.shared.Codec;
 

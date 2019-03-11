@@ -3,7 +3,6 @@ package edu.byu.cs340.tickettoride.Client.views.artifacts;
 import android.content.Context;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;

@@ -1,7 +1,5 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
-import edu.byu.cs340.tickettoride.Client.views.LoginActivity;
-
 /**
  * Created by Thomas Lewis on 2/3/19.
  */
