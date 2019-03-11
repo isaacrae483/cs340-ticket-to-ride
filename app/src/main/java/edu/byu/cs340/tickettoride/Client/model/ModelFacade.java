@@ -6,14 +6,13 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Iterator;
 
-import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.GenericData;
 import edu.byu.cs340.tickettoride.Client.ICallBack;
 import edu.byu.cs340.tickettoride.Client.Poller;
 import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDrawFailed;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.ReturnDestCardFailed;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;

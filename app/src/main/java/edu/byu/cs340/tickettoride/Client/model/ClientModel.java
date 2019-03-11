@@ -3,12 +3,12 @@ package edu.byu.cs340.tickettoride.Client.model;
 import java.util.List;
 import java.util.Observable;
 
-import edu.byu.cs340.tickettoride.Client.model.events.ErrorEvent;
-import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.shared.Game.events.ErrorEvent;
+import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardDraw;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestCardReturned;
-import edu.byu.cs340.tickettoride.Client.model.events.destCard.DestDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -39,6 +39,7 @@ public class ClientModel extends Observable {
         return _instance;
     }
 
+    private Game activeGame;
     private Username username;
     private MapGames games = new MapGames();
     private ID activeGameID;
@@ -129,11 +130,12 @@ public class ClientModel extends Observable {
 
     public void setActiveGameID(ID activeGameID) {
         this.activeGameID = activeGameID;
+        activeGame = getGame(getActiveGameID());
         emitEvent(new ActiveGameChanged());
     }
 
     public Game getActiveGame() {
-        return getGame(getActiveGameID());
+        return activeGame;
     }
 
     public void addChatMessage(ChatMessage chat){
