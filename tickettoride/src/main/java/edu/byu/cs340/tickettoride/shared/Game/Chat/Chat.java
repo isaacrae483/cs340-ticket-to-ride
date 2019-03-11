@@ -7,7 +7,7 @@ import edu.byu.cs340.tickettoride.shared.Game.EventBubbler;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 
-public class Chat extends EventBubbler {
+public class Chat {
 
     private List<ChatMessage> messages;
     private ID game;

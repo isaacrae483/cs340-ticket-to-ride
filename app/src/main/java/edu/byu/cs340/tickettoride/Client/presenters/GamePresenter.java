@@ -3,12 +3,14 @@ package edu.byu.cs340.tickettoride.Client.presenters;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.views.IGameView;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 
 /**
  * Created by Thomas Lewis on 2/6/19.
  */
-public class GamePresenter extends Presenter implements IGamePresenter {
+public class GamePresenter extends Presenter implements IGamePresenter, IDeckPresenter, IPlayerCardsPresenter {
 
     IGameView mGameView;
     private ClientFacade mClientFacade;
@@ -22,6 +24,7 @@ public class GamePresenter extends Presenter implements IGamePresenter {
     @Override
     public void syncWithModel() {
         super.syncWithModel();
+        //ClientModel.instance().get
     }
 
     @Override
@@ -44,8 +47,14 @@ public class GamePresenter extends Presenter implements IGamePresenter {
         mGameView.moveToDestCards();
     }
 
+
     @Override
-    public void viewDeckPressed() {
-        mGameView.viewDeck();
+    public void cardPressed(TrainCard card) {
+
+    }
+
+    @Override
+    public void deckPressed() {
+
     }
 }

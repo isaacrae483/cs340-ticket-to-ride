@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.EventBubbler;
+import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.events.ErrorEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
@@ -28,7 +29,7 @@ import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientModel extends EventBubbler {
+public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
         hand = new Hand();

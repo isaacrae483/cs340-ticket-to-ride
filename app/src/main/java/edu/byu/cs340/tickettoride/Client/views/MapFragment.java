@@ -39,15 +39,6 @@ public class MapFragment extends PresenterViewFragment implements IMapView{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mFragmentView = inflater.inflate(R.layout.fragment_game_map, container, false);
         mMapLayout = mFragmentView.findViewById(R.id.mapLayout);
-        testView = mFragmentView.findViewById(R.id.imageView6);
-        testView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                makeToast("View pressed");
-                //testView.setBackgroundColor();
-                testView.setColorFilter(getResources().getColor(R.color.greenPlayer));
-            }
-        });
 
         mGameMapPresenter = new GameMapPresenter(this);
         setPresenter(mGameMapPresenter);

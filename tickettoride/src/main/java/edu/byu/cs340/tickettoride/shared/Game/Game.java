@@ -33,7 +33,6 @@ public class Game extends EventBubbler implements IGameListEntry {
     public Game() {
         id = ID.generate();
         chat = new Chat(id);
-        chat.addObserver(this);
 
     }
 

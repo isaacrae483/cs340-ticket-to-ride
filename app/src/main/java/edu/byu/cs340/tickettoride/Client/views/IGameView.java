@@ -7,5 +7,4 @@ public interface IGameView {
     void moveToChat();
     void moveToPlayerView();
     void moveToDestCards();
-    void viewDeck();
 }
