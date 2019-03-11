@@ -16,7 +16,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/DestCardList"
             android:layout_width="match_parent"
-            android:layout_height="500dp"
+            android:layout_height="200dp"
             tools:listitem="@layout/list_item_dest_card" />
 
         <Button

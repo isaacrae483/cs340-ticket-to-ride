@@ -60,4 +60,8 @@ public class Player implements IPlayer {
         }
         return hand;
     }
+
+    public TrainPieces getTrainPieces() {
+        return trainPieces;
+    }
 }
