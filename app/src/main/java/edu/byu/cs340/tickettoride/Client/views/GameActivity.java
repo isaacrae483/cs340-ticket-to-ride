@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -109,8 +110,13 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
             }
         });
 
-        //Demo demo = new Demo(this);
-        //demo.execute();
+        Button demoButton = (Button)findViewById(R.id.demoButton);
+        demoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Demo(GameActivity.this).execute();
+            }
+        });
     }
 
     @Override
