@@ -45,7 +45,7 @@ public class ClientFacade implements IClient {
 
     @Override
     public void receiveChat(ChatMessage chatMessage) {
-
+        ClientModel.instance().addChatMessage(chatMessage);
     }
 
 }

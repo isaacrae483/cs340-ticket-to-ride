@@ -94,8 +94,8 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
     }
 
     @Override
-    public void displayNewMessage(Username username, String message) {
-
+    public void displayNewMessage(ChatMessage message) {
+        addChatToList(message);
     }
 
     private class ChatHolder extends RecyclerView.ViewHolder {
