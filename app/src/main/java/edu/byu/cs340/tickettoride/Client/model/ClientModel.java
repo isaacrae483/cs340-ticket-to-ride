@@ -11,6 +11,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
+import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
@@ -148,9 +149,11 @@ public class ClientModel extends EventEmitter {
     public void addChatMessage(ChatMessage chat){
         if(chatMessages == null){
             chatMessages = new Chat(activeGameID);
+            emitEvent(new ChatAdded(chat));
         }
         try{
             chatMessages.add(chat);
+            emitEvent(new ChatAdded(chat));
         }catch(Exception e){
             passErrorEvent(new ChatSendFailed());
         }
