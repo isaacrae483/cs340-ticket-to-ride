@@ -16,7 +16,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Game implements IGameListEntry {
+public class Game extends EventBubbler implements IGameListEntry {
     private ID id;
     private List<Player> players;
     private int numPlayers;
