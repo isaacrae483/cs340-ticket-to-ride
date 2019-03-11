@@ -60,7 +60,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        makeToast(getString(R.string.game_started));
+        //(getString(R.string.game_started));
 
         mViewChatButton = findViewById(R.id.chatButton);
         mViewPlayersButton = findViewById(R.id.playersButton);
@@ -171,6 +171,8 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         if (card == null) {
             cardButton.setVisibility(View.GONE);
             return;
+        } else {
+            cardButton.setVisibility(View.VISIBLE);
         }
         Colors cardColor = card.getColor();
         switch (cardColor) {
