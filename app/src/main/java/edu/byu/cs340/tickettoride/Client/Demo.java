@@ -188,11 +188,7 @@ public class Demo {
     private void updateDestCardDeck(final Handler handler) {
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "UPDATING DEST CARDS", Toast.LENGTH_LONG).show();
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 16), null, null);
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 17), null, null);
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 18), null, null);
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 19), null, null);
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 10), null, null);
+        model.drewDestCards(8);
         run(handler, new Runnable() {
             @Override
             public void run() {
