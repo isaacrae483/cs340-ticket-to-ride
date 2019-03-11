@@ -128,6 +128,9 @@ public class ModelFacade implements IModelFacade, ICallBack {
 
     @Override
     public void drawTickets(){
+//        if (!ClientModel.instance().drawnYet()) {
+//            ClientModel.instance().haveDoneFirstDraw();
+//        }
         GenericData info = new GenericData("drawTickets",
                 new Class<?>[] {Username.class, ID.class},
                 new Object[] {model.getUsername(), model.getActiveGameID()});

@@ -38,11 +38,14 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         //DEBUG SECTION
         //new DebugSetup().execute();
         //END DEBUG SECTION
-        syncWithModel();
+       // syncWithModel();
     }
 
     @Override
     public void syncWithModel() {
+//        if (!mClientModel.drawnYet()) {
+//            ModelFacade.instance().drawTickets();
+//        }
         view.SetDeckSize(model.getDestCardDeckSize());
         view.setCards(model.getDestCards());
     }
