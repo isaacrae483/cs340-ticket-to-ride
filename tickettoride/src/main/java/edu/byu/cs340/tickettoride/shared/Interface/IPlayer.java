@@ -11,7 +11,8 @@ public interface IPlayer {
         RED,
         GREEN,
         YELLOW,
-        BLACK
+        BLACK,
+        NEUTRAL
     }
 
     Color getColor();

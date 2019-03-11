@@ -18,6 +18,11 @@ public class Username{
         return Objects.hash(username);
     }
 
+    @Override
+    public String toString() {
+        return username;
+    }
+
     public Username(String username) throws InvalidUserNameException {
         qualifyUsername(username);
         this.username = username;

@@ -1,8 +1,7 @@
-package edu.byu.cs340.tickettoride.Client.model.events.chat;
+package edu.byu.cs340.tickettoride.shared.Game.events.chat;
 
-import edu.byu.cs340.tickettoride.Client.model.events.Event;
+import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
-import edu.byu.cs340.tickettoride.shared.Game.Game;
 
 public class ChatAdded implements Event {
     private ChatMessage mMessage;

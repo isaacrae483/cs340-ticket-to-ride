@@ -10,5 +10,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 public interface IDeckView {
     void setCardsAvailable(List<TrainCard> availableCards);
     void setDeckVisible(Boolean isVisible);
+    void setDeckSize(int size);
 
 }

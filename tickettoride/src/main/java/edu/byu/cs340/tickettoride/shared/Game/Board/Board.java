@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Board {
@@ -9,8 +10,8 @@ public class Board {
         this.routes = new Routes();
     }
 
-    public void claimRoute(Route route, Username username){
-        route.claimRoute(username);
+    public void claimRoute(Route route, Player player){
+        route.claimRoute(player);
     }
 
 

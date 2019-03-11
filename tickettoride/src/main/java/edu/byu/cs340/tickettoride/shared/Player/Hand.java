@@ -15,6 +15,14 @@ public class Hand {
 
     }
 
+    public int getNumTrainCards() {
+        return trainCards.size();
+    }
+
+    public int getNumDestCards() {
+        return destCards.size();
+    }
+
     /**
      * pre: None
      * post: None
@@ -23,6 +31,11 @@ public class Hand {
     public List<DestCard> getDestCards() {
         return destCards;
     }
+
+    public List<TrainCard> getTrainCards() {
+        return trainCards;
+    }
+
 
     /**
      * pre: card != Null
