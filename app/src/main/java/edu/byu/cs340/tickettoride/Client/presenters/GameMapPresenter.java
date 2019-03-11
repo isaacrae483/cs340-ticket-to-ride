@@ -15,7 +15,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 
 
 public class GameMapPresenter extends Presenter implements IGameMapPresenter {
-    final int NUM_ROUTES = 97;
+    final int NUM_ROUTES = 100;
 
     private IMapView mMapView;
 

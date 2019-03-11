@@ -34,6 +34,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
     private ModelFacade(){
 
     }
+    private Poller mPoller = null;
 
     public static ModelFacade instance() {
         if (_instance == null){
@@ -155,7 +156,13 @@ public class ModelFacade implements IModelFacade, ICallBack {
             if(result.getSuccess()){
                 model.setGames(result.getGames());
                 model.setUsername(_username);
-                new Poller().startPolling(_username);
+                model.setActiveGameID(null);
+
+                if (mPoller != null) {
+                    mPoller.stopPolling();
+                }
+                mPoller = new Poller();
+                mPoller.startPolling(_username);
             }
             else{
                 model.passErrorEvent(new LoginFailed());
