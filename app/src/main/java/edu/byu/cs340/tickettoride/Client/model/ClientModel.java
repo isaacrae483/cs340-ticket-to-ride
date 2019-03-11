@@ -2,7 +2,9 @@ package edu.byu.cs340.tickettoride.Client.model;
 
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
@@ -230,12 +232,16 @@ public class ClientModel extends EventEmitter {
         emitEvent(new Event() {});//should pass a real event
     }
 
-    public void addFaceUpTrainCard(TrainCard card) {
-
+    public void replaceFaceUpTrainCard(TrainCard card, int pos) {
+        bank.replaceCard(pos, card);
+        emitEvent(new BankCardsChanged());
     }
 
-    public void modifyDeckSize(int deckSize) {
 
+
+    public void modifyTrainCardDeckSize(int deckSize) {
+        trainCardDeck.drawCard();
+        emitEvent(new TCDeckSizeChanged());
     }
 
 

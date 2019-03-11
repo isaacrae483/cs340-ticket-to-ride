@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
 public class Bank {
     private List<TrainCard> bank = new ArrayList<>();

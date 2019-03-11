@@ -37,7 +37,7 @@ public class TrainCardDeck {
     }
 
     public TrainCard drawCard() {
-        return deck.removeFirst();
+        return deck.size() == 0 ? null : deck.removeFirst();
     }
 
     public void returnCard(TrainCard card) {

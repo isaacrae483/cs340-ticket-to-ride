@@ -244,9 +244,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
     }
 
     private void setPlayerCardText(TextView cardCountDisplay, int cardCount) {
-        if (cardCount == 0) {
-            cardCountDisplay.setVisibility(View.INVISIBLE);
-        }
+        cardCountDisplay.setVisibility(cardCount == 0 ? View.INVISIBLE : View.VISIBLE);
         cardCountDisplay.setText(Integer.toString(cardCount));
     }
 }
