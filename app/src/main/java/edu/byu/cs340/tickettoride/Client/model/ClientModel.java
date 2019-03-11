@@ -5,6 +5,7 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
@@ -209,7 +210,7 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppTrainCard(TrainCard card){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.getHand().addCard(card);
                 break;
             }
@@ -218,7 +219,7 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppTrainCars(int cars){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.playTrains(cars);
                 break;
             }
@@ -227,12 +228,16 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppDestCard(DestCard card){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.getHand().addTicket(card);
                 break;
             }
         }
         emitEvent(new Event() {});//should pass a real event
+    }
+
+    public void updatePlayerTurn(){
+        activeGame.nextPlayerTurn();
     }
 
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {
@@ -246,6 +251,7 @@ public class ClientModel extends EventEmitter {
         trainCardDeck.drawCard();
         emitEvent(new TCDeckSizeChanged());
     }
+
 
 
 
