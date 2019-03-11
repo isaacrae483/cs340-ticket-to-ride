@@ -9,12 +9,17 @@ import android.widget.Toast;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
+import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
 import edu.byu.cs340.tickettoride.Client.views.GameActivity;
 import edu.byu.cs340.tickettoride.Client.views.PlayerListActivity;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
+import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Demo {
 
@@ -148,6 +153,11 @@ public class Demo {
     //Update the visible (face up) cards in the train card deck
     private void updateFaceUp(final Handler handler) {
         Toast.makeText(context, "UPDATING FACE UP CARDS", Toast.LENGTH_LONG).show();
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 0);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 1);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 2);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 3);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 4);
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -158,7 +168,8 @@ public class Demo {
 
     //Update the number of invisible (face down) cards in train card deck
     private void updateFaceDown(final Handler handler) {
-        Toast.makeText(context, "UPDATING FACE DOWN CARDS", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "UPDATING FACE DOWN CARDS TO 0", Toast.LENGTH_LONG).show();
+        model.modifyTrainCardDeckSize(0);
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -169,7 +180,9 @@ public class Demo {
 
     //Update the number of cards in destination card deck
     private void updateDestCardDeck(final Handler handler) {
+        context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "UPDATING DEST CARDS", Toast.LENGTH_LONG).show();
+        model.returnDestCard(new DestCard(City.SAULT_ST_MARIE, City.NEW_ORLEANS, 9));
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -180,7 +193,9 @@ public class Demo {
 
     //Add claimed route (for any player). Show this on the map.
     private void addClaimedRoute(final Handler handler) {
+        context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "CLAIMING ROUTE", Toast.LENGTH_LONG).show();
+        model.claimRoute(model.getRoutes().getRoute(0));
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -193,6 +208,15 @@ public class Demo {
     private void addChat(final Handler handler) {
         context .startActivity(new Intent(context, ChatActivity.class));
         Toast.makeText(context, "ADDING CHAT", Toast.LENGTH_LONG).show();
+        try {
+            model.addChatMessage(
+                    new ChatMessage("DIS BE A TEST MESSAGE",
+                            new Username("JOE"),
+                            ID.generate()));
+        }
+        catch (Username.InvalidUserNameException e){
+            e.printStackTrace();
+        }
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -204,6 +228,7 @@ public class Demo {
     //Advance player turn (change the turn indicator so it indicates another player)
     private void advanceTurn(final Handler handler) {
         context.startActivity(new Intent(context, PlayerListActivity.class));
+        model.updatePlayerTurn();
         Toast.makeText(context, "ADVANCING PLAYER TURN", Toast.LENGTH_LONG).show();
     }
 }

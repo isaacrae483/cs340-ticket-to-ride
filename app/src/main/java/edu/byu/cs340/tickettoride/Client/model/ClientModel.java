@@ -1,10 +1,15 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
@@ -55,6 +60,7 @@ public class ClientModel extends EventEmitter {
     private Chat chatMessages;
     private TrainCardDeck trainCardDeck;
     private Bank bank;
+    private Routes mRoutes = new Routes();
 
     private int destCardDeckSize;
 
@@ -209,7 +215,7 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppTrainCard(TrainCard card){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.getHand().addCard(card);
                 break;
             }
@@ -218,7 +224,7 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppTrainCars(int cars){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.playTrains(cars);
                 break;
             }
@@ -227,7 +233,7 @@ public class ClientModel extends EventEmitter {
     }
     public void updateOppDestCard(DestCard card){
         for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().getUsername().equals(username.getUsername())){
+            if(!player.getPlayerName().equals(username)){
                 player.getHand().addTicket(card);
                 break;
             }
@@ -235,17 +241,29 @@ public class ClientModel extends EventEmitter {
         emitEvent(new Event() {});//should pass a real event
     }
 
+    public void updatePlayerTurn(){
+        activeGame.nextPlayerTurn();
+    }
+
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {
         bank.replaceCard(pos, card);
         emitEvent(new BankCardsChanged());
     }
 
-
+    public Routes getRoutes() {
+        return mRoutes;
+    }
+    public void claimRoute(Route route) {
+        Route modelRoute = mRoutes.getRoute(route.getId());
+        modelRoute.claimRoute(route.getClaimedBy());
+        emitEvent(new RouteClaimed(modelRoute));
+    }
 
     public void modifyTrainCardDeckSize(int deckSize) {
         trainCardDeck.drawCard();
         emitEvent(new TCDeckSizeChanged());
     }
+
 
 
 

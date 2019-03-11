@@ -36,14 +36,31 @@ public class TrainCardDeck {
         deck.addAll(temp);
     }
 
+    /**
+     * @pre none
+     * @post deck should have one fewer card, or have zero cards.
+     * @return drawn TrainCard or null if empty
+     */
     public TrainCard drawCard() {
         return deck.size() == 0 ? null : deck.removeFirst();
     }
 
-    public void returnCard(TrainCard card) {
-        deck.addLast(card);
+    /**
+     * @pre none
+     * @post deck has one additional card if card is non-null
+     * @param card TrainCard to put on bottom of deck
+     * @return true if card is non-null and successfully inserted
+     */
+    public boolean returnCard(TrainCard card) {
+        if (card == null) return false;
+        return deck.offerLast(card);
     }
 
+    /**
+     * @pre none
+     * @post none
+     * @return number of TrainCards in deck
+     */
     public int getSize() {
         return deck.size();
     }

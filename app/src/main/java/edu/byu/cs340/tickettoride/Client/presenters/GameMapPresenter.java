@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.views.IMapView;
 import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
@@ -46,8 +47,14 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
         mMapView.setRouteList(routeArrayList);
     }
 
+
+
     @Override
     public void update(Observable observable, Object o) {
         super.update(observable, o);
+        if (o instanceof RouteClaimed) {
+            RouteClaimed e = (RouteClaimed) o;
+            mMapView.claimRoute(e.getRoute());
+        }
     }
 }

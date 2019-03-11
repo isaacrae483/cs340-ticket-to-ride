@@ -5,4 +5,5 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 
 public interface IPlayerListView {
+    void updateData();
 }
