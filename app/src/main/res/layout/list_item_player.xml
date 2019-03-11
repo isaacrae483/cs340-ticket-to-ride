@@ -46,9 +46,20 @@
         android:text="points"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/player_list_train_cards"
+        app:layout_constraintEnd_toStartOf="@+id/player_list_train_cars"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.512" />
+
+    <TextView
+        android:id="@+id/player_list_train_cars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="train cars"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/player_list_train_cards"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/player_list_train_cards"

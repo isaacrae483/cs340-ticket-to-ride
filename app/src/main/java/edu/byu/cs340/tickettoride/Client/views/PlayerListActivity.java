@@ -68,6 +68,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         private ImageView mPlayerColorIcon;
         private TextView mPlayerDescription;
         private TextView mPlayerPoints;
+        private TextView getmPlayerTrainCars;
         private TextView mPlayerTrainCards;
         private TextView mPlayerDestCards;
 
@@ -77,6 +78,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
             mPlayerColorIcon = itemView.findViewById(R.id.player_list_icon);
             mPlayerDescription = itemView.findViewById(R.id.player_list_description);
             mPlayerPoints = itemView.findViewById(R.id.player_list_points);
+            mPlayerTrainCards = itemView.findViewById(R.id.player_list_train_cars);
             mPlayerTrainCards = itemView.findViewById(R.id.player_list_train_cards);
             mPlayerDestCards = itemView.findViewById(R.id.player_list_dest_cards);
         }
@@ -111,6 +113,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
             }
 
             mPlayerPoints.setText(player.getPoints().toString() + "\npoints");
+            getmPlayerTrainCars.setText(player.getTrainPieces() + "\ntrain pieces");
             mPlayerTrainCards.setText(player.getHand().getNumTrainCards() + "\ntrain cards");
             mPlayerDestCards.setText(player.getHand().getNumDestCards() + "\ndestinations");
         }

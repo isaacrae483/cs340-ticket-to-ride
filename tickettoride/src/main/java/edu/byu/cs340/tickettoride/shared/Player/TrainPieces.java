@@ -29,4 +29,9 @@ public class TrainPieces {
     public int getPieces() {
         return pieces;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(pieces);
+    }
 }
