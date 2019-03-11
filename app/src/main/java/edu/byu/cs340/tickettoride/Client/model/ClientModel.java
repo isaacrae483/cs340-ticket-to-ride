@@ -254,6 +254,7 @@ public class ClientModel extends EventEmitter {
     public Routes getRoutes() {
         return mRoutes;
     }
+
     public void claimRoute(Route route) {
         Route modelRoute = mRoutes.getRoute(route.getId());
         modelRoute.claimRoute(route.getClaimedBy());

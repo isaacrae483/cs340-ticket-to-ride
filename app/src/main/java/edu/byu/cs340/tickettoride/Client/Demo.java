@@ -201,7 +201,9 @@ public class Demo {
     private void addClaimedRoute(final Handler handler) {
         context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "CLAIMING ROUTE", Toast.LENGTH_LONG).show();
-        model.claimRoute(model.getRoutes().getRoute(0));
+        Route routeToClaim = model.getRoutes().getRoute(0);
+        routeToClaim.claimRoute(ClientModel.instance().getActiveGame().getPlayers().get(0));
+        model.claimRoute(routeToClaim);
         run(handler, new Runnable() {
             @Override
             public void run() {

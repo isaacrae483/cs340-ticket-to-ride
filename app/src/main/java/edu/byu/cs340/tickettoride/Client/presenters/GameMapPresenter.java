@@ -5,6 +5,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.views.IMapView;
 import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
@@ -32,17 +33,10 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
     @Override
     public void syncWithModel() {
         super.syncWithModel();
-        Routes routes = new Routes();
+        Routes clientRoutes = mClientModel.getRoutes();
         ArrayList<IRoute> routeArrayList = new ArrayList<>();
         for (int i = 0; i < NUM_ROUTES; i++) {
-            routeArrayList.add(routes.getRoute(i));
-            for (int j = 0; j < NUM_ROUTES; j++) {
-                if (i == j)
-                    continue;
-                if (routes.getRoute(j).equals(routes.getRoute(i))) {
-                    Log.d("route", routes.getRoute(i).getStartCity().toString());
-                }
-            }
+            routeArrayList.add(clientRoutes.getRoute(i));
         }
         mMapView.setRouteList(routeArrayList);
     }
