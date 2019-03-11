@@ -209,10 +209,7 @@ public class ClientModel extends EventEmitter {
         emitEvent(new HandChanged());//should pass a real event
     }
 
-    public void addDestCard(DestCard card){
-        hand.addTicket(card);
-        emitEvent(new Event() {});//should pass a real event
-    }
+
     public void updateOppTrainCard(TrainCard card){
         for(Player player : activeGame.getPlayers()){
             if(!player.getPlayerName().equals(username)){

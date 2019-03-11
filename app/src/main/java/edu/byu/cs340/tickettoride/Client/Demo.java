@@ -92,8 +92,9 @@ public class Demo {
 
     //Add player destination cards for this player
     private void addDestinationCards(final Handler handler) {
+        context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "ADDING DESTINATION CARDS", Toast.LENGTH_LONG).show();
-        model.addDestCard(new DestCard(City.WASHINGTON, City.MIAMI, 15));
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -104,7 +105,7 @@ public class Demo {
 
     //Update the number of train cards for opponent players
     private void updateOpponentTrainCards(final Handler handler) {
-        context .startActivity(new Intent(context, PlayerListActivity.class));
+        context.startActivity(new Intent(context, PlayerListActivity.class));
         Toast.makeText(context, "UPDATING OPPONENT TRAIN CARDS", Toast.LENGTH_LONG).show();
         model.updateOppTrainCard(new TrainCard(Colors.GREEN));
         run(handler, new Runnable() {
