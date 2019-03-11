@@ -49,7 +49,7 @@ public class Game extends EventBubbler implements IGameListEntry {
         return playerTurnIndex;
     }
 
-    private void nextPlayerTurn(){
+    public void nextPlayerTurn(){
         playerTurnIndex = (playerTurnIndex + 1) % (players.size() - 1);
         playerTurn = players.get(playerTurnIndex).getPlayerName();
     }

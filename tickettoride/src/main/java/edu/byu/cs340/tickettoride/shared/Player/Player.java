@@ -14,6 +14,8 @@ public class Player implements IPlayer {
     public Player(Username username, Color color) {
         this.username = username;
         this.color = color;
+
+
     }
 
     @Override

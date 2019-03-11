@@ -53,6 +53,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
                 )
         );
 
+/*
         List<Player> list = new ArrayList<>();
         try {
             list.add(new Player(new Username("dude"), IPlayer.Color.GREEN));
@@ -61,8 +62,9 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
             e.printStackTrace();
         }
 
-//        mPlayerAdapter = new PlayerAdapter(mGame.getPlayers());
         mPlayerAdapter = new PlayerAdapter(list);
+*/
+        mPlayerAdapter = new PlayerAdapter(mGame.getPlayers());
         mPlayerList.setAdapter(mPlayerAdapter);
 
         mPlayerListPresenter = new PlayerListPresenter();
@@ -88,8 +90,8 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         }
 
         public void bind(Player player, int i) {
-//            if (i != mGame.getPlayerTurnIndex()) {
-            if (i != 0) {
+            if (i != mGame.getPlayerTurnIndex()) {
+//            if (i != 0) {
                 mTurnIndicator.setVisibility(View.INVISIBLE);
             }
             mPlayerDescription.setText(player.getPlayerName().toString());
