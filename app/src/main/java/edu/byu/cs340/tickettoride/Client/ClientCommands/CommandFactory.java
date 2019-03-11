@@ -15,6 +15,11 @@ public class CommandFactory {
                 return new GameStartedCommand(info.id);
             case CHAT:
                 return new ChatCommand(info.username, info.id, info.message);
+            case ADD_CARDS:
+                return new AddCardsCommand(info.cards, info.player);
+            case REPLACE_FACE_UP:
+                return new ReplaceFaceUpCardCommand(info.trainCard, info.pos);
+
         }
         //tried to create non-existent command
         assert (false);

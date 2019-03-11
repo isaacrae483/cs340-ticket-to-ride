@@ -1,7 +1,5 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
@@ -62,6 +60,7 @@ public class ClientModel extends EventEmitter {
     private TrainCardDeck trainCardDeck;
     private Bank bank;
     private Routes mRoutes = new Routes();
+    boolean mDrawnCards = false;
 
     private int destCardDeckSize;
 
@@ -107,7 +106,7 @@ public class ClientModel extends EventEmitter {
             hand.addTicket(card3);
             destCardDeckSize -=1;
         }
-
+        mDrawnCards = true;
         emitEvent(new DestCardDraw(card1, card2, card3));
         emitEvent(new DestDeckSizeChanged());
     }
@@ -134,7 +133,9 @@ public class ClientModel extends EventEmitter {
     }
 
     public void startGame(ID gameId) {
-        this.getGame(gameId).startGame();
+        Game game = this.getGame(gameId);
+        game.startGame();
+        mDrawnCards = false;
         emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
@@ -183,6 +184,14 @@ public class ClientModel extends EventEmitter {
 
     public void drewDestCards(int numCards) {
         destCardDeckSize -= numCards;
+    }
+
+    public boolean drawnYet() {
+        return mDrawnCards;
+    }
+
+    public void haveDoneFirstDraw() {
+        mDrawnCards = true;
     }
 
 //    public void passErrorEvent(ErrorEvent errorEvent) {

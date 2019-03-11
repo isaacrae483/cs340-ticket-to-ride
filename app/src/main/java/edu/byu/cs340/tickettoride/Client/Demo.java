@@ -51,7 +51,6 @@ public class Demo {
     public void execute(){
         //the handler should run on the main thread since it is updating the UI
         Handler handler = new Handler(context.getMainLooper());
-        /*
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -135,19 +134,12 @@ public class Demo {
                 addChat();
             }
         }, getDelay());
-*/
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 advanceTurn();
             }
         }, getDelay());
-
-        //Isaac will create the first half here... right?
-
-
-        /* AVERY's section (the second half)*/
-        //secondHalf(handler);
 
     }
 

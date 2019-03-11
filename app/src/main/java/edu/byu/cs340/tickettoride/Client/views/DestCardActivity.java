@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +60,9 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         this.setPresenter(presenter);
     }
 
+    public static Intent newIntent(Context packageContext) {
+        return new Intent(packageContext, DestCardActivity.class);
+    }
 
     @Override
     public void addCard(DestCard card) {
