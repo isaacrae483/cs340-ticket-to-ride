@@ -17,14 +17,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.presenters.IPlayerListPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.PlayerListPresenter;
 import edu.byu.cs340.tickettoride.R;
-import edu.byu.cs340.tickettoride.shared.Game.Game;
-import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class PlayerListActivity extends PresenterViewActivity implements IPlayerListView {
     private IPlayerListPresenter mPlayerListPresenter;
@@ -68,7 +64,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
         private ImageView mPlayerColorIcon;
         private TextView mPlayerDescription;
         private TextView mPlayerPoints;
-        private TextView getmPlayerTrainCars;
+        private TextView mPlayerTrainCars;
         private TextView mPlayerTrainCards;
         private TextView mPlayerDestCards;
 
@@ -78,7 +74,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
             mPlayerColorIcon = itemView.findViewById(R.id.player_list_icon);
             mPlayerDescription = itemView.findViewById(R.id.player_list_description);
             mPlayerPoints = itemView.findViewById(R.id.player_list_points);
-            mPlayerTrainCards = itemView.findViewById(R.id.player_list_train_cars);
+            mPlayerTrainCars = itemView.findViewById(R.id.player_list_train_cars);
             mPlayerTrainCards = itemView.findViewById(R.id.player_list_train_cards);
             mPlayerDestCards = itemView.findViewById(R.id.player_list_dest_cards);
         }
@@ -113,7 +109,7 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
             }
 
             mPlayerPoints.setText(player.getPoints().toString() + "\npoints");
-            getmPlayerTrainCars.setText(player.getTrainPieces() + "\ntrain pieces");
+            mPlayerTrainCars.setText(player.getTrainPieces().toString() + "\ntrain pieces");
             mPlayerTrainCards.setText(player.getHand().getNumTrainCards() + "\ntrain cards");
             mPlayerDestCards.setText(player.getHand().getNumDestCards() + "\ndestinations");
         }

@@ -201,11 +201,11 @@ public class ClientModel extends EventEmitter {
     }
     public void addTrainCard(TrainCard card){
         hand.addCard(card);
-        emitEvent(new HandChanged());//should pass a real event
+        emitEvent(new HandChanged());
     }
     public void removeTrainCard(TrainCard card){
         hand.removeCards(1, card.getColor());
-        emitEvent(new HandChanged());//should pass a real event
+        emitEvent(new HandChanged());
     }
 
 
