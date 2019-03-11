@@ -148,9 +148,9 @@ public class Routes {
 
         routes.put(96, new Route(96, City.CHARLESTON, City.MIAMI, 4, Colors.PINK));
 
-        routes.put(97, new Route(96, City.CHARLESTON, City.MIAMI, 4, Colors.PINK));
-        routes.put(98, new Route(96, City.CHARLESTON, City.MIAMI, 4, Colors.PINK));
-        routes.put(99, new Route(96, City.CHARLESTON, City.MIAMI, 4, Colors.PINK));
+        routes.put(97, new Route(97, City.SANTA_FE, City.EL_PASO, 2, Colors.RAINBOW));
+        routes.put(98, new Route(98, City.SANTA_FE, City.DENVER, 2, Colors.RAINBOW));
+        routes.put(99, new Route(99, City.DENVER, City.OMAHA, 4, Colors.PINK));
 
 
     }
