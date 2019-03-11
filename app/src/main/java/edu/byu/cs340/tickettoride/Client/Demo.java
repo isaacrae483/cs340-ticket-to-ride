@@ -56,6 +56,7 @@ public class Demo {
     //first half of the demo, written by Isaac
     //Update player points
     private void updatePlayerPoints(final Handler handler) {
+        context.startActivity(new Intent(context, PlayerListActivity.class));
         Toast.makeText(context, "UPDATING PLAYER POINTS", Toast.LENGTH_LONG).show();
         model.updatePoints(15);
         run(handler, new Runnable() {
@@ -68,6 +69,7 @@ public class Demo {
 
     //Add/remove train cards for this player
     private void addTrainCards(final Handler handler) {
+        context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "ADDING TRAIN CARD", Toast.LENGTH_LONG).show();
         model.addTrainCard(new TrainCard(Colors.GREEN));
         run(handler, new Runnable() {
