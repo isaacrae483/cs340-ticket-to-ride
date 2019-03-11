@@ -33,6 +33,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.PlayerTurnChanged;
 import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -243,6 +244,7 @@ public class ClientModel extends EventEmitter {
 
     public void updatePlayerTurn(){
         activeGame.nextPlayerTurn();
+        emitEvent(new PlayerTurnChanged());
     }
 
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {

@@ -1,12 +1,13 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.views.IPlayerListView;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 
-public class PlayerListPresenter extends Presenter implements IPlayerListPresenter {
+public class PlayerListPresenter extends Presenter implements IPlayerListPresenter, Observer {
     private IPlayerListView mPlayerListView;
     private Game mGame = ClientModel.instance().getActiveGame();
 
