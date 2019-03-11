@@ -23,11 +23,14 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Demo {
 
+    private static final int DELAY_SPACING = 7000;
     private Context context;
 
     final ModelFacade modelFacade = ModelFacade.instance(); //I don't think we will need this
     final ClientFacade clientFacade = ClientFacade.instance();
     final ClientModel model = ClientModel.instance();
+
+    private int delay = 0;
 
 
     public Demo(Context context) {
@@ -39,12 +42,108 @@ public class Demo {
         handler.postDelayed(func, delay);
     }
 
+    private int getDelay() {
+        int delay = this.delay;
+        this.delay += DELAY_SPACING;
+        return delay;
+    }
+
     public void execute(){
         //the handler should run on the main thread since it is updating the UI
         Handler handler = new Handler(context.getMainLooper());
+        /*
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updatePlayerPoints();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addTrainCards();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                removeTrainCards();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addDestinationCards();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateOpponentTrainCards();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateOpponentTrainCars();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateOpponentDestCards();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateFaceUp();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateFaceDown();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                updateDestCardDeck();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addClaimedRoute();
+            }
+        }, getDelay());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addChat();
+            }
+        }, getDelay());
+*/
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                advanceTurn();
+            }
+        }, getDelay());
 
         //Isaac will create the first half here... right?
-        updatePlayerPoints(handler);
 
 
         /* AVERY's section (the second half)*/
@@ -55,165 +154,93 @@ public class Demo {
 
     //first half of the demo, written by Isaac
     //Update player points
-    private void updatePlayerPoints(final Handler handler) {
+    private void updatePlayerPoints() {
         context.startActivity(new Intent(context, PlayerListActivity.class));
         Toast.makeText(context, "UPDATING PLAYER POINTS", Toast.LENGTH_LONG).show();
         model.updatePoints(15);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                addTrainCards(handler);
-            }
-        });
     }
 
     //Add/remove train cards for this player
-    private void addTrainCards(final Handler handler) {
+    private void addTrainCards() {
         context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "ADDING TRAIN CARD", Toast.LENGTH_LONG).show();
         model.addTrainCard(new TrainCard(Colors.GREEN));
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                removeTrainCards(handler);
-            }
-        });
     }
 
     //Add/remove train cards for this player
-    private void removeTrainCards(final Handler handler) {
+    private void removeTrainCards() {
         Toast.makeText(context, "REMOVING TRAIN CARD", Toast.LENGTH_LONG).show();
         model.removeTrainCard(new TrainCard(Colors.GREEN));
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                addDestinationCards(handler);
-            }
-        });
     }
 
     //Add player destination cards for this player
-    private void addDestinationCards(final Handler handler) {
+    private void addDestinationCards() {
         model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "ADDING DESTINATION CARDS", Toast.LENGTH_LONG).show();
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateOpponentTrainCards(handler);
-            }
-        });
     }
 
     //Update the number of train cards for opponent players
-    private void updateOpponentTrainCards(final Handler handler) {
+    private void updateOpponentTrainCards() {
         context.startActivity(new Intent(context, PlayerListActivity.class));
         Toast.makeText(context, "UPDATING OPPONENT TRAIN CARDS", Toast.LENGTH_LONG).show();
         model.updateOppTrainCard(new TrainCard(Colors.GREEN));
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateOpponentTrainCars(handler);
-            }
-        });
     }
 
     //Update the number of train cars for opponent players
-    private void updateOpponentTrainCars(final Handler handler) {
+    private void updateOpponentTrainCars() {
         Toast.makeText(context, "UPDATING OPPONENT TRAIN CARS", Toast.LENGTH_LONG).show();
         model.updateOppTrainCars(5);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateOpponentDestCards(handler);
-            }
-        });
     }
 
     //Update the number of destination cards for opponent players
-    private void updateOpponentDestCards(final  Handler handler) {
+    private void updateOpponentDestCards() {
         Toast.makeText(context, "UPDATING OPPONENT DESTINATION CARDS", Toast.LENGTH_LONG).show();
         model.updateOppDestCard(new DestCard(City.WASHINGTON, City.MIAMI, 15));
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                secondHalf(handler);
-            }
-        });
     }
 
 //second half of the demo, Avery is writing
-    private void secondHalf(final Handler handler) {
+    private void secondHalf() {
         context.startActivity(new Intent(context, GameActivity.class));
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateFaceUp(handler);
-            }
-        });
     }
 
     //Update the visible (face up) cards in the train card deck
-    private void updateFaceUp(final Handler handler) {
+    private void updateFaceUp() {
         Toast.makeText(context, "UPDATING FACE UP CARDS", Toast.LENGTH_LONG).show();
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 1);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 2);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 3);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 4);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateFaceDown(handler);
-            }
-        });
     }
 
     //Update the number of invisible (face down) cards in train card deck
-    private void updateFaceDown(final Handler handler) {
+    private void updateFaceDown() {
         Toast.makeText(context, "UPDATING FACE DOWN CARDS", Toast.LENGTH_LONG).show();
         model.modifyTrainCardDeckSize(0);
         model.modifyTrainCardDeckSize(0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.ORANGE), 0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.GREEN), 1);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                updateDestCardDeck(handler);
-            }
-        });
     }
 
     //Update the number of cards in destination card deck
-    private void updateDestCardDeck(final Handler handler) {
+    private void updateDestCardDeck() {
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "UPDATING DEST CARDS", Toast.LENGTH_LONG).show();
         model.drewDestCards(8);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                addClaimedRoute(handler);
-            }
-        });
     }
 
     //Add claimed route (for any player). Show this on the map.
-    private void addClaimedRoute(final Handler handler) {
+    private void addClaimedRoute() {
         context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "CLAIMING ROUTE", Toast.LENGTH_LONG).show();
         Route routeToClaim = model.getRoutes().getRoute(0);
         routeToClaim.claimRoute(ClientModel.instance().getActiveGame().getPlayers().get(0));
         model.claimRoute(routeToClaim);
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                addChat(handler);
-            }
-        });
     }
 
     //Add chat message from any player
-    private void addChat(final Handler handler) {
+    private void addChat() {
         context .startActivity(new Intent(context, ChatActivity.class));
         Toast.makeText(context, "ADDING CHAT", Toast.LENGTH_LONG).show();
         try {
@@ -225,16 +252,10 @@ public class Demo {
         catch (Username.InvalidUserNameException e){
             e.printStackTrace();
         }
-        run(handler, new Runnable() {
-            @Override
-            public void run() {
-                advanceTurn(handler);
-            }
-        });
     }
 
     //Advance player turn (change the turn indicator so it indicates another player)
-    private void advanceTurn(final Handler handler) {
+    private void advanceTurn() {
         context.startActivity(new Intent(context, PlayerListActivity.class));
         model.updatePlayerTurn();
         Toast.makeText(context, "ADVANCING PLAYER TURN", Toast.LENGTH_LONG).show();
