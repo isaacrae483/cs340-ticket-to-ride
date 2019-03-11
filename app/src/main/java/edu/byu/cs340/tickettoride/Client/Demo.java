@@ -171,8 +171,11 @@ public class Demo {
 
     //Update the number of invisible (face down) cards in train card deck
     private void updateFaceDown(final Handler handler) {
-        Toast.makeText(context, "UPDATING FACE DOWN CARDS TO 0", Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "UPDATING FACE DOWN CARDS", Toast.LENGTH_LONG).show();
         model.modifyTrainCardDeckSize(0);
+        model.modifyTrainCardDeckSize(0);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.ORANGE), 0);
+        model.replaceFaceUpTrainCard(new TrainCard(Colors.GREEN), 1);
         run(handler, new Runnable() {
             @Override
             public void run() {
