@@ -40,9 +40,6 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dest_card);
 
-        presenter = new DestCardPresenter(this);
-        this.setPresenter(presenter);
-
         button = findViewById(R.id.drawDestCard);
         list = findViewById(R.id.DestCardList);
 
@@ -56,6 +53,9 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         list.setLayoutManager(new LinearLayoutManager(this));
         adapter = new DestCardAdapter();
         list.setAdapter(adapter);
+
+        presenter = new DestCardPresenter(this);
+        this.setPresenter(presenter);
     }
 
 

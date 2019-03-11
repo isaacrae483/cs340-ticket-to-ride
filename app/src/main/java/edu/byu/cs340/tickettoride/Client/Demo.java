@@ -94,9 +94,9 @@ public class Demo {
 
     //Add player destination cards for this player
     private void addDestinationCards(final Handler handler) {
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "ADDING DESTINATION CARDS", Toast.LENGTH_LONG).show();
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
         run(handler, new Runnable() {
             @Override
             public void run() {
@@ -188,7 +188,11 @@ public class Demo {
     private void updateDestCardDeck(final Handler handler) {
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "UPDATING DEST CARDS", Toast.LENGTH_LONG).show();
-        model.returnDestCard(new DestCard(City.SAULT_ST_MARIE, City.NEW_ORLEANS, 9));
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 16), null, null);
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 17), null, null);
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 18), null, null);
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 19), null, null);
+        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 10), null, null);
         run(handler, new Runnable() {
             @Override
             public void run() {
