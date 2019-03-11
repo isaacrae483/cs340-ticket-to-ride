@@ -72,6 +72,7 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
             @Override
             public void onClick(android.view.View view) {
                 mIChatPresenter.sendPressed();
+                mMessageText.setText(null);
             }
         });
 

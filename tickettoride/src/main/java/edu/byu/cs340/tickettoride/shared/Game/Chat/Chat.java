@@ -26,7 +26,7 @@ public class Chat extends EventBubbler {
         if (index >= messages.size()) {
             return new ArrayList<>();
         }
-        return messages.subList(index, messages.size() - 1);
+        return messages.subList(index, messages.size());
     }
 
     public void add(ChatMessage message) throws InvalidChatException {

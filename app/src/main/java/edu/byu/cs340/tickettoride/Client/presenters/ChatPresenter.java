@@ -36,7 +36,7 @@ public class ChatPresenter extends Presenter implements IChatPresenter {
         if (o instanceof ChatAdded) {
             ChatAdded e = (ChatAdded) o;
             mChatView.displayNewMessage(e.getMessage());
-        } else if (o instanceof GameListChanged) {
+        } else {
             syncWithModel();
         }
     }
