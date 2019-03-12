@@ -10,15 +10,15 @@ import java.util.Observable;
 import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
+import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
+import edu.byu.cs340.tickettoride.Client.views.IDestCardActivity;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
+import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
-import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
-import edu.byu.cs340.tickettoride.Client.views.IDestCardActivity;
-import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
-import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -38,11 +38,14 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         //DEBUG SECTION
         //new DebugSetup().execute();
         //END DEBUG SECTION
-        syncWithModel();
+       // syncWithModel();
     }
 
     @Override
     public void syncWithModel() {
+//        if (!mClientModel.drawnYet()) {
+//            ModelFacade.instance().drawTickets();
+//        }
         view.SetDeckSize(model.getDestCardDeckSize());
         view.setCards(model.getDestCards());
     }
@@ -63,10 +66,12 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         if (o instanceof DestCardDraw) {
             DestCardDraw draw = (DestCardDraw) o;
             view.onCardDraw(draw.getCard1(), draw.getCard2(), draw.getCard3());
+            syncWithModel();
         }
         else if (o instanceof DestCardReturned) {
             DestCardReturned returned = (DestCardReturned) o;
             view.onCardReturn(returned.getReturned(), limit);
+            syncWithModel();
             if (limit.value() == 1) {
                 limit = IDestCardActivity.ReturnCardLimit.Two();
             }

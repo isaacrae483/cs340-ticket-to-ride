@@ -1,7 +1,6 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
 import java.util.List;
-import java.util.SortedSet;
 
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 

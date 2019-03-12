@@ -39,9 +39,12 @@ public class ClientProxy implements IClientObserver, IClient {
 
     @Override
     public void OnDraw(List<TrainCard> cards, Player p) {
-        if (p.getPlayerName().equals(this.user)) {
-            this.addCards(cards);
-        }
+        this.addCards(cards, p);
+    }
+
+    @Override
+    public void OnFaceUpUpdate(TrainCard card, int pos) {
+        this.setFaceUpCard(card, pos);
     }
 
     @Override
@@ -92,11 +95,23 @@ public class ClientProxy implements IClientObserver, IClient {
     }
 
     @Override
-    public void addCards(List<TrainCard> cards) {
+    public void addCards(List<TrainCard> cards, Player p) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 user, new ClientCommandData(
                         ClientCommandData.CommandType.ADD_CARDS,
-                        cards
+                        cards,
+                        p
+                )
+        );
+    }
+
+    @Override
+    public void setFaceUpCard(TrainCard card, int pos) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                user, new ClientCommandData(
+                        ClientCommandData.CommandType.REPLACE_FACE_UP,
+                        card,
+                        pos
                 )
         );
     }

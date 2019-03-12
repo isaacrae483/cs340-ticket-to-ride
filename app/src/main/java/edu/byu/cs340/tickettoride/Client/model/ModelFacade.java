@@ -11,14 +11,14 @@ import edu.byu.cs340.tickettoride.Client.ICallBack;
 import edu.byu.cs340.tickettoride.Client.Poller;
 import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
-import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
-import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
@@ -128,6 +128,9 @@ public class ModelFacade implements IModelFacade, ICallBack {
 
     @Override
     public void drawTickets(){
+//        if (!ClientModel.instance().drawnYet()) {
+//            ClientModel.instance().haveDoneFirstDraw();
+//        }
         GenericData info = new GenericData("drawTickets",
                 new Class<?>[] {Username.class, ID.class},
                 new Object[] {model.getUsername(), model.getActiveGameID()});

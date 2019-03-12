@@ -5,11 +5,10 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
-import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
 import edu.byu.cs340.tickettoride.Client.views.ChatActivity;
 import edu.byu.cs340.tickettoride.Client.views.IChatView;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
+import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 
 public class ChatPresenter extends Presenter implements IChatPresenter {
     private IChatView mChatView;

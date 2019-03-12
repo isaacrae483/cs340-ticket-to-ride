@@ -1,38 +1,37 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
+import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
+import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
+import edu.byu.cs340.tickettoride.shared.Game.Game;
+import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
-import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameListChanged;
-import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.GameStarted;
-import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
-import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
-import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
-import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
-import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
-import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
-import edu.byu.cs340.tickettoride.shared.Game.Game;
-import edu.byu.cs340.tickettoride.shared.Game.ID;
-import edu.byu.cs340.tickettoride.shared.Game.MapGames;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.PlayerTurnChanged;
 import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -61,6 +60,7 @@ public class ClientModel extends EventEmitter {
     private TrainCardDeck trainCardDeck;
     private Bank bank;
     private Routes mRoutes = new Routes();
+    boolean mDrawnCards = false;
 
     private int destCardDeckSize;
 
@@ -106,7 +106,7 @@ public class ClientModel extends EventEmitter {
             hand.addTicket(card3);
             destCardDeckSize -=1;
         }
-
+        mDrawnCards = true;
         emitEvent(new DestCardDraw(card1, card2, card3));
         emitEvent(new DestDeckSizeChanged());
     }
@@ -133,7 +133,9 @@ public class ClientModel extends EventEmitter {
     }
 
     public void startGame(ID gameId) {
-        this.getGame(gameId).startGame();
+        Game game = this.getGame(gameId);
+        game.startGame();
+        mDrawnCards = false;
         emitEvent(new GameStarted(this.getGame(gameId)));
     }
 
@@ -182,6 +184,14 @@ public class ClientModel extends EventEmitter {
 
     public void drewDestCards(int numCards) {
         destCardDeckSize -= numCards;
+    }
+
+    public boolean drawnYet() {
+        return mDrawnCards;
+    }
+
+    public void haveDoneFirstDraw() {
+        mDrawnCards = true;
     }
 
 //    public void passErrorEvent(ErrorEvent errorEvent) {
@@ -243,7 +253,7 @@ public class ClientModel extends EventEmitter {
 
     public void updatePlayerTurn(){
         activeGame.nextPlayerTurn();
-        emitEvent(new Event(){});
+        emitEvent(new PlayerTurnChanged());
     }
 
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {

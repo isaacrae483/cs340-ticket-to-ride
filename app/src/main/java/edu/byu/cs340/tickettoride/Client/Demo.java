@@ -1,6 +1,5 @@
 package edu.byu.cs340.tickettoride.Client;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -18,7 +17,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
-import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class Demo {
@@ -51,7 +49,6 @@ public class Demo {
     public void execute(){
         //the handler should run on the main thread since it is updating the UI
         Handler handler = new Handler(context.getMainLooper());
-        /*
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -135,19 +132,12 @@ public class Demo {
                 addChat();
             }
         }, getDelay());
-*/
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 advanceTurn();
             }
         }, getDelay());
-
-        //Isaac will create the first half here... right?
-
-
-        /* AVERY's section (the second half)*/
-        //secondHalf(handler);
 
     }
 
@@ -199,13 +189,9 @@ public class Demo {
         model.updateOppDestCard(new DestCard(City.WASHINGTON, City.MIAMI, 15));
     }
 
-//second half of the demo, Avery is writing
-    private void secondHalf() {
-        context.startActivity(new Intent(context, GameActivity.class));
-    }
-
     //Update the visible (face up) cards in the train card deck
     private void updateFaceUp() {
+        context.startActivity(new Intent(context, GameActivity.class));
         Toast.makeText(context, "UPDATING FACE UP CARDS", Toast.LENGTH_LONG).show();
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.RAINBOW), 1);

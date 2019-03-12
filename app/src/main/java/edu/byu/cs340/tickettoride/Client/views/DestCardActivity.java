@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,6 +60,9 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         this.setPresenter(presenter);
     }
 
+    public static Intent newIntent(Context packageContext) {
+        return new Intent(packageContext, DestCardActivity.class);
+    }
 
     @Override
     public void addCard(DestCard card) {
@@ -107,16 +112,11 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         setCards();
 
         cardsReturned = 0;
-
-        adapter.addCard(draw1);
-        adapter.addCard(draw2);
-        adapter.addCard(draw3);
     }
 
     @Override
     public void onCardReturn(DestCard card, ReturnCardLimit limit) {
         ++cardsReturned;
-        adapter.removeCard(card);
         if (card != null) {
             if (card.equals(draw1)) {
                 draw1 = null;
@@ -204,12 +204,12 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
             cards.add(card);
             this.notifyItemInserted(cards.size() - 1);
         }
-
+/*
         public void removeCard(DestCard card) {
             int pos = cards.indexOf(card);
             cards.remove(pos);
             this.notifyItemRemoved(pos);
-        }
+        }*/
 
         private class DestCardHolder extends RecyclerView.ViewHolder {
 

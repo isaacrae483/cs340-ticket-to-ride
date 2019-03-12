@@ -15,5 +15,6 @@ public interface IClientObserver {
     void OnGameStart(ID gameStart);
     void OnChat(ChatMessage message);
     void OnDraw(List<TrainCard> cards, Player player);
+    void OnFaceUpUpdate(TrainCard card, int pos);
 }
 

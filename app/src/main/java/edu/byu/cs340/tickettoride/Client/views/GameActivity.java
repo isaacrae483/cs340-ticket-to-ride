@@ -148,7 +148,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
 
     @Override
     public void moveToDestCards() {
-        //startActivity(DestCardActivity.newIntent(getApplicationContext()));
+        startActivity(DestCardActivity.newIntent(getApplicationContext()));
     }
 
     @Override

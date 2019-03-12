@@ -1,11 +1,8 @@
 package edu.byu.cs340.tickettoride.Client.presenters;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Observable;
 
-import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.views.IMapView;
 import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;

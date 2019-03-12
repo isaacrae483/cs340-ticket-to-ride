@@ -10,7 +10,7 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientCommandData {
-    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS }
+    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS, REPLACE_FACE_UP }
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;
@@ -35,9 +35,16 @@ public class ClientCommandData {
         this.type = type;
     }
 
-    public ClientCommandData(CommandType type, List<TrainCard> cards) {
+    public ClientCommandData(CommandType type, TrainCard card, int pos) {
+        this.trainCard = card;
+        this.pos = pos;
+        this.type = type;
+    }
+
+    public ClientCommandData(CommandType type, List<TrainCard> cards, Player player) {
         this.type = type;
         this.cards = cards;
+        this.player = player;
     }
 
     public ID id;
@@ -46,6 +53,8 @@ public class ClientCommandData {
     public String message;
     public Username username;
     public List<TrainCard> cards;
+    public TrainCard trainCard;
+    public int pos;
 
     public CommandType type;
 }
