@@ -46,4 +46,7 @@
     <string name="claim_success">Route Claimed!</string>
     <string name="title_activity_player_list">PlayerListActivity</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="failed_to_claim_route">Failed To Claim Route</string>
+    <string name="not_enough_cards_to_claim">Not Enough Cards</string>
+    <string name="route_owned_by_another_player">Owned By Another Player</string>
 </resources>
