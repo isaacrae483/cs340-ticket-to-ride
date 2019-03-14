@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Client.views.ResultsActivity"></activity>
         <activity
             android:name=".Client.views.LoginActivity"
             android:launchMode="singleTop">
@@ -35,7 +36,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Client.views.PlayerListActivity"
+        <activity
+            android:name=".Client.views.PlayerListActivity"
             android:label="@string/title_activity_player_list"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar">
@@ -46,7 +48,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Client.views.GameListActivity" />
-        <activity android:name=".Client.views.ChatActivity"
+        <activity
+            android:name=".Client.views.ChatActivity"
             android:label="@string/title_activity_chat"
             android:screenOrientation="landscape">
             <intent-filter>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Client.views.ResultsActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="RESULTS"
+            android:textSize="25dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"/>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:columnCount="2"
+            android:rowCount="6"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SCORE"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:id="@+id/player1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER1:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/player1Score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="333"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:id="@+id/player2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER2:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/player2Score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="256"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:id="@+id/player3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER3:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/player3Score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:id="@+id/player4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER4:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/player4Score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:id="@+id/player5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER5:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/player5Score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WINNING PLAYER:"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+            <TextView
+                android:id="@+id/winningPlayer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PLAYER1"
+                android:textAlignment="center"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"/>
+        </GridLayout>
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
