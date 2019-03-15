@@ -2,10 +2,12 @@ package edu.byu.cs340.tickettoride.server.Model;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import edu.byu.cs340.tickettoride.server.Observers.ClientObserver;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -79,7 +81,32 @@ public class ClientProxy extends ClientObserver {
                 )
         );
     }
+//////////////////////////////////////////new for phase three  ///////////// not yet implemented////////////////////////////////
+    @Override
+    public void drawTrainCard(TrainCard card, Player player) {
 
+    }
+
+    @Override
+    public void claimRoute(Route route, Player palyer) {
+
+    }
+
+    @Override
+    public void lastTurn() {
+
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+
+    }
+
+    @Override
+    public void addGameHistory(String data) {
+
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

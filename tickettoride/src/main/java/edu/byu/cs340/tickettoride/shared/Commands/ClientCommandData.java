@@ -2,6 +2,7 @@ package edu.byu.cs340.tickettoride.shared.Commands;
 
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -10,7 +11,7 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientCommandData {
-    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS, REPLACE_FACE_UP }
+    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS, REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY}
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;
@@ -47,6 +48,36 @@ public class ClientCommandData {
         this.player = player;
     }
 
+    public ClientCommandData(CommandType type, TrainCard card, Player player){
+        this.type = type;
+        this.trainCard = card;
+        this.player = player;
+    }
+
+    public ClientCommandData(CommandType type, Route route, Player player){
+        this.type = type;
+        this.route = route;
+        this.player = player;
+    }
+
+    public ClientCommandData(CommandType type){
+        this.type = type;
+    }
+
+    public ClientCommandData(CommandType type, List<Player> players){
+        this.type = type;
+        this.players = players;
+    }
+
+    public ClientCommandData(CommandType type, String message){
+        this.type = type;
+        this.message = message;
+    }
+
+
+
+
+
     public ID id;
     public Game game;
     public Player player;
@@ -55,6 +86,8 @@ public class ClientCommandData {
     public List<TrainCard> cards;
     public TrainCard trainCard;
     public int pos;
+    public Route route;
+    public List<Player> players;
 
     public CommandType type;
 }
