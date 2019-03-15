@@ -13,7 +13,7 @@ public class LoginService {
         User user = ServerModel.SINGLETON.getMapUsers().getUser(username);
 
         if(user != null && user.getPassword().equals(password)) {
-            ServerFacade.SINGLETON.AddObserver(new ClientProxy(username));
+            ServerFacade.SINGLETON.addObserver(new ClientProxy(username));
             ServerModel.SINGLETON.getCommandList().GetCommands(username);
             return new LoginResult(ServerModel.SINGLETON.getMapNewGames().getAsListGames(), true);
         }
