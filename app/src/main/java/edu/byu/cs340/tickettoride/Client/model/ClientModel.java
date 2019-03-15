@@ -61,6 +61,7 @@ public class ClientModel extends EventEmitter {
     private Bank bank;
     private Routes mRoutes = new Routes();
     boolean mDrawnCards = false;
+    private Player winningPlayer;
 
     private int destCardDeckSize;
 
@@ -192,6 +193,11 @@ public class ClientModel extends EventEmitter {
 
     public void haveDoneFirstDraw() {
         mDrawnCards = true;
+    }
+
+    public void setWinningPlayer(Player player){
+        this.winningPlayer = player;
+        emitEvent(new Event(){});
     }
 
 //    public void passErrorEvent(ErrorEvent errorEvent) {
