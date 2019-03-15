@@ -256,9 +256,17 @@ public class ClientModel extends EventEmitter {
         emitEvent(new PlayerTurnChanged());
     }
 
+    public Username getPlayerTurn() {
+        return activeGame.getPlayerTurn();
+    }
+
     public void replaceFaceUpTrainCard(TrainCard card, int pos) {
         bank.replaceCard(pos, card);
         emitEvent(new BankCardsChanged());
+    }
+
+    public TrainCard getFaceUpCard(int pos) {
+        return bank.getCards().get(pos);
     }
 
     public Routes getRoutes() {
