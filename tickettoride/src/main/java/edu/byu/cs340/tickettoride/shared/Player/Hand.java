@@ -61,7 +61,7 @@ public class Hand {
 
     /**
      * pre: num != 0 and color != Null
-     * post:
+     * post: the train card deck is the same and contains at least the given number of the given color or rainbows
      * @param num
      * @param color
      * @return
@@ -81,6 +81,12 @@ public class Hand {
             return false;
     }
 
+    /**
+     * pre: hasCards function returns true for same num and color
+     * post: train card hand contains the same number of cards minus num, and cards of the given color or missing first then rainbows equal to num
+     * @param num
+     * @param color
+     */
     public void removeCards(int num, Colors color){
         for(TrainCard card : trainCards){
             if(card.getColor() == color){

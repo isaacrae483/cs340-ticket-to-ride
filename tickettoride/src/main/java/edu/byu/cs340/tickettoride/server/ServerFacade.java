@@ -11,15 +11,21 @@ import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
 import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
-import edu.byu.cs340.tickettoride.server.Observers.IClientObservable;
-import edu.byu.cs340.tickettoride.server.Observers.IClientObserver;
+import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
+import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
@@ -36,11 +42,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
  * The ServerFacade class holds all operations that the client needs to perform on the server.
  * It is a singleton with the instance stored as the static SINGLETON field.
  */
-public class ServerFacade implements IServer, IClientObservable{
-    /**
-     * The set of observers that need to be notified when the server state changes
-     */
-    private Set<IClientObserver> observers = new HashSet<>();
+public class ServerFacade extends EventEmitter implements IServer {
 
     /**
      * This class is a singleton, so here is the instance
@@ -93,9 +95,7 @@ public class ServerFacade implements IServer, IClientObservable{
     public JoinGameResult joinGame(Username username, ID id) {
         JoinGameResult res =  JoinGameService.joinGame(username, id);
         if (res.getSuccess()) {
-            for (IClientObserver observer : observers) {
-                observer.OnPlayerJoin(res.getPlayer(), id);
-            }
+            this.emitEvent(new PlayerJoinedGameEvent(res.getPlayer(), id));
         }
         return res;
     }
@@ -112,9 +112,7 @@ public class ServerFacade implements IServer, IClientObservable{
         CreateGameResult result = CreateGameService.createGame(username);
         if (result.getSuccess()) {
             Game game = result.getGame();
-            for (IClientObserver observer : observers) {
-                observer.OnNewGame(game);
-            }
+            this.emitEvent(new AddGameEvent(game));
         }
         return result;
     }
@@ -144,9 +142,7 @@ public class ServerFacade implements IServer, IClientObservable{
     public StartGameResult startGame(Username username, ID id) {
         StartGameResult res = new StartGameService().startGame(username, id);
         if (res.getSuccess()) {
-            for(IClientObserver o : observers) {
-                o.OnGameStart(id);
-            }
+            this.emitEvent(new StartGameEvent(id));
         }
         return res;
     }
@@ -181,34 +177,22 @@ public class ServerFacade implements IServer, IClientObservable{
                 message.getGame());
 
         if (res.getSuccess()) {
-            for (IClientObserver o : observers) {
-                o.OnChat(res.getMessage());
-            }
+            this.emitEvent(new ChatEvent(message));
         }
 
         return res;
     }
 
-    public void playerDrew(Player p, List<TrainCard> cards) {
-        for (IClientObserver o : observers) {
-            o.OnDraw(cards, p);
-        }
+    public void playerDrew(Player p, List<TrainCard> cards, ID game) {
+        this.emitEvent(new AddCardsEvent(cards, p, game));
     }
 
     public void SetFaceUpCard(Game game, TrainCard card, int pos) {
-        for (Player p : game.getPlayers()) {
-            ServerModel.SINGLETON.getCommandList().AddCommand(
-                    p.getPlayerName(), new ClientCommandData(
-                            ClientCommandData.CommandType.REPLACE_FACE_UP,
-                            card,
-                            pos
-                    )
-            );
-        }
+        this.emitEvent(new FaceUpCardEvent(card, pos, game.getId()));
     }
 
     /**
-     * pre: Username is a valid user and a part of the game spacified by the ID.
+     * pre: Username is a valid user and a part of the game specified by the ID.
      * post: the card is added to the end of the destination card deck for the game.
      * @param username the user returning tickets
      * @param card the card that the user is returning
@@ -221,16 +205,7 @@ public class ServerFacade implements IServer, IClientObservable{
         return res;
     }
 
-    /**
-     * pre: observer is not null
-     * post: observer is added to the facade
-     * adds a client observer to notify when the facade changes
-     * @param observer the observer to add
-     */
-    @Override
-    public void AddObserver(IClientObserver observer) {
-        observers.add(observer);
-    }
+
 
     /**
      *  FOR TESTING PURPOSES ONLY
@@ -239,7 +214,7 @@ public class ServerFacade implements IServer, IClientObservable{
      * @return the number of observers.
      */
     public int NumObservers() {
-        return observers.size();
+        return this.countObservers();
     }
 
     /**
@@ -249,7 +224,7 @@ public class ServerFacade implements IServer, IClientObservable{
      *  called
      */
     public void Reset() {
-        observers = new HashSet<>();
+        this.deleteObservers();
         ServerModel.SINGLETON.Reset();
     }
 }

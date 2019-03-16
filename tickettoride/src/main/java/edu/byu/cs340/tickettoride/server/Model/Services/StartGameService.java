@@ -48,7 +48,7 @@ public class StartGameService  {
         for (int i = 0; i < HAND_SIZE; ++i) {
             hand.add(game.drawCard());
         }
-        ServerFacade.SINGLETON.playerDrew(p, hand);
+        ServerFacade.SINGLETON.playerDrew(p, hand, game.getId());
     }
 
     private void InitializeFaceUp(List<TrainCard> cards, Game game) {

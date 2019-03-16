@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.server;
 
 import edu.byu.cs340.tickettoride.server.Model.CommandList;
+import edu.byu.cs340.tickettoride.shared.Game.Game;
+import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.User.MapUsers;
 
@@ -31,6 +33,10 @@ public class ServerModel {
     public void Reset() {
         mapGames = new MapGames();
         mapUsers = new MapUsers();
+    }
+
+    public Game getStartedGame(ID id) {
+        return startedGames.getGame(id);
     }
 
 //implement methods for login, register, joinGame, newGame here.

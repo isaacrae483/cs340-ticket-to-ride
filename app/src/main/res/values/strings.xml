@@ -46,4 +46,19 @@
     <string name="claim_success">Route Claimed!</string>
     <string name="title_activity_player_list">PlayerListActivity</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="failed_to_claim_route">Failed To Claim Route</string>
+    <string name="not_enough_cards_to_claim">Not Enough Cards</string>
+    <string name="route_owned_by_another_player">Owned By Another Player</string>
+
+    <!-- Strings related to result view -->
+    <string name="result">RESULT</string>
+    <string name="winner">WINNING PLAYER:</string>
+    <string name="player">PLAYER</string>
+    <string name="player1">Player 1:</string>
+    <string name="player2">Player 2:</string>
+    <string name="player3">Player 3:</string>
+    <string name="player4">Player 4:</string>
+    <string name="player5">Player 5:</string>
+    <string name="score">SCORE</string>
+    <string name="place_holder">-</string>
 </resources>

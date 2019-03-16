@@ -114,6 +114,10 @@ public class Game extends EventBubbler implements IGameListEntry {
         playerTurn = players.get(playerTurnIndex).getPlayerName();
     }
 
+    public Username getPlayerTurn() {
+        return playerTurn;
+    }
+
 
     /**
      * pre: None

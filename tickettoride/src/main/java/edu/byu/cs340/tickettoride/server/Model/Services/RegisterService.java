@@ -13,7 +13,7 @@ public class RegisterService {
         if (ServerModel.SINGLETON.getMapUsers().getUser(username) == null
             && username != null && password != null) {
             ServerModel.SINGLETON.getMapUsers().addUser(new User(username, password));
-            ServerFacade.SINGLETON.AddObserver(new ClientProxy(username));
+            ServerFacade.SINGLETON.addObserver(new ClientProxy(username));
             ServerModel.SINGLETON.getCommandList().GetCommands(username);
             return new LoginResult(ServerModel.SINGLETON.getMapNewGames().getAsListGames(), true);
         }

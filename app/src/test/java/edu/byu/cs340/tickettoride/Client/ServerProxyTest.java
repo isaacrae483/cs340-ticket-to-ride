@@ -122,8 +122,6 @@ public class ServerProxyTest {
 
         server.register(user, password);
 
-        assertNull(model.getGames());
-
         CreateGameResult res = server.createGame(user);
         Game game = res.getGame();
         ID id = res.getGame().getId();

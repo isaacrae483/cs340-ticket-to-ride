@@ -1,8 +1,10 @@
 package edu.byu.cs340.tickettoride.Client;
 
 import java.util.List;
+import java.util.Set;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -67,6 +69,31 @@ public class ClientFacade implements IClient {
     @Override
     public void setFaceUpCard(TrainCard cards, int pos) {
         model.replaceFaceUpTrainCard(cards, pos);
+    }
+
+    @Override
+    public void drawTrainCard(TrainCard card, Player player) {
+
+    }
+
+    @Override
+    public void claimRoute(Route route, Player palyer) {
+
+    }
+
+    @Override
+    public void lastTurn() {
+
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+
+    }
+
+    @Override
+    public void addGameHistory(String data) {
+
     }
 
 
