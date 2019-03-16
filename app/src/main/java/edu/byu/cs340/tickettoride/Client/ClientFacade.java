@@ -77,6 +77,11 @@ public class ClientFacade implements IClient {
     }
 
     @Override
+    public void drawFaceUpCard(TrainCard card, Player player) {
+
+    }
+
+    @Override
     public void claimRoute(Route route, Player palyer) {
 
     }

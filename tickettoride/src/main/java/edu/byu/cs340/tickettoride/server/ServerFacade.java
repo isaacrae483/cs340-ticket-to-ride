@@ -19,6 +19,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -34,6 +35,7 @@ import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
+import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -205,6 +207,10 @@ public class ServerFacade extends EventEmitter implements IServer {
         return res;
     }
 
+    @Override
+    public RouteClaimedResult routeClaimed(Route route, Username player) {
+        return null;
+    }
 
 
     /**

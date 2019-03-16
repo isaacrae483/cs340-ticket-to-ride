@@ -6,6 +6,7 @@ import java.net.URL;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData.commandType;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -16,6 +17,7 @@ import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
+import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -91,6 +93,11 @@ public class ServerProxy implements IServer {
     public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         data = new ServerCommandData(commandType.RETURNCARD, username, card, game);
         return communicator.send(data, ReturnTicketResult.class);
+    }
+
+    @Override
+    public RouteClaimedResult routeClaimed(Route route, Username player) {
+        return null;
     }
 
     public void setHost(URL host) {

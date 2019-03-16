@@ -21,6 +21,7 @@ public interface IClient {
     void setFaceUpCard(TrainCard card, int pos);
 
     void drawTrainCard(TrainCard card, Player player);
+    void drawFaceUpCard(TrainCard card, Player player);
     void claimRoute(Route route, Player palyer);
     void lastTurn();//simply notify that it is last turn could influence state
     void endGame(List<Player> players); //this way we can get final points from all players(after destination cards) to determine winner
