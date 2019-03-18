@@ -64,4 +64,12 @@ public class Player implements IPlayer {
     public TrainPieces getTrainPieces() {
         return trainPieces;
     }
+
+    public boolean isLastTurn(){
+        if(trainPieces == null){
+            trainPieces = new TrainPieces();
+            return false;
+        }
+        return trainPieces.lastTurn();
+    }
 }

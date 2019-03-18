@@ -20,7 +20,7 @@ public class TrainPieces {
     }
 
     public boolean lastTurn(){
-        if(pieces <= END_NUM_PIECES)
+        if(pieces < END_NUM_PIECES)
             return true;
         else
             return false;
