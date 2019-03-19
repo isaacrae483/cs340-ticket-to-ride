@@ -1,44 +1,49 @@
 package edu.byu.cs340.tickettoride.Client.views;
 
 import android.support.v7.app.AppCompatActivity;
+
+import edu.byu.cs340.tickettoride.Client.presenters.IResultsPresenter;
+import edu.byu.cs340.tickettoride.Client.presenters.ResultsPresenter;
 import edu.byu.cs340.tickettoride.R;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class ResultsActivity extends AppCompatActivity {
+public class ResultsActivity extends PresenterViewActivity implements IResultsView {
 
-    TextView mPlayer1;
-    TextView mPlayer1TicketScore;
-    TextView mPlayer1NegTicketScore;
-    TextView mPlayer1TrainScore;
-    TextView mPlayer1LongTrainScore;
-    TextView mPlayer1TotalScore;
-    TextView mPlayer2;
-    TextView mPlayer2TicketScore;
-    TextView mPlayer2NegTicketScore;
-    TextView mPlayer2TrainScore;
-    TextView mPlayer2LongTrainScore;
-    TextView mPlayer2TotalScore;
-    TextView mPlayer3;
-    TextView mPlayer3TicketScore;
-    TextView mPlayer3NegTicketScore;
-    TextView mPlayer3TrainScore;
-    TextView mPlayer3LongTrainScore;
-    TextView mPlayer3TotalScore;
-    TextView mPlayer4;
-    TextView mPlayer4TicketScore;
-    TextView mPlayer4NegTicketScore;
-    TextView mPlayer4TrainScore;
-    TextView mPlayer4LongTrainScore;
-    TextView mPlayer4TotalScore;
-    TextView mPlayer5;
-    TextView mPlayer5TicketScore;
-    TextView mPlayer5NegTicketScore;
-    TextView mPlayer5TrainScore;
-    TextView mPlayer5LongTrainScore;
-    TextView mPlayer5TotalScore;
-    TextView mWinner;
+    private TextView mPlayer1;
+    private TextView mPlayer1TicketScore;
+    private TextView mPlayer1NegTicketScore;
+    private TextView mPlayer1TrainScore;
+    private TextView mPlayer1LongTrainScore;
+    private TextView mPlayer1TotalScore;
+    private TextView mPlayer2;
+    private TextView mPlayer2TicketScore;
+    private TextView mPlayer2NegTicketScore;
+    private TextView mPlayer2TrainScore;
+    private TextView mPlayer2LongTrainScore;
+    private TextView mPlayer2TotalScore;
+    private TextView mPlayer3;
+    private TextView mPlayer3TicketScore;
+    private TextView mPlayer3NegTicketScore;
+    private TextView mPlayer3TrainScore;
+    private TextView mPlayer3LongTrainScore;
+    private TextView mPlayer3TotalScore;
+    private TextView mPlayer4;
+    private TextView mPlayer4TicketScore;
+    private TextView mPlayer4NegTicketScore;
+    private TextView mPlayer4TrainScore;
+    private TextView mPlayer4LongTrainScore;
+    private TextView mPlayer4TotalScore;
+    private TextView mPlayer5;
+    private TextView mPlayer5TicketScore;
+    private TextView mPlayer5NegTicketScore;
+    private TextView mPlayer5TrainScore;
+    private TextView mPlayer5LongTrainScore;
+    private TextView mPlayer5TotalScore;
+    private TextView mWinner;
+
+    private IResultsPresenter mIResultsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,11 @@ public class ResultsActivity extends AppCompatActivity {
         mPlayer5LongTrainScore = findViewById(R.id.player5longTrain);
         mPlayer5TotalScore = findViewById(R.id.player5total);
         mWinner = findViewById(R.id.winningPlayer);
+
+
+        ResultsPresenter resultsPresenter = new ResultsPresenter(this);
+        mIResultsPresenter = resultsPresenter;
+        setPresenter(resultsPresenter);
 
     }
 }
