@@ -16,6 +16,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
@@ -216,6 +217,10 @@ public class ServerFacade extends EventEmitter implements IServer {
             this.emitEvent(new RouteClaimedEvent(route, res.getPlayer(), game));
         }
         return res;
+    }
+
+    public void LastTurn(ID game) {
+        this.emitEvent(new LastTurnEvent(game));
     }
 
 

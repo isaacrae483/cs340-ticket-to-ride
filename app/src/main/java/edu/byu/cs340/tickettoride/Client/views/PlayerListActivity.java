@@ -108,8 +108,8 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
                     break;
             }
 
-            mPlayerPoints.setText(player.getPoints().toString() + "\npoints");
-            mPlayerTrainCars.setText(player.getTrainPieces().toString() + "\ntrain pieces");
+            mPlayerPoints.setText(player.getPoints() + "\npoints");
+            mPlayerTrainCars.setText(player.getTrainPieces() + "\ntrain pieces");
             mPlayerTrainCards.setText(player.getHand().getNumTrainCards() + "\ntrain cards");
             mPlayerDestCards.setText(player.getHand().getNumDestCards() + "\ndestinations");
         }

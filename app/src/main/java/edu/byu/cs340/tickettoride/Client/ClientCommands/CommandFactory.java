@@ -19,6 +19,10 @@ public class CommandFactory {
                 return new AddCardsCommand(info.cards, info.player);
             case REPLACE_FACE_UP:
                 return new ReplaceFaceUpCardCommand(info.trainCard, info.pos);
+            case LAST_TURN:
+                return new LastTurnCommand();
+            case CLAIM_ROUTE:
+                return new ClaimRouteCommand(info.route, info.player);
 
         }
         //tried to create non-existent command

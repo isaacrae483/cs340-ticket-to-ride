@@ -34,8 +34,8 @@ public class Route implements IRoute {
         return endCity;
     }
 
-    public Length getLength() {
-        return length;
+    public int getLength() {
+        return length.getLength();
     }
 
     public Boolean getClaimed() {
@@ -62,6 +62,10 @@ public class Route implements IRoute {
         this.claimed = true;
         //set claimedBy
         this.claimedBy = claimedBy;
+    }
+
+    public int getPoints() {
+        return length.getPoints();
     }
 
     @Override

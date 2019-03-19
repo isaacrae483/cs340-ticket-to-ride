@@ -35,8 +35,8 @@ public class Player implements IPlayer {
         points.addPoints(add);
     }
 
-    public Points getPoints(){
-        return points;
+    public int getPoints(){
+        return points.getPoints();
     }
 
     public void playTrains(int amount) {
@@ -61,8 +61,8 @@ public class Player implements IPlayer {
         return hand;
     }
 
-    public TrainPieces getTrainPieces() {
-        return trainPieces;
+    public int getTrainPieces() {
+        return trainPieces.getPieces();
     }
 
     public boolean isLastTurn(){

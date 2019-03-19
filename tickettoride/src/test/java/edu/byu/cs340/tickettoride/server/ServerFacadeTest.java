@@ -17,6 +17,9 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.Player.Points;
+import edu.byu.cs340.tickettoride.shared.Player.TrainPieces;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
@@ -263,6 +266,18 @@ public class ServerFacadeTest {
         assertFalse(res.getSuccess());
     }
 
+    private ClientCommandList AssertCommands(int size, Username user) {
+        ClientCommandList commands = facade.getCommands(user);
+        assertEquals(size, commands.size());
+        return commands;
+    }
+
+    private void AssertCommand(Username user, ClientCommandData.CommandType type) {
+            ClientCommandList commands = facade.getCommands(user);
+            assertEquals(1, commands.size());
+            assertEquals(type, commands.get(0).type);
+    }
+
     @Test
     public void routeClaimed() {
         this.createGame();
@@ -285,24 +300,60 @@ public class ServerFacadeTest {
         facade.getCommands(user);
         res = facade.routeClaimed(route1, user, gameID);
         assertTrue(res.getSuccess());
-        ClientCommandList commands = facade.getCommands(user);
-        assertEquals(1, commands.size());
-        assertEquals(ClientCommandData.CommandType.CLAIM_ROUTE, commands.get(0).type);
+        AssertCommand(user, ClientCommandData.CommandType.CLAIM_ROUTE);
 
         res = facade.routeClaimed(route1, user2, gameID);
         assertFalse(res.getSuccess());
-        commands = facade.getCommands(user);
-        assertEquals(0, commands.size());
+        AssertCommands( 0, user);
 
         res = facade.routeClaimed(route2, user2, ID.generate());
         assertFalse(res.getSuccess());
-        commands = facade.getCommands(user);
-        assertEquals(0, commands.size());
+        AssertCommands( 0, user);
 
         res = facade.routeClaimed(route2, user2, gameID);
         assertTrue(res.getSuccess());
-        commands = facade.getCommands(user);
-        assertEquals(1, commands.size());
-        assertEquals(ClientCommandData.CommandType.CLAIM_ROUTE, commands.get(0).type);
+        AssertCommand(user, ClientCommandData.CommandType.CLAIM_ROUTE);
+
+        //TEST points updated
+
+        int points = game.getPlayer(user2).getPoints();
+        Route route3 = routes.getRoute(2);
+        res = facade.routeClaimed(route3, user2, gameID);
+        assertTrue(res.getSuccess());
+        int pointsAfter = game.getPlayer(user2).getPoints();
+        assertEquals(points + route3.getPoints(), pointsAfter);
+        AssertCommand(user, ClientCommandData.CommandType.CLAIM_ROUTE);
+
+        points = game.getPlayer(user2).getPoints();
+        res = facade.routeClaimed(route3, user2, gameID);
+        assertFalse(res.getSuccess());
+        pointsAfter = game.getPlayer(user2).getPoints();
+        assertEquals(points , pointsAfter);
+        AssertCommands( 0, user);
+
+        //TEST peices
+        Player player = game.getPlayer(user2);
+        int piecesBefore = player.getTrainPieces();
+        Route route4 = routes.getRoute(3);
+        res = facade.routeClaimed(route4, user2, gameID);
+        assertTrue(res.getSuccess());
+        AssertCommand(user, ClientCommandData.CommandType.CLAIM_ROUTE);
+        assertEquals(piecesBefore - route4.getLength(), player.getTrainPieces());
+
+        piecesBefore = player.getTrainPieces();
+        res = facade.routeClaimed(route4, user2, gameID);
+        assertFalse(res.getSuccess());
+        AssertCommands(0, user);
+        assertEquals(piecesBefore, player.getTrainPieces());
+
+        //TEST end game
+        Route route5 = routes.getRoute(4);
+        int toRemove = player.getTrainPieces() - route5.getLength() - 2;
+        player.playTrains(toRemove);
+        res = facade.routeClaimed(route5, user2, gameID);
+        assertTrue(res.getSuccess());
+        ClientCommandList commandList = AssertCommands(2, user);
+        assertEquals(ClientCommandData.CommandType.LAST_TURN, commandList.get(0).type);
+
     }
 }

@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.GameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
@@ -71,6 +72,10 @@ public abstract class ClientObserver implements IClient, Observer {
         else if (e instanceof RouteClaimedEvent) {
             RouteClaimedEvent event = (RouteClaimedEvent) e;
             this.claimRoute(event.getRoute(), event.getPlayer());
+        }
+        else if (e instanceof LastTurnEvent) {
+            LastTurnEvent event = (LastTurnEvent) e;
+            this.lastTurn();
         }
     }
 }

@@ -104,7 +104,12 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void lastTurn() {
-
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.LAST_TURN
+                )
+        );
     }
 
     @Override
