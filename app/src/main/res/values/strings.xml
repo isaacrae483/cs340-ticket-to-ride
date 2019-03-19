@@ -59,6 +59,11 @@
     <string name="player3">Player 3:</string>
     <string name="player4">Player 4:</string>
     <string name="player5">Player 5:</string>
-    <string name="score">SCORE</string>
+    <string name="total_score">TOTAL</string>i
+    <string name="train_score">TRAINS</string>
+    <string name="ticket_score">TICKETS</string>
+    <string name="neg_ticket_score">NEG TICKETS</string>
+    <string name="long_train">LONG TRAIN</string>
+
     <string name="place_holder">-</string>
 </resources>
