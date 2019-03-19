@@ -10,6 +10,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.Player.Points;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public interface IClient {

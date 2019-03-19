@@ -287,4 +287,17 @@ public class Game extends EventBubbler implements IGameListEntry {
         }
         return null;
     }
+
+    public Route getRoute(int id) {
+        return board.getRoutes().getRoute(id);
+    }
+
+    public Player getPlayer(Username username) {
+        for (Player p : players) {
+            if (p.getPlayerName().equals(username)) {
+                return p;
+            }
+        }
+        return null;
+    }
 }

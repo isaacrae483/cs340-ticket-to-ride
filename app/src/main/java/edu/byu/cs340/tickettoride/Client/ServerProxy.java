@@ -96,7 +96,7 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public RouteClaimedResult routeClaimed(Route route, Username player) {
+    public RouteClaimedResult routeClaimed(Route route, Username player, ID game) {
         return null;
     }
 

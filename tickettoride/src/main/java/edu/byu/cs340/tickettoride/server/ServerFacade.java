@@ -10,12 +10,14 @@ import edu.byu.cs340.tickettoride.server.Model.Services.DestCardService;
 import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
+import edu.byu.cs340.tickettoride.server.Model.Services.RouteClaimedService;
 import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
@@ -208,8 +210,12 @@ public class ServerFacade extends EventEmitter implements IServer {
     }
 
     @Override
-    public RouteClaimedResult routeClaimed(Route route, Username player) {
-        return null;
+    public RouteClaimedResult routeClaimed(Route route, Username player, ID game) {
+        RouteClaimedResult res = new RouteClaimedService().routeClaimed(route, player, game);
+        if (res.getSuccess()) {
+            this.emitEvent(new RouteClaimedEvent(route, res.getPlayer(), game));
+        }
+        return res;
     }
 
 

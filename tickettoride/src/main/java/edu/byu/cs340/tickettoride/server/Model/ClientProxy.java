@@ -93,8 +93,13 @@ public class ClientProxy extends ClientObserver {
     }
 
     @Override
-    public void claimRoute(Route route, Player palyer) {
-
+    public void claimRoute(Route route, Player player) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.CLAIM_ROUTE,
+                        route,
+                        player
+                ));
     }
 
     @Override

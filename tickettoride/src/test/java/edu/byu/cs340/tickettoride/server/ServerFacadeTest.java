@@ -7,8 +7,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -20,6 +23,7 @@ import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
+import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -257,5 +261,48 @@ public class ServerFacadeTest {
 
         res = facade.returnTickets(user, first, id);
         assertFalse(res.getSuccess());
+    }
+
+    @Test
+    public void routeClaimed() {
+        this.createGame();
+
+        ID gameID = game.getId();
+
+        JoinGameResult join = facade.joinGame(user2, gameID);
+        assertTrue(join.getSuccess());
+
+        StartGameResult start = facade.startGame(user, gameID);
+        assertTrue(start.getSuccess());
+
+        RouteClaimedResult res = facade.routeClaimed(null, null, gameID);
+        assertFalse(res.getSuccess());
+
+        Routes routes = new Routes();
+        Route route1 = routes.getRoute(0);
+        Route route2 = routes.getRoute(1);
+
+        facade.getCommands(user);
+        res = facade.routeClaimed(route1, user, gameID);
+        assertTrue(res.getSuccess());
+        ClientCommandList commands = facade.getCommands(user);
+        assertEquals(1, commands.size());
+        assertEquals(ClientCommandData.CommandType.CLAIM_ROUTE, commands.get(0).type);
+
+        res = facade.routeClaimed(route1, user2, gameID);
+        assertFalse(res.getSuccess());
+        commands = facade.getCommands(user);
+        assertEquals(0, commands.size());
+
+        res = facade.routeClaimed(route2, user2, ID.generate());
+        assertFalse(res.getSuccess());
+        commands = facade.getCommands(user);
+        assertEquals(0, commands.size());
+
+        res = facade.routeClaimed(route2, user2, gameID);
+        assertTrue(res.getSuccess());
+        commands = facade.getCommands(user);
+        assertEquals(1, commands.size());
+        assertEquals(ClientCommandData.CommandType.CLAIM_ROUTE, commands.get(0).type);
     }
 }

@@ -26,5 +26,5 @@ public interface IServer {
     DrawTicketsResult drawTickets(Username username, ID game);
     ChatResult chat(ChatMessage message);
     ReturnTicketResult returnTickets(Username username, DestCard card, ID game);
-    RouteClaimedResult routeClaimed(Route route, Username player);
+    RouteClaimedResult routeClaimed(Route route, Username player, ID game);
 }

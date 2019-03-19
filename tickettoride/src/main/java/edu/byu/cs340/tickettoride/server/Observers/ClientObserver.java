@@ -9,10 +9,12 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.GameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
+import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public abstract class ClientObserver implements IClient, Observer {
@@ -65,6 +67,10 @@ public abstract class ClientObserver implements IClient, Observer {
         else if (e instanceof AddCardsEvent) {
             AddCardsEvent event = (AddCardsEvent) e;
             this.addCards(event.getCards(), event.getPlayer());
+        }
+        else if (e instanceof RouteClaimedEvent) {
+            RouteClaimedEvent event = (RouteClaimedEvent) e;
+            this.claimRoute(event.getRoute(), event.getPlayer());
         }
     }
 }
