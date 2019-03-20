@@ -8,13 +8,21 @@ public class Player implements IPlayer {
     private Username username;
     private Color color;
     private Hand hand = new Hand();
-    private Points points = new Points();
+    private Points trainCarPoints;
+    private Points ticketPoints;
+    private Points negTicketPoints;
+    private Points longTrainPoints;
+    private Points totalPoints;
     private TrainPieces trainPieces = new TrainPieces();
 
     public Player(Username username, Color color) {
         this.username = username;
         this.color = color;
-
+        trainCarPoints = new Points();
+        ticketPoints = new Points();
+        negTicketPoints = new Points();
+        longTrainPoints = new Points();
+        totalPoints = new Points();
 
     }
 
@@ -28,16 +36,69 @@ public class Player implements IPlayer {
         return username;
     }
 
-    public void addPoints(int add){
-        if(points == null){
-            points = new Points();
-        }
-        points.addPoints(add);
+    public int getTrainCarPoints(){
+        return trainCarPoints.getPoints();
     }
 
-    public int getPoints(){
-        return points.getPoints();
+    public void addTrainCarPoints(int add){
+        if(trainCarPoints == null){
+            trainCarPoints = new Points();
+        }
+        trainCarPoints.addPoints(add);
+        totalPoints.addPoints(add);
     }
+
+    public int getTicketPoints() {
+        return ticketPoints.getPoints();
+    }
+
+    public void addTicketPoints(int add) {
+        ticketPoints.addPoints(add);
+        totalPoints.addPoints(add);
+    }
+
+    public int getNegTicketPoints() {
+        return negTicketPoints.getPoints();
+    }
+
+    public void addNegTicketPoints(int add) {
+        negTicketPoints.addPoints(add);
+        totalPoints.addPoints(add);
+    }
+
+    public int getLongTrainPoints() {
+        return longTrainPoints.getPoints();
+    }
+
+    public void addLongTrainPoints(int add) {
+        longTrainPoints.addPoints(add);
+        totalPoints.addPoints(add);
+    }
+
+    public int getTotalPoints() {
+        return totalPoints.getPoints();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void playTrains(int amount) {
         if(trainPieces == null){

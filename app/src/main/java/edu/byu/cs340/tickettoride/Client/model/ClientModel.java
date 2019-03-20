@@ -34,6 +34,7 @@ import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChange
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.PlayerTurnChanged;
 import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientModel extends EventEmitter {
@@ -200,6 +201,18 @@ public class ClientModel extends EventEmitter {
         emitEvent(new Event(){});
     }
 
+    public Username getWinningPlayer(){
+        if(winningPlayer == null){
+            try{
+                username = new Username("NoOneWon");
+            }catch(Username.InvalidUserNameException e){
+                return null;
+            }
+            return username;
+        }
+        return winningPlayer.getPlayerName();
+    }
+
 //    public void passErrorEvent(ErrorEvent errorEvent) {
 //        emitEvent(errorEvent);
 //    }
@@ -213,7 +226,7 @@ public class ClientModel extends EventEmitter {
     public void updatePoints(int points){
         for(Player player : activeGame.getPlayers()){
             if(player.getPlayerName().getUsername().equals(username.getUsername())){
-                player.addPoints(points);
+                player.addTrainCarPoints(points);
                 break;
             }
         }

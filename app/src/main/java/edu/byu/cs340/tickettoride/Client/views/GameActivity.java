@@ -120,10 +120,12 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         demoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Demo(GameActivity.this).execute();
+                //new Demo(GameActivity.this).execute();
+                moveToResults();
             }
         });
     }
+
 
     @Override
     protected void onResume() {
@@ -134,6 +136,10 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                 | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    public void moveToResults(){
+        startActivity(new Intent(this, ResultsActivity.class));
     }
 
     @Override

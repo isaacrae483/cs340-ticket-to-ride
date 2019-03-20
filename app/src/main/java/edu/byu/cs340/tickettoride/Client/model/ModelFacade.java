@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.GenericData;
 import edu.byu.cs340.tickettoride.Client.ICallBack;
@@ -19,6 +20,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
@@ -285,5 +287,15 @@ public class ModelFacade implements IModelFacade, ICallBack {
         }
 
 
+    }
+
+
+
+
+    public List<Player> getPlayers(){
+        return model.getActiveGame().getPlayers();
+    }
+    public Username getWinningPlayer(){
+        return model.getWinningPlayer();
     }
 }

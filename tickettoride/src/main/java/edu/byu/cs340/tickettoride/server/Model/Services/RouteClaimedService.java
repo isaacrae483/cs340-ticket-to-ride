@@ -32,7 +32,7 @@ public class RouteClaimedService {
 
     private void ClaimRoute(Player claimingPlayer, Route toClaim) {
         toClaim.claimRoute(claimingPlayer);
-        claimingPlayer.addPoints(toClaim.getPoints());
+        claimingPlayer.addTrainCarPoints(toClaim.getPoints());
         claimingPlayer.playTrains(toClaim.getLength());
     }
 

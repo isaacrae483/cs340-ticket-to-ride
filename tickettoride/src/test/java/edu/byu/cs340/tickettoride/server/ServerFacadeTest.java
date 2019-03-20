@@ -3,23 +3,18 @@ package edu.byu.cs340.tickettoride.server;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
-import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.Player.Points;
-import edu.byu.cs340.tickettoride.shared.Player.TrainPieces;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
@@ -316,18 +311,18 @@ public class ServerFacadeTest {
 
         //TEST points updated
 
-        int points = game.getPlayer(user2).getPoints();
+        int points = game.getPlayer(user2).getTrainCarPoints();
         Route route3 = routes.getRoute(2);
         res = facade.routeClaimed(route3, user2, gameID);
         assertTrue(res.getSuccess());
-        int pointsAfter = game.getPlayer(user2).getPoints();
+        int pointsAfter = game.getPlayer(user2).getTrainCarPoints();
         assertEquals(points + route3.getPoints(), pointsAfter);
         AssertCommand(user, ClientCommandData.CommandType.CLAIM_ROUTE);
 
-        points = game.getPlayer(user2).getPoints();
+        points = game.getPlayer(user2).getTrainCarPoints();
         res = facade.routeClaimed(route3, user2, gameID);
         assertFalse(res.getSuccess());
-        pointsAfter = game.getPlayer(user2).getPoints();
+        pointsAfter = game.getPlayer(user2).getTrainCarPoints();
         assertEquals(points , pointsAfter);
         AssertCommands( 0, user);
 

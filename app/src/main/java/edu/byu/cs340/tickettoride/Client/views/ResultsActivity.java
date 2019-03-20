@@ -5,9 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import edu.byu.cs340.tickettoride.Client.presenters.IResultsPresenter;
 import edu.byu.cs340.tickettoride.Client.presenters.ResultsPresenter;
 import edu.byu.cs340.tickettoride.R;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
 
 public class ResultsActivity extends PresenterViewActivity implements IResultsView {
 
@@ -88,4 +91,49 @@ public class ResultsActivity extends PresenterViewActivity implements IResultsVi
         setPresenter(resultsPresenter);
 
     }
+
+    public void uploadPlayer1Points(Player player){
+        mPlayer1.setText(player.getPlayerName().getUsername());
+        mPlayer1TicketScore.setText(Integer.toString(player.getTicketPoints()));
+        mPlayer1NegTicketScore.setText(Integer.toString(player.getNegTicketPoints()));
+        mPlayer1TrainScore.setText(Integer.toString(player.getTrainCarPoints()));
+        mPlayer1LongTrainScore.setText(Integer.toString(player.getLongTrainPoints()));
+        mPlayer1TotalScore.setText(Integer.toString(player.getTotalPoints()));
+    }
+    public void uploadPlayer2Points(Player player){
+        mPlayer2.setText(player.getPlayerName().getUsername());
+        mPlayer2TicketScore.setText(Integer.toString(player.getTicketPoints()));
+        mPlayer2NegTicketScore.setText(Integer.toString(player.getNegTicketPoints()));
+        mPlayer2TrainScore.setText(Integer.toString(player.getTrainCarPoints()));
+        mPlayer2LongTrainScore.setText(Integer.toString(player.getLongTrainPoints()));
+        mPlayer2TotalScore.setText(Integer.toString(player.getTotalPoints()));
+    }
+    public void uploadPlayer3Points(Player player){
+        mPlayer3.setText(player.getPlayerName().getUsername());
+        mPlayer3TicketScore.setText(Integer.toString(player.getTicketPoints()));
+        mPlayer3NegTicketScore.setText(Integer.toString(player.getNegTicketPoints()));
+        mPlayer3TrainScore.setText(Integer.toString(player.getTrainCarPoints()));
+        mPlayer3LongTrainScore.setText(Integer.toString(player.getLongTrainPoints()));
+        mPlayer3TotalScore.setText(Integer.toString(player.getTotalPoints()));
+    }
+    public void uploadPlayer4Points(Player player){
+        mPlayer4.setText(player.getPlayerName().getUsername());
+        mPlayer4TicketScore.setText(Integer.toString(player.getTicketPoints()));
+        mPlayer4NegTicketScore.setText(Integer.toString(player.getNegTicketPoints()));
+        mPlayer4TrainScore.setText(Integer.toString(player.getTrainCarPoints()));
+        mPlayer4LongTrainScore.setText(Integer.toString(player.getLongTrainPoints()));
+        mPlayer4TotalScore.setText(Integer.toString(player.getTotalPoints()));
+    }
+    public void uploadPlayer5Points(Player player){
+        mPlayer5.setText(player.getPlayerName().getUsername());
+        mPlayer5TicketScore.setText(Integer.toString(player.getTicketPoints()));
+        mPlayer5NegTicketScore.setText(Integer.toString(player.getNegTicketPoints()));
+        mPlayer5TrainScore.setText(Integer.toString(player.getTrainCarPoints()));
+        mPlayer5LongTrainScore.setText(Integer.toString(player.getLongTrainPoints()));
+        mPlayer5TotalScore.setText(Integer.toString(player.getTotalPoints()));
+    }
+    public void setWinner(Username winner){
+        mWinner.setText(winner.getUsername());
+    }
+
 }
