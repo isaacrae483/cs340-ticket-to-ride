@@ -99,15 +99,12 @@ public class ClientModel extends EventEmitter {
     public void drawDestCards(DestCard card1, DestCard card2, DestCard card3) {
         if (card1 != null) {
             hand.addTicket(card1);
-            destCardDeckSize -= 1;
         }
         if (card2 != null) {
             hand.addTicket(card2);
-            destCardDeckSize -= 1;
         }
         if (card3 != null) {
             hand.addTicket(card3);
-            destCardDeckSize -=1;
         }
         mDrawnCards = true;
         emitEvent(new DestCardDraw(card1, card2, card3));
@@ -115,7 +112,6 @@ public class ClientModel extends EventEmitter {
 
     public void returnDestCard(DestCard toReturn) {
         hand.getDestCards().remove(toReturn);
-        destCardDeckSize += 1;
         emitEvent(new DestCardReturned(toReturn));
     }
 
