@@ -121,7 +121,19 @@ public class ClientProxy extends ClientObserver {
     public void addGameHistory(String data) {
 
     }
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Override
+    public void changeDestDeckSize(int offset) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.DEST_DECK_CHANGE,
+                        offset
+                )
+        );
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

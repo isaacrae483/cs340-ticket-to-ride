@@ -82,7 +82,7 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void claimRoute(Route route, Player palyer) {
+    public void claimRoute(Route route, Player player) {
 
     }
 
@@ -99,6 +99,11 @@ public class ClientFacade implements IClient {
     @Override
     public void addGameHistory(String data) {
 
+    }
+
+    @Override
+    public void changeDestDeckSize(int offset) {
+        model.drewDestCards(offset);
     }
 
 

@@ -11,7 +11,9 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientCommandData {
-    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS, REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY}
+    public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS,
+        REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY,
+        DEST_DECK_CHANGE}
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;
@@ -74,7 +76,10 @@ public class ClientCommandData {
         this.message = message;
     }
 
-
+    public ClientCommandData(CommandType type, int pos) {
+        this.type = type;
+        this.pos = pos;
+    }
 
 
 

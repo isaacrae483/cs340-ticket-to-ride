@@ -6,6 +6,7 @@ import java.util.Observer;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.GameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
@@ -17,6 +18,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
+import sun.security.krb5.internal.crypto.Des;
 
 public abstract class ClientObserver implements IClient, Observer {
     @Override
@@ -74,8 +76,12 @@ public abstract class ClientObserver implements IClient, Observer {
             this.claimRoute(event.getRoute(), event.getPlayer());
         }
         else if (e instanceof LastTurnEvent) {
-            LastTurnEvent event = (LastTurnEvent) e;
+            //LastTurnEvent event = (LastTurnEvent) e;
             this.lastTurn();
+        }
+        else if (e instanceof DestDeckSizeEvent) {
+            DestDeckSizeEvent event = (DestDeckSizeEvent) e;
+            this.changeDestDeckSize(event.getOffset());
         }
     }
 }

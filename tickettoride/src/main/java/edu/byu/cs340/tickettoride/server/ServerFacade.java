@@ -15,6 +15,7 @@ import edu.byu.cs340.tickettoride.server.Model.Services.StartGameService;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
@@ -166,6 +167,10 @@ public class ServerFacade extends EventEmitter implements IServer {
     @Override
     public DrawTicketsResult drawTickets(Username username, ID game) {
         DrawTicketsResult res = new DestCardService().drawTickets(username, game);
+        if (res.getSuccess()) {
+            int cardsDrawn = res.getCards().size();
+            this.emitEvent(new DestDeckSizeEvent(game, cardsDrawn));
+        }
         return res;
     }
 
@@ -207,6 +212,9 @@ public class ServerFacade extends EventEmitter implements IServer {
     @Override
     public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         ReturnTicketResult res = new DestCardService().returnTickets(username, card, game);
+        if (res.getSuccess()) {
+            this.emitEvent(new DestDeckSizeEvent(game, -1));
+        }
         return res;
     }
 

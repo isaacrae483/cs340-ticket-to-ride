@@ -4,10 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.JoinGameCommand;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -267,10 +269,11 @@ public class ServerFacadeTest {
         return commands;
     }
 
-    private void AssertCommand(Username user, ClientCommandData.CommandType type) {
+    private ClientCommandData AssertCommand(Username user, ClientCommandData.CommandType type) {
             ClientCommandList commands = facade.getCommands(user);
             assertEquals(1, commands.size());
             assertEquals(type, commands.get(0).type);
+            return commands.get(0);
     }
 
     @Test
@@ -349,6 +352,66 @@ public class ServerFacadeTest {
         assertTrue(res.getSuccess());
         ClientCommandList commandList = AssertCommands(2, user);
         assertEquals(ClientCommandData.CommandType.LAST_TURN, commandList.get(0).type);
+
+    }
+
+    private void StartGame() {
+        this.createGame();
+
+        facade.getCommands(user2);
+        facade.getCommands(user);
+
+        JoinGameResult join = facade.joinGame(user2, id);
+        assertTrue(join.getSuccess());
+        AssertCommand(user, ClientCommandData.CommandType.INCREMENTPLAYER);
+        AssertCommand(user2, ClientCommandData.CommandType.INCREMENTPLAYER);
+
+        StartGameResult res = facade.startGame(user, id);
+        assertTrue(res.getSuccess());
+        facade.getCommands(user);
+        facade.getCommands(user2);
+    }
+
+    @Test
+    public void DrawDestCardsTest() {
+        DrawDestCards();
+    }
+
+    private Set<DestCard> DrawDestCards() {
+        StartGame();
+
+        DrawTicketsResult res = facade.drawTickets(null, null);
+        assertFalse(res.getSuccess());
+        AssertCommands(0, user2);
+        AssertCommands(0, user);
+
+        res = facade.drawTickets(user, id);
+        assertTrue(res.getSuccess());
+        ClientCommandData data = AssertCommand(user, ClientCommandData.CommandType.DEST_DECK_CHANGE);
+        assertEquals(3, data.pos);
+        AssertCommand(user2, ClientCommandData.CommandType.DEST_DECK_CHANGE);
+        assertEquals(3, data.pos);
+
+
+        return res.getCards();
+    }
+
+    @Test
+    public void ReturnDestCard() {
+        Set<DestCard> drawn = DrawDestCards();
+        DestCard toReturn = drawn.iterator().next();
+
+        ReturnTicketResult res = facade.returnTickets(user, toReturn, id);
+        assertTrue(res.getSuccess());
+        ClientCommandData data = AssertCommand(user, ClientCommandData.CommandType.DEST_DECK_CHANGE);
+        assertEquals(-1, data.pos);
+        data = AssertCommand(user2, ClientCommandData.CommandType.DEST_DECK_CHANGE);
+        assertEquals(-1, data.pos);
+
+        res = facade.returnTickets(user, toReturn, id);
+        assertFalse(res.getSuccess());
+        AssertCommands(0, user);
+        AssertCommands(0, user2);
 
     }
 }

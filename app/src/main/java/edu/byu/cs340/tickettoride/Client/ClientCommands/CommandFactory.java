@@ -23,6 +23,8 @@ public class CommandFactory {
                 return new LastTurnCommand();
             case CLAIM_ROUTE:
                 return new ClaimRouteCommand(info.route, info.player);
+            case DEST_DECK_CHANGE:
+                return new DestDeckChangedCommand(info.pos);
 
         }
         //tried to create non-existent command
