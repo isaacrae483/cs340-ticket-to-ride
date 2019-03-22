@@ -13,6 +13,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -186,6 +187,7 @@ public class ClientModel extends EventEmitter {
 
     public void drewDestCards(int numCards) {
         destCardDeckSize -= numCards;
+        emitEvent(new DestDeckSizeChanged());
     }
 
     public boolean drawnYet() {
