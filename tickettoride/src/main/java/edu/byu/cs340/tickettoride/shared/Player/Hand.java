@@ -81,6 +81,10 @@ public class Hand {
             return false;
     }
 
+    public void popDestCard() {
+        destCards.remove(destCards.size() - 1);
+    }
+
     /**
      * pre: hasCards function returns true for same num and color
      * post: train card hand contains the same number of cards minus num, and cards of the given color or missing first then rainbows equal to num

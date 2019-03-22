@@ -169,7 +169,8 @@ public class ServerFacade extends EventEmitter implements IServer {
         DrawTicketsResult res = new DestCardService().drawTickets(username, game);
         if (res.getSuccess()) {
             int cardsDrawn = res.getCards().size();
-            this.emitEvent(new DestDeckSizeEvent(game, cardsDrawn));
+            this.emitEvent(new DestDeckSizeEvent(game, cardsDrawn,
+                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayer(username)));
         }
         return res;
     }
@@ -213,7 +214,8 @@ public class ServerFacade extends EventEmitter implements IServer {
     public ReturnTicketResult returnTickets(Username username, DestCard card, ID game) {
         ReturnTicketResult res = new DestCardService().returnTickets(username, card, game);
         if (res.getSuccess()) {
-            this.emitEvent(new DestDeckSizeEvent(game, -1));
+            this.emitEvent(new DestDeckSizeEvent(game, -1,
+                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayer(username)));
         }
         return res;
     }

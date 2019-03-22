@@ -24,7 +24,7 @@ public class CommandFactory {
             case CLAIM_ROUTE:
                 return new ClaimRouteCommand(info.route, info.player);
             case DEST_DECK_CHANGE:
-                return new DestDeckChangedCommand(info.pos);
+                return new DestDeckChangedCommand(info.pos, info.player);
 
         }
         //tried to create non-existent command

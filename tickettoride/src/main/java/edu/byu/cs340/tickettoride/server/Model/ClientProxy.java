@@ -123,12 +123,13 @@ public class ClientProxy extends ClientObserver {
     }
 
     @Override
-    public void changeDestDeckSize(int offset) {
+    public void changeDestDeckSize(int offset, Player player) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.DEST_DECK_CHANGE,
-                        offset
+                        offset,
+                        player
                 )
         );
     }

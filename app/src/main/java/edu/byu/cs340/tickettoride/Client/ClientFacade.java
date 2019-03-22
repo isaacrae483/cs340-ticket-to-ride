@@ -102,8 +102,9 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void changeDestDeckSize(int offset) {
+    public void changeDestDeckSize(int offset, Player player) {
         model.drewDestCards(offset);
+        model.updateOppDestCard(player, offset);
     }
 
 

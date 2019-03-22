@@ -23,6 +23,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -256,11 +257,19 @@ public class ClientModel extends EventEmitter {
         }
         emitEvent(new Event() {});//should pass a real event
     }
-    public void updateOppDestCard(DestCard card){
-        for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().equals(username)){
-                player.getHand().addTicket(card);
-                break;
+    public void updateOppDestCard(Player player, int cards) {
+        if (cards <= 0) {
+            for (int i = 0; i < -cards; ++i) {
+                activeGame.getPlayer(player.getColor())
+                        .getHand()
+                        .popDestCard();
+            }
+        }
+        else {
+            for (int i = 0; i < cards; ++i) {
+                activeGame.getPlayer(player.getColor())
+                        .getHand()
+                        .addTicket(new DestCard(City.SAULT_ST_MARIE, City.NEW_ORLEANS, 0));
             }
         }
         emitEvent(new Event() {});//should pass a real event

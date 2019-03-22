@@ -81,7 +81,7 @@ public abstract class ClientObserver implements IClient, Observer {
         }
         else if (e instanceof DestDeckSizeEvent) {
             DestDeckSizeEvent event = (DestDeckSizeEvent) e;
-            this.changeDestDeckSize(event.getOffset());
+            this.changeDestDeckSize(event.getOffset(), event.getPlayer());
         }
     }
 }

@@ -196,7 +196,7 @@ public class Demo {
     //Update the number of destination cards for opponent players
     private void updateOpponentDestCards() {
         Toast.makeText(context, "UPDATING OPPONENT DESTINATION CARDS", Toast.LENGTH_LONG).show();
-        model.updateOppDestCard(new DestCard(City.WASHINGTON, City.MIAMI, 15));
+        model.updateOppDestCard(null, 1);
     }
 
     //Update the visible (face up) cards in the train card deck

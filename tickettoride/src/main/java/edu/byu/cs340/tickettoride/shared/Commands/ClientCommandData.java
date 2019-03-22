@@ -76,9 +76,10 @@ public class ClientCommandData {
         this.message = message;
     }
 
-    public ClientCommandData(CommandType type, int pos) {
+    public ClientCommandData(CommandType type, int pos, Player player) {
         this.type = type;
         this.pos = pos;
+        this.player = player;
     }
 
 
