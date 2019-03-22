@@ -111,14 +111,12 @@ public class ClientModel extends EventEmitter {
         }
         mDrawnCards = true;
         emitEvent(new DestCardDraw(card1, card2, card3));
-        emitEvent(new DestDeckSizeChanged());
     }
 
     public void returnDestCard(DestCard toReturn) {
         hand.getDestCards().remove(toReturn);
         destCardDeckSize += 1;
         emitEvent(new DestCardReturned(toReturn));
-        emitEvent(new DestDeckSizeChanged());
     }
 
     public int getDestCardDeckSize() {
