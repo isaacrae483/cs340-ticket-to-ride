@@ -7,6 +7,8 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
@@ -27,4 +29,6 @@ public interface IServer {
     ChatResult chat(ChatMessage message);
     ReturnTicketResult returnTickets(Username username, DestCard card, ID game);
     RouteClaimedResult routeClaimed(Route route, Username player, ID game);
+    DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game);
+    DrawFaceDownCardResult drawFaceDownCard(Username player, ID game);
 }

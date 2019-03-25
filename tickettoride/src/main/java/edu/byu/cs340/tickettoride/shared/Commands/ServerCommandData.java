@@ -7,7 +7,7 @@ import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ServerCommandData {
-    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME, CHAT, DRAWTICKETS, RETURNCARD}
+    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME, CHAT, DRAWTICKETS, RETURNCARD, DRAWFACEUPCARD, DRAWFACEDOWNCARD}
 
     public ServerCommandData(commandType type, Username username, Password password) {
         this.type = type;
@@ -20,10 +20,19 @@ public class ServerCommandData {
         this.username = username;
     }
 
+    // DRAWFACEDOWNCARD, etc
     public ServerCommandData(commandType type, Username username, ID game) {
         this.type = type;
         gameID = game;
         this.username = username;
+    }
+
+    //DRAWFACEUPCARD
+    public ServerCommandData(commandType type, Integer index, Username username, ID gameID) {
+        this.type = type;
+        this.username = username;
+        this.gameID = gameID;
+        this.index = index;
     }
 
     // RETURNCARD
@@ -46,4 +55,5 @@ public class ServerCommandData {
     public ID gameID;
     public DestCard destCard;
     public ChatMessage message;
+    public Integer index;
 }

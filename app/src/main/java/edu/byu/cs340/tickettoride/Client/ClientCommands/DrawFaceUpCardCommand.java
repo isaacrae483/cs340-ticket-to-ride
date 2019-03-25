@@ -9,6 +9,7 @@ public class DrawFaceUpCardCommand implements ICommand {
     private TrainCard card;
     private Player player;
 
+    // TODO: Needs index of the drawn card
     public DrawFaceUpCardCommand(TrainCard card, Player player) {
         this.card = card;
         this.player = player;

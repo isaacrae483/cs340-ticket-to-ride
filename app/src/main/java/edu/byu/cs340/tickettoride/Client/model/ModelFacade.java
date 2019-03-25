@@ -14,6 +14,7 @@ import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
+import edu.byu.cs340.tickettoride.Client.model.events.hand.DrawTrainCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -23,6 +24,8 @@ import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFail
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
@@ -151,11 +154,34 @@ public class ModelFacade implements IModelFacade, ICallBack {
         task.execute(info);
     }
 
+    @Override
+    public void drawFaceUpCard(Integer index, Username player) {
+        GenericData info = new GenericData("drawFaceUpCard",
+                new Class<?>[] {Integer.class, Username.class, ID.class},
+                new Object[] {index, player, model.getActiveGameID()});
 
+        GenericTask task = new GenericTask<DrawFaceUpCardResult>(this);
+        task.execute(info);
+    }
+
+    @Override
+    public void drawFaceDownCard(Username player) {
+        GenericData info = new GenericData("drawFaceDownCard",
+                new Class<?>[] {Username.class, ID.class},
+                new Object[] {player, model.getActiveGameID()});
+
+        GenericTask task = new GenericTask<DrawFaceDownCardResult>(this);
+        task.execute(info);
+    }
 
     public <T> void update(T response){
 
-        if(response != null && response.getClass() == LoginResult.class){
+        if (response == null) {
+            //throw new RuntimeException("Parsed server response is null!");
+            return;
+        }
+
+        if(response.getClass() == LoginResult.class){
             LoginResult result = (LoginResult) response;
             if(result.getSuccess()){
                 model.setGames(result.getGames());
@@ -172,7 +198,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.passErrorEvent(new LoginFailed());
             }
         }
-        else if(response != null && response.getClass() == CreateGameResult.class){
+        else if(response.getClass() == CreateGameResult.class){
             CreateGameResult result = (CreateGameResult) response;
             if(result.getSuccess()){
                 return;
@@ -182,7 +208,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.passErrorEvent(new GameJoinError());
             }
         }
-        else if(response != null && response.getClass() == JoinGameResult.class){
+        else if(response.getClass() == JoinGameResult.class){
             JoinGameResult result = (JoinGameResult) response;
             if(result.getSuccess()){
                 model.setActiveGameID(result.getId());
@@ -191,20 +217,20 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.passErrorEvent(new GameJoinError());
             }
         }
-        else if(response != null && response.getClass() == StartGameResult.class){
+        else if(response.getClass() == StartGameResult.class){
             StartGameResult result = (StartGameResult) response;
             if(!result.getSuccess()) {
                 model.passErrorEvent(new StartGameError());
             }
         }
-        else if(response != null && response.getClass() == ChatResult.class){
+        else if(response.getClass() == ChatResult.class){
             ChatResult result = (ChatResult) response;
             if(!result.getSuccess()) {
                 //sends an error if unsuccessful
                 model.passErrorEvent(new ChatSendFailed());
             }
         }
-        else if(response != null && response.getClass() == ReturnTicketResult.class){
+        else if(response.getClass() == ReturnTicketResult.class){
             //execution on return ticket result
             ReturnTicketResult result = (ReturnTicketResult) response;
             if(!result.getSuccess()) {
@@ -215,7 +241,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.returnDestCard(result.getCard());
             }
         }
-        else if(response != null && response.getClass() == DrawTicketsResult.class){
+        else if(response.getClass() == DrawTicketsResult.class){
             DrawTicketsResult result = (DrawTicketsResult) response;
             if(!result.getSuccess()){
                 model.passErrorEvent(new DestDrawFailed());
@@ -234,7 +260,24 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 }
                 model.drawDestCards(card1, card2, card3);
             }
+        } else if (response.getClass() == DrawFaceUpCardResult.class) {
+            DrawFaceUpCardResult result = (DrawFaceUpCardResult) response;
+            if (!result.getSuccess()) {
+                model.passErrorEvent(new DrawTrainCardFailed());
+            } else {
+                model.addTrainCard(result.getDrawnCard());
+            }
+
+        } else if (response.getClass() == DrawFaceDownCardResult.class) {
+            DrawFaceDownCardResult result = (DrawFaceDownCardResult) response;
+            if (!result.getSuccess()) {
+                model.passErrorEvent(new DrawTrainCardFailed());
+            } else {
+                model.addTrainCard(result.getDrawnCard());
+            }
         }
+
+
         else{
             //report error
         }

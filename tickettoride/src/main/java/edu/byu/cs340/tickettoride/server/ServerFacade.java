@@ -35,6 +35,8 @@ import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
+import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
@@ -192,6 +194,16 @@ public class ServerFacade extends EventEmitter implements IServer {
         }
 
         return res;
+    }
+
+    @Override
+    public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game) {
+        return null;
+    }
+
+    @Override
+    public DrawFaceDownCardResult drawFaceDownCard(Username player, ID game) {
+        return null;
     }
 
     public void playerDrew(Player p, List<TrainCard> cards, ID game) {

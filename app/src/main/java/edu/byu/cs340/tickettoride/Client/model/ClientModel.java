@@ -13,7 +13,6 @@ import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginSuccess;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
-import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -33,10 +32,9 @@ import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
-import edu.byu.cs340.tickettoride.shared.Game.events.destCard.PlayerTurnChanged;
+import edu.byu.cs340.tickettoride.shared.Game.events.PlayerTurnChanged;
 import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.User.User;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientModel extends EventEmitter {
