@@ -173,6 +173,9 @@ public class ServerFacade extends EventEmitter implements IServer {
             this.emitEvent(new DestDeckSizeEvent(game, res.getNumCards(),
                     ServerModel.SINGLETON.getPlayerInGame(game, username))
             );
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW DESTINATION CARDS",
+                    username, game))
+            );
         }
         return res;
     }
@@ -198,16 +201,26 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     @Override
     public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game) {
+        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
+                ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),
+                player, game))
+        );
         return null;
     }
 
     @Override
     public DrawFaceDownCardResult drawFaceDownCard(Username player, ID game) {
+        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FROM DECK",
+                player, game))
+        );
         return null;
     }
 
     public void playerDrew(Player p, ID game) {
         this.emitEvent(new AddCardsEvent(p, game));
+        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: PLAYER DREW",
+                p.getPlayerName(), game))
+        );
     }
 
     public void SetFaceUpCard(Game game, TrainCard card, int pos) {
@@ -228,6 +241,9 @@ public class ServerFacade extends EventEmitter implements IServer {
         if (res.getSuccess()) {
             this.emitEvent(new DestDeckSizeEvent(game, -1,
                     ServerModel.SINGLETON.getPlayerInGame(game, username)));
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: RETURNED DESTINATION CARD",
+                    username, game))
+            );
         }
         return res;
     }
@@ -237,12 +253,18 @@ public class ServerFacade extends EventEmitter implements IServer {
         RouteClaimedResult res = new RouteClaimedService().routeClaimed(route, player, game);
         if (res.getSuccess()) {
             this.emitEvent(new RouteClaimedEvent(route, res.getPlayer(), game));
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: CLAIMED ROUTE: " +
+                    route.toString(), player, game))
+            );
         }
         return res;
     }
 
     public void LastTurn(ID game) {
         this.emitEvent(new LastTurnEvent(game));
+        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: LAST TURN",
+                ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
+        );
     }
 
 

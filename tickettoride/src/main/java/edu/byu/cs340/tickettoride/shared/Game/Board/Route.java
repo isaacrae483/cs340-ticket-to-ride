@@ -10,6 +10,9 @@ public class Route implements IRoute {
     City startCity;
     City endCity;
     Length length;
+
+
+
     Colors color;
     Boolean claimed;
     Player claimedBy;
@@ -84,5 +87,14 @@ public class Route implements IRoute {
         if (length.equals(otherRoute.getLength()))
             return true;
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "\nRoute: " +
+                startCity +
+                " to " + endCity +
+                "\nlength=" + length +
+                "\ncolor=" + color;
     }
 }
