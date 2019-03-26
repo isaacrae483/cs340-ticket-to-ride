@@ -6,18 +6,19 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 
 public class DrawTicketsResult {
     private boolean success;
-    private Set<DestCard> cards;
+    private int numCards;
 
-    public DrawTicketsResult(boolean success, Set<DestCard> cards) {
+    public DrawTicketsResult(boolean success, int numCards) {
         this.success = success;
-        this.cards = cards;
+        this.numCards = numCards;
+    }
+
+    public int getNumCards() {
+        return numCards;
     }
 
     public boolean getSuccess() {
         return success;
     }
 
-    public Set<DestCard> getCards() {
-        return cards;
-    }
 }

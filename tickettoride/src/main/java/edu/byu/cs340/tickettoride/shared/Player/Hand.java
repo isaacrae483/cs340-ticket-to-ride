@@ -81,8 +81,8 @@ public class Hand {
             return false;
     }
 
-    public void popDestCard() {
-        destCards.remove(destCards.size() - 1);
+    public void popDestCard(DestCard card) {
+        destCards.remove(card);
     }
 
     /**

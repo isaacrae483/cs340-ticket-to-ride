@@ -2,6 +2,7 @@ package edu.byu.cs340.tickettoride.Client.model;
 
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -95,18 +96,32 @@ public class ClientModel extends EventEmitter {
         emitEvent(new GameAdded(game));
     }
 
-    public void drawDestCards(DestCard card1, DestCard card2, DestCard card3) {
-        if (card1 != null) {
-            hand.addTicket(card1);
+    public void drawDestCards(Player player) {
+
+        if (player.getPlayerName().equals(getUsername())) {
+            Player p = activeGame.getPlayer(player.getPlayerName());
+            int before = p.getNumDestCards();
+            ResetPlayer(player);
+            int diff = p.getNumDestCards() - before;
+            int last = p.getNumDestCards() - 1;
+            DestCard draw1 = null;
+            DestCard draw2 = null;
+            DestCard draw3 = null;
+            if (diff > 0) {
+                draw1 = p.DestCardAt(last);
+            }
+            if (diff > 1) {
+                draw2 = p.DestCardAt(last - 1);
+            }
+            if (diff > 2) {
+                draw3 = p.DestCardAt(last - 2);
+            }
+            emitEvent(new DestCardDraw(draw1, draw2, draw3));
         }
-        if (card2 != null) {
-            hand.addTicket(card2);
+        else {
+            ResetPlayer(player);
         }
-        if (card3 != null) {
-            hand.addTicket(card3);
-        }
-        mDrawnCards = true;
-        emitEvent(new DestCardDraw(card1, card2, card3));
+        emitEvent(new DestDeckSizeChanged());
     }
 
     public void returnDestCard(DestCard toReturn) {
@@ -237,15 +252,6 @@ public class ClientModel extends EventEmitter {
     }
 
 
-    public void updateOppTrainCard(TrainCard card){
-        for(Player player : activeGame.getPlayers()){
-            if(!player.getPlayerName().equals(username)){
-                player.getHand().addCard(card);
-                break;
-            }
-        }
-        emitEvent(new Event() {});//should pass a real event
-    }
     public void updateOppTrainCars(int cars){
         for(Player player : activeGame.getPlayers()){
             if(!player.getPlayerName().equals(username)){
@@ -255,23 +261,7 @@ public class ClientModel extends EventEmitter {
         }
         emitEvent(new Event() {});//should pass a real event
     }
-    public void updateOppDestCard(Player player, int cards) {
-        if (cards <= 0) {
-            for (int i = 0; i < -cards; ++i) {
-                activeGame.getPlayer(player.getColor())
-                        .getHand()
-                        .popDestCard();
-            }
-        }
-        else {
-            for (int i = 0; i < cards; ++i) {
-                activeGame.getPlayer(player.getColor())
-                        .getHand()
-                        .addTicket(new DestCard(City.SAULT_ST_MARIE, City.NEW_ORLEANS, 0));
-            }
-        }
-        emitEvent(new Event() {});//should pass a real event
-    }
+
 
     public void updatePlayerTurn(){
         activeGame.nextPlayerTurn();
@@ -306,6 +296,9 @@ public class ClientModel extends EventEmitter {
         emitEvent(new TCDeckSizeChanged());
     }
 
+    public void ResetPlayer(Player player) {
+        activeGame.ResetPlayer(player);
+    }
 
 
 

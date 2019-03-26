@@ -175,7 +175,7 @@ public class Demo {
 
     //Add player destination cards for this player
     private void addDestinationCards() {
-        model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
+        //model.drawDestCards(new DestCard(City.WASHINGTON, City.MIAMI, 15), null, null);
         context.startActivity(new Intent(context, DestCardActivity.class));
         Toast.makeText(context, "ADDING DESTINATION CARDS", Toast.LENGTH_LONG).show();
     }
@@ -184,7 +184,7 @@ public class Demo {
     private void updateOpponentTrainCards() {
         context.startActivity(new Intent(context, PlayerListActivity.class));
         Toast.makeText(context, "UPDATING OPPONENT TRAIN CARDS", Toast.LENGTH_LONG).show();
-        model.updateOppTrainCard(new TrainCard(Colors.GREEN));
+       //model.updateOppTrainCard(new TrainCard(Colors.GREEN));
     }
 
     //Update the number of train cars for opponent players
@@ -196,7 +196,7 @@ public class Demo {
     //Update the number of destination cards for opponent players
     private void updateOpponentDestCards() {
         Toast.makeText(context, "UPDATING OPPONENT DESTINATION CARDS", Toast.LENGTH_LONG).show();
-        model.updateOppDestCard(null, 1);
+        //model.updateOppDestCard(null, 1);
     }
 
     //Update the visible (face up) cards in the train card deck

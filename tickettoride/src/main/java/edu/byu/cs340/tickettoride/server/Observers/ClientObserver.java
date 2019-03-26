@@ -69,7 +69,7 @@ public abstract class ClientObserver implements IClient, Observer {
         }
         else if (e instanceof AddCardsEvent) {
             AddCardsEvent event = (AddCardsEvent) e;
-            this.addCards(event.getCards(), event.getPlayer());
+            this.addCards(event.getPlayer());
         }
         else if (e instanceof RouteClaimedEvent) {
             RouteClaimedEvent event = (RouteClaimedEvent) e;

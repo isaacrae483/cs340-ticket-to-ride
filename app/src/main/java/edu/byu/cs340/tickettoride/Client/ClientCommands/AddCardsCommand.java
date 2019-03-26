@@ -9,17 +9,15 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 
 public class AddCardsCommand implements ICommand {
 
-    public AddCardsCommand(List<TrainCard> cards, Player player) {
-        this.cards = cards;
+    public AddCardsCommand(Player player) {
         this.player = player;
     }
 
-    private List<TrainCard> cards;
     private Player player;
 
     @Override
     public Object execute() {
-        ClientFacade.instance().addCards(cards, player);
+        ClientFacade.instance().addCards(player);
         return null;
     }
 }

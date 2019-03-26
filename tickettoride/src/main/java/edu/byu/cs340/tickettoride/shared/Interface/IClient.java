@@ -18,11 +18,11 @@ public interface IClient {
     void addGame(Game game);
     void startGame(ID gameId);
     void receiveChat(ChatMessage chatMessage);
-    void addCards(List<TrainCard> cards, Player player);
+    void addCards(Player player);
     void setFaceUpCard(TrainCard card, int pos);
 
-    void drawTrainCard(TrainCard card, Player player);
-    void drawFaceUpCard(TrainCard card, Player player);
+    void drawTrainCard(Player player);
+    void drawFaceUpCard(Player player);
     void claimRoute(Route route, Player player);
     void lastTurn();//simply notify that it is last turn could influence state
     void endGame(List<Player> players); //this way we can get final points from all players(after destination cards) to determine winner

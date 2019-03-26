@@ -54,16 +54,8 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void addCards(List<TrainCard> cards, Player player) {
-
-        if (player.getPlayerName().equals(model.getUsername())) {
-            for (TrainCard card : cards) {
-                ClientModel.instance().addTrainCard(card);
-            }
-        }
-        for (TrainCard card : cards) {
-            model.getActiveGame().getPlayer(player.getColor()).getHand().addCard(card);
-        }
+    public void addCards(Player player) {
+        model.ResetPlayer(player);
     }
 
     @Override
@@ -72,13 +64,13 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void drawTrainCard(TrainCard card, Player player) {
-
+    public void drawTrainCard(Player player) {
+        model.ResetPlayer(player);
     }
 
     @Override
-    public void drawFaceUpCard(TrainCard card, Player player) {
-
+    public void drawFaceUpCard(Player player) {
+        model.ResetPlayer(player);
     }
 
     @Override
@@ -104,7 +96,7 @@ public class ClientFacade implements IClient {
     @Override
     public void changeDestDeckSize(int offset, Player player) {
         model.drewDestCards(offset);
-        model.updateOppDestCard(player, offset);
+        model.ResetPlayer(player);
     }
 
 

@@ -4,7 +4,9 @@ import edu.byu.cs340.tickettoride.server.Model.CommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.MapUsers;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ServerModel {
     public static final ServerModel SINGLETON = new ServerModel();
@@ -37,6 +39,10 @@ public class ServerModel {
 
     public Game getStartedGame(ID id) {
         return startedGames.getGame(id);
+    }
+
+    public Player getPlayerInGame(ID game, Username username) {
+        return startedGames.getPlayer(game, username);
     }
 
 //implement methods for login, register, joinGame, newGame here.

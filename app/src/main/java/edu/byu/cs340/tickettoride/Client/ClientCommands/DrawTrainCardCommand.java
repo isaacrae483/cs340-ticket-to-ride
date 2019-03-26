@@ -6,17 +6,15 @@ import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 
 public class DrawTrainCardCommand implements ICommand {
-    private TrainCard card;
     private Player player;
 
-    public DrawTrainCardCommand(TrainCard card, Player player) {
-        this.card = card;
+    public DrawTrainCardCommand(Player player) {
         this.player = player;
     }
 
     @Override
     public Object execute() {
-        ClientFacade.instance().drawTrainCard(card, player);
+        ClientFacade.instance().drawTrainCard(player);
         return null;
     }
 }
