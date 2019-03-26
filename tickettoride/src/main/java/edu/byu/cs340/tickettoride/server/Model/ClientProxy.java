@@ -61,11 +61,10 @@ public class ClientProxy extends ClientObserver {
     }
 
     @Override
-    public void addCards(List<TrainCard> cards, Player p) {
+    public void addCards(Player p) {
         ServerModel.SINGLETON.getCommandList().AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.ADD_CARDS,
-                        cards,
                         p
                 )
         );
@@ -83,12 +82,12 @@ public class ClientProxy extends ClientObserver {
     }
 //////////////////////////////////////////new for phase three  ///////////// not yet implemented////////////////////////////////
     @Override
-    public void drawTrainCard(TrainCard card, Player player) {
+    public void drawTrainCard(Player player) {
 
     }
 
     @Override
-    public void drawFaceUpCard(TrainCard card, Player player) {
+    public void drawFaceUpCard(Player player) {
 
     }
 

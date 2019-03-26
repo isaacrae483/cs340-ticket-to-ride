@@ -246,7 +246,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
             if(!result.getSuccess()){
                 model.passErrorEvent(new DestDrawFailed());
             }
-            else {
+            /*else {
                 DestCard card1 = null, card2 = null, card3 = null;
                 Iterator<DestCard> iter = result.getCards().iterator();
                 if (iter.hasNext()) {
@@ -259,7 +259,7 @@ public class ModelFacade implements IModelFacade, ICallBack {
                     card3 = iter.next();
                 }
                 model.drawDestCards(card1, card2, card3);
-            }
+            }*/
         } else if (response.getClass() == DrawFaceUpCardResult.class) {
             DrawFaceUpCardResult result = (DrawFaceUpCardResult) response;
             if (!result.getSuccess()) {

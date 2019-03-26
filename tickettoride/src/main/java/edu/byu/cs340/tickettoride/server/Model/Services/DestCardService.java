@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -19,8 +20,9 @@ public class DestCardService {
 
         Game gameInfo = model.getMapStartedGames().getGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
+            Player player = gameInfo.getPlayer(username);
             try {
-                gameInfo.returnTickets(card);
+                player.returnDestCard(gameInfo, card);
                 success = true;
             }
             catch (DestCardDeck.AlreadyInDeckException ex) {
@@ -34,15 +36,18 @@ public class DestCardService {
 
     public DrawTicketsResult drawTickets(Username username, ID game) {
         boolean success = false;
-        Set<DestCard> cards = null;
         ServerModel model = ServerModel.SINGLETON;
+        int numCards = 0;
 
         Game gameInfo = model.getMapStartedGames().getGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
-            cards = gameInfo.drawTickets();
+            Player player = gameInfo.getPlayer(username);
+            int before = player.getNumDestCards();
+            player.drawDestCard(gameInfo);
+            numCards = player.getNumDestCards() - before;
             success = true;
         }
 
-        return new DrawTicketsResult(success, cards);
+        return new DrawTicketsResult(success, numCards);
     }
 }

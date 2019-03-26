@@ -62,9 +62,10 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
 
     @Override
-    public void update(Observable obeservable, Object o) {
+    public void update(Observable observable, Object o) {
         if (o instanceof DestCardDraw) {
             DestCardDraw draw = (DestCardDraw) o;
+            model.getDestCards();
             view.onCardDraw(draw.getCard1(), draw.getCard2(), draw.getCard3());
             syncWithModel();
         }

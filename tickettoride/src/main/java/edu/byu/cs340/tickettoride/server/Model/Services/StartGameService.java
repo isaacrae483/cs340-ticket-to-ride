@@ -43,12 +43,12 @@ public class StartGameService  {
     }
 
     private void PlayerDrawCards(Player p, Game game) {
-        List<TrainCard> hand = new ArrayList<>();
         final int HAND_SIZE = 4;
+        Player player = game.getPlayer(p.getPlayerName());
         for (int i = 0; i < HAND_SIZE; ++i) {
-            hand.add(game.drawCard());
+            player.DrawCard(game.drawCard());
         }
-        ServerFacade.SINGLETON.playerDrew(p, hand, game.getId());
+        ServerFacade.SINGLETON.playerDrew(p, game.getId());
     }
 
     private void InitializeFaceUp(List<TrainCard> cards, Game game) {

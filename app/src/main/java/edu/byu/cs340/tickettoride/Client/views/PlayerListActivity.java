@@ -110,8 +110,8 @@ public class PlayerListActivity extends PresenterViewActivity implements IPlayer
 
             mPlayerPoints.setText(player.getTrainCarPoints() + "\npoints");
             mPlayerTrainCars.setText(player.getTrainPieces() + "\ntrain pieces");
-            mPlayerTrainCards.setText(player.getHand().getNumTrainCards() + "\ntrain cards");
-            mPlayerDestCards.setText(player.getHand().getNumDestCards() + "\ndestinations");
+            mPlayerTrainCards.setText(player.getNumTrainCards() + "\ntrain cards");
+            mPlayerDestCards.setText(player.getNumDestCards() + "\ndestinations");
         }
     }
 

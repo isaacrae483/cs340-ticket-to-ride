@@ -300,4 +300,29 @@ public class Game extends EventBubbler implements IGameListEntry {
         }
         return null;
     }
+
+    public TrainCard drawFaceUpCard(int index) {
+        return bank.drawCard(index);
+    }
+
+    public void ClaimRoute(Route route, Player player) {
+        board.claimRoute(route, player);
+    }
+
+    public void ReturnDestCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
+        destCardDeck.returnCard(card);
+    }
+
+    public TrainCard peekFaceUp(int index) {
+        return bank.getCards().get(index);
+    }
+
+    public void ResetPlayer(Player player) {
+
+        for (int i = 0; i < players.size(); ++i) {
+            if (players.get(i).getPlayerName().equals(player.getPlayerName())) {
+                players.set(i, player);
+            }
+        }
+    }
 }

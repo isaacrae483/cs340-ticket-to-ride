@@ -16,7 +16,7 @@ public class CommandFactory {
             case CHAT:
                 return new ChatCommand(info.username, info.id, info.message);
             case ADD_CARDS:
-                return new AddCardsCommand(info.cards, info.player);
+                return new AddCardsCommand(info.player);
             case REPLACE_FACE_UP:
                 return new ReplaceFaceUpCardCommand(info.trainCard, info.pos);
             case LAST_TURN:
@@ -25,6 +25,8 @@ public class CommandFactory {
                 return new ClaimRouteCommand(info.route, info.player);
             case DEST_DECK_CHANGE:
                 return new DestDeckChangedCommand(info.pos, info.player);
+            case DRAW_TRAIN_CARD:
+                return new DrawTrainCardCommand(info.player);
 
         }
         //tried to create non-existent command

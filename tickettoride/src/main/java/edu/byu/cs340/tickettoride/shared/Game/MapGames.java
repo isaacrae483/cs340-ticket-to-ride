@@ -8,6 +8,8 @@ import java.util.Map;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class MapGames {
     private Map<ID, Game> games = new HashMap<>();
@@ -40,5 +42,9 @@ public class MapGames {
 
     public void remove(ID id) {
         games.remove(id);
+    }
+
+    public Player getPlayer(ID game, Username user) {
+        return games.get(game).getPlayer(user);
     }
 }
