@@ -18,7 +18,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
-import sun.security.krb5.internal.crypto.Des;
 
 public abstract class ClientObserver implements IClient, Observer {
     @Override
