@@ -16,6 +16,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.DrawTrainCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimedFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -292,6 +293,12 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.passErrorEvent(new DrawTrainCardFailed());
             } else {
                 model.addTrainCard(result.getDrawnCard());
+            }
+
+        } else if (response.getClass() == RouteClaimedResult.class) {
+            RouteClaimedResult result = (RouteClaimedResult) response;
+            if (!result.getSuccess()) {
+                model.passErrorEvent(new RouteClaimedFailed());
             }
         }
 

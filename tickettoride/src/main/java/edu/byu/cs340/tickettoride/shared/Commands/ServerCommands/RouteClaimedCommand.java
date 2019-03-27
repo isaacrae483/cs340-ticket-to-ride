@@ -21,7 +21,6 @@ public class RouteClaimedCommand implements ICommand {
 
     @Override
     public Object execute() {
-        ServerFacade.SINGLETON.routeClaimed(route, username, game);
-        return null;
+        return ServerFacade.SINGLETON.routeClaimed(route, username, game);
     }
 }
