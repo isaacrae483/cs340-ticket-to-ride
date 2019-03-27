@@ -3,6 +3,7 @@ package edu.byu.cs340.tickettoride.Client.presenters;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
 import edu.byu.cs340.tickettoride.Client.views.IMapView;
 import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
@@ -24,7 +25,7 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
 
     @Override
     public void routePressed(Integer routeId) {
-
+        ModelFacade.instance().claimRoute(routeId);
     }
 
     @Override
@@ -48,4 +49,5 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
             mMapView.claimRoute(e.getRoute());
         }
     }
+
 }

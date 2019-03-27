@@ -5,22 +5,23 @@ import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class RouteClaimedCommand implements ICommand {
 
     private Route route;
-    private Player player;
+    private Username username;
     private ID game;
 
-    public RouteClaimedCommand(Route route, Player player, ID game){
-        this.player = player;
+    public RouteClaimedCommand(Route route, Username username, ID game){
+        this.username = username;
         this.route = route;
         this.game = game;
     }
 
     @Override
     public Object execute() {
-        ServerFacade.SINGLETON.routeClaimed(route, player.getPlayerName(), game);
+        ServerFacade.SINGLETON.routeClaimed(route, username, game);
         return null;
     }
 }

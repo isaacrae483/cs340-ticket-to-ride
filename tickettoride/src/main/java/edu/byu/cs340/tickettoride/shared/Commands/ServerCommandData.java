@@ -1,13 +1,15 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ServerCommandData {
-    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME, CHAT, DRAWTICKETS, RETURNCARD, DRAWFACEUPCARD, DRAWFACEDOWNCARD}
+    public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME, CHAT, DRAWTICKETS, RETURNCARD, DRAWFACEUPCARD, DRAWFACEDOWNCARD, CLAIMROUTE}
 
     public ServerCommandData(commandType type, Username username, Password password) {
         this.type = type;
@@ -49,6 +51,15 @@ public class ServerCommandData {
         this.message = message;
     }
 
+    // CLIAMROUTE
+    public ServerCommandData(commandType type, Username username, Route route, ID gameID){
+        this.type = type;
+        this.username = username;
+        this.route = route;
+        this.gameID = gameID;
+    }
+
+
     public commandType type;
     public Username username;
     public Password password;
@@ -56,4 +67,6 @@ public class ServerCommandData {
     public DestCard destCard;
     public ChatMessage message;
     public Integer index;
+    public Player player;
+    public Route route;
 }

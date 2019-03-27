@@ -16,6 +16,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameJoinError;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelobby.StartGameError;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.DrawTrainCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
+import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
@@ -31,6 +32,7 @@ import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
+import edu.byu.cs340.tickettoride.shared.Result.RouteClaimedResult;
 import edu.byu.cs340.tickettoride.shared.Result.StartGameResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -172,6 +174,16 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 new Object[] {player, model.getActiveGameID()});
 
         GenericTask task = new GenericTask<DrawFaceDownCardResult>(this);
+        task.execute(info);
+    }
+
+    @Override
+    public void claimRoute(Integer routeId){
+        GenericData info = new GenericData("routeClaimed",
+                new Class<?>[] {Route.class, Username.class, ID.class},
+                new Object[]{model.getRoutes().getRoute(routeId), model.getUsername(), model.getActiveGameID()});
+
+        GenericTask task = new GenericTask<RouteClaimedResult>(this);
         task.execute(info);
     }
 

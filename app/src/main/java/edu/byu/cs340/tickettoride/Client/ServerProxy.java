@@ -111,7 +111,8 @@ public class ServerProxy implements IServer {
 
     @Override
     public RouteClaimedResult routeClaimed(Route route, Username player, ID game) {
-        return null;
+        data = new ServerCommandData(commandType.CLAIMROUTE, player, route, game);
+        return communicator.send(data, RouteClaimedResult.class);
     }
 
     public void setHost(URL host) {
