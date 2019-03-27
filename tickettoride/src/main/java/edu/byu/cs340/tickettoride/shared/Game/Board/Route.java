@@ -94,7 +94,7 @@ public class Route implements IRoute, Comparable<Route> {
         return "\nRoute: " +
                 startCity +
                 " to " + endCity +
-                "\nlength=" + length +
+                "\nlength=" + length.toString() +
                 "\ncolor=" + color;
     }
 
