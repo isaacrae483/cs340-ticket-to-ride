@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
+import java.util.List;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
@@ -127,6 +128,14 @@ public class Player implements IPlayer {
 
     public DestCard DestCardAt(int index) {
         return hand.getDestCards().get(index);
+    }
+
+    public List<DestCard> getTickets() {
+        return hand.getTickets();
+    }
+
+    public List<TrainCard> getCards() {
+        return hand.getTrainCards();
     }
 
     public int getNumDestCards() {

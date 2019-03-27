@@ -41,7 +41,6 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
-        hand = new Hand();
         trainCardDeck = new TrainCardDeck();
         bank = new Bank();
         destCardDeckSize = DestCardDeck.standardSize;
@@ -57,7 +56,6 @@ public class ClientModel extends EventEmitter {
     private Username username;
     private MapGames games = new MapGames();
     private ID activeGameID;
-    private Hand hand;
     private Chat chatMessages;
     private TrainCardDeck trainCardDeck;
     private Bank bank;
@@ -124,8 +122,9 @@ public class ClientModel extends EventEmitter {
         emitEvent(new DestDeckSizeChanged());
     }
 
-    public void returnDestCard(DestCard toReturn) {
-        hand.getDestCards().remove(toReturn);
+    public void returnDestCard(DestCard toReturn) throws DestCardDeck.AlreadyInDeckException {
+        Player current = activeGame.getPlayer(username);
+        current.returnDestCard(activeGame, toReturn);
         emitEvent(new DestCardReturned(toReturn));
     }
 
@@ -134,7 +133,8 @@ public class ClientModel extends EventEmitter {
     }
 
     public List<DestCard> getDestCards() {
-        return hand.getDestCards();
+        Player current = activeGame.getPlayer(username);
+        return current.getTickets();
     }
 
     public void incrementPlayers(ID id, Player newUser){
@@ -182,7 +182,8 @@ public class ClientModel extends EventEmitter {
     }
 
     public List<TrainCard> getPlayerTrainCards() {
-        return hand.getTrainCards();
+        Player current = getActiveGame().getPlayer(username);
+        return current.getCards();
     }
 
     public List<TrainCard> getCardsInBank() {
@@ -243,11 +244,13 @@ public class ClientModel extends EventEmitter {
         emitEvent(new Event() {});//should pass a real event
     }
     public void addTrainCard(TrainCard card){
-        hand.addCard(card);
+        Player current = activeGame.getPlayer(username);
+        current.DrawCard(card);
         emitEvent(new HandChanged());
     }
     public void removeTrainCard(TrainCard card){
-        hand.removeCards(1, card.getColor());
+        Player current = activeGame.getPlayer(username);
+        //current.removeCards(1, card.getColor());
         emitEvent(new HandChanged());
     }
 

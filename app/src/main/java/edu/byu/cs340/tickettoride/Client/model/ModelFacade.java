@@ -18,6 +18,7 @@ import edu.byu.cs340.tickettoride.Client.model.events.hand.DrawTrainCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.login.LoginFailed;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
+import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
@@ -238,7 +239,12 @@ public class ModelFacade implements IModelFacade, ICallBack {
                 model.passErrorEvent(new ReturnDestCardFailed());
             }
             else {
-                model.returnDestCard(result.getCard());
+                try {
+                    model.returnDestCard(result.getCard());
+                }
+                catch (DestCardDeck.AlreadyInDeckException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
         else if(response.getClass() == DrawTicketsResult.class){

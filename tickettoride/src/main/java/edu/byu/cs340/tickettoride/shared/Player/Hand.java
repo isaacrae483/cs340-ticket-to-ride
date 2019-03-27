@@ -85,6 +85,10 @@ public class Hand {
         destCards.remove(card);
     }
 
+    public List<DestCard> getTickets() {
+        return destCards;
+    }
+
     /**
      * pre: hasCards function returns true for same num and color
      * post: train card hand contains the same number of cards minus num, and cards of the given color or missing first then rainbows equal to num
