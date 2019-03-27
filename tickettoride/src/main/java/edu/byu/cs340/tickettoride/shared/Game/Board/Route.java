@@ -6,7 +6,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Route implements IRoute {
+public class Route implements IRoute, Comparable<Route> {
     City startCity;
     City endCity;
     Length length;
@@ -15,7 +15,7 @@ public class Route implements IRoute {
 
     Colors color;
     Boolean claimed;
-    Player claimedBy;
+    Player claimedBy = null;
     Integer id;
 
     public Route(Integer id, City startCity, City endCity, Integer length, Colors color) {
@@ -96,5 +96,10 @@ public class Route implements IRoute {
                 " to " + endCity +
                 "\nlength=" + length +
                 "\ncolor=" + color;
+    }
+
+    @Override
+    public int compareTo(Route route) {
+        return this.id.compareTo(route.getId());
     }
 }

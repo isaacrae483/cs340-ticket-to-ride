@@ -12,21 +12,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
  */
 public class BoardService {
 
-    public Boolean areTwoCitiesConnected(City a, City b, ID gameId) {
-        if (a.equals(b)) {
-            return true;
-        }
-        ServerModel model = ServerModel.SINGLETON;
-        Game relevantGame = model.getStartedGame(gameId);
 
-
-
-        return false;
-    }
-
-    public Username longestRoute(ID gameId) {
-        return null;
-    }
 
 
 }

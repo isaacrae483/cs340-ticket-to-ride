@@ -157,13 +157,13 @@ public class Player implements IPlayer {
     public  void drawFaceUpCard(Game game, int index){
         state = state.drawFaceUpCard(this, game, index);
     }
-    public  void drawFaceDownCard(Game game){
+    public void drawFaceDownCard(Game game){
         state = state.drawFaceDownCard(this, game);
     }
-    public  void claimRoute(Game game, Route route){
+    public void claimRoute(Game game, Route route){
         state = state.claimRoute(this, game, route);
     }
-    public  void nextTurn(Game game){
+    public void nextTurn(Game game){
         state = state.nextTurn(this, game);
     }
 }
