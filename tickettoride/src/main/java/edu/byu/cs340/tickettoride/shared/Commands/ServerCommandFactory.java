@@ -10,6 +10,7 @@ import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.JoinGameCommand
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.LoginCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.ReturnCardCommand;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RouteClaimedCommand;
 import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.StartGameCommand;
 import edu.byu.cs340.tickettoride.shared.Interface.ICommand;
 
@@ -36,6 +37,8 @@ public class ServerCommandFactory {
                 return new DrawFaceUpCardCommand(info.index, info.username, info.gameID);
             case DRAWFACEDOWNCARD:
                 return new DrawFaceDownCardCommand(info.username, info.gameID);
+            case CLAIMROUTE:
+                return new RouteClaimedCommand(info.route, info.username, info.gameID);
         }
         //tried to create non-existent command
         assert (false);
