@@ -1,6 +1,11 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
 public class Length {
+    @Override
+    public String toString() {
+        return length + "";
+    }
+
     int length;
 
     public Length(int length) {
