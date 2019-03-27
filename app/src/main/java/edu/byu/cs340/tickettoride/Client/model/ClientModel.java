@@ -288,9 +288,9 @@ public class ClientModel extends EventEmitter {
         return mRoutes;
     }
 
-    public void claimRoute(Route route) {
+    public void claimRoute(Route route, Player player) {
         Route modelRoute = mRoutes.getRoute(route.getId());
-        modelRoute.claimRoute(route.getClaimedBy());
+        modelRoute.claimRoute(player);
         emitEvent(new RouteClaimed(modelRoute));
     }
 

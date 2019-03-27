@@ -204,7 +204,7 @@ public class MapFragment extends PresenterViewFragment implements IMapView{
         public void onClick(View view) {
             mGameMapPresenter.routePressed(routeId);
             makeToast("Route pressed with ID: " + routeId);
-            setColor((ImageView)view, IPlayer.Color.RED);
+            //setColor((ImageView)view, IPlayer.Color.RED);
         }
     }
 

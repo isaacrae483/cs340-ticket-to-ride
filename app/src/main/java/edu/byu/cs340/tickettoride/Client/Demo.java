@@ -232,7 +232,7 @@ public class Demo {
         Toast.makeText(context, "CLAIMING ROUTE", Toast.LENGTH_LONG).show();
         Route routeToClaim = model.getRoutes().getRoute(0);
         routeToClaim.claimRoute(ClientModel.instance().getActiveGame().getPlayers().get(0));
-        model.claimRoute(routeToClaim);
+        model.claimRoute(routeToClaim, null);
     }
 
     //Add chat message from any player

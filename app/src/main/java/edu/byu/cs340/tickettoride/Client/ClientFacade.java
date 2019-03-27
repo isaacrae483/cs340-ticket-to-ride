@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.events.game.LastTurnEvent;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -75,12 +76,12 @@ public class ClientFacade implements IClient {
 
     @Override
     public void claimRoute(Route route, Player player) {
-
+        model.claimRoute(route, player);
     }
 
     @Override
     public void lastTurn() {
-
+        model.emitEvent(new LastTurnEvent());
     }
 
     @Override
