@@ -2,7 +2,6 @@ package edu.byu.cs340.tickettoride.Client.model;
 
 import java.util.List;
 
-import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -23,7 +22,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
-import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -34,7 +32,6 @@ import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.PlayerTurnChanged;
-import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -99,7 +96,7 @@ public class ClientModel extends EventEmitter {
         if (player.getPlayerName().equals(getUsername())) {
             Player p = activeGame.getPlayer(player.getPlayerName());
             int before = p.getNumDestCards();
-            ResetPlayer(player);
+            resetPlayer(player);
             int diff = p.getNumDestCards() - before;
             int last = p.getNumDestCards() - 1;
             DestCard draw1 = null;
@@ -117,7 +114,7 @@ public class ClientModel extends EventEmitter {
             emitEvent(new DestCardDraw(draw1, draw2, draw3));
         }
         else {
-            ResetPlayer(player);
+            resetPlayer(player);
         }
         emitEvent(new DestDeckSizeChanged());
     }
@@ -299,7 +296,7 @@ public class ClientModel extends EventEmitter {
         emitEvent(new TCDeckSizeChanged());
     }
 
-    public void ResetPlayer(Player player) {
+    public void resetPlayer(Player player) {
         activeGame.ResetPlayer(player);
     }
 
