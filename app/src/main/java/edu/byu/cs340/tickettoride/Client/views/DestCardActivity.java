@@ -22,7 +22,7 @@ import edu.byu.cs340.tickettoride.Client.presenters.IDestCardPresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 
-public class DestCardActivity extends PresenterViewActivity implements IDestCardActivity {
+public class DestCardActivity  extends IDestCardActivity {
 
     private IDestCardPresenter presenter;
 
@@ -64,7 +64,6 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         return new Intent(packageContext, DestCardActivity.class);
     }
 
-    @Override
     public void addCard(DestCard card) {
         adapter.addCard(card);
     }
@@ -98,11 +97,13 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
 
         window.showAtLocation(new View(this), Gravity.CENTER, 0, 0);
         button.setEnabled(false);
+        enableCardButtons();
 
         popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeWindow();
+                disableCardButtons();
+                presenter.finishDrawing();
             }
         });
 
@@ -128,9 +129,10 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
                 draw3 = null;
             }
             setCards();
+            enableCardButtons();
         }
         if (cardsReturned >= limit.value()) {
-            closeWindow();
+            presenter.finishDrawing();
         }
     }
 
@@ -140,10 +142,31 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         cardsLeft.setText(size + " cards left");
     }
 
+    @Override
+    public void FinishedDrawing() {
+        closeWindow();
+    }
+
     private void setCards() {
         setDestCard(window.getContentView().findViewById(R.id.drawDest1), draw1);
         setDestCard(window.getContentView().findViewById(R.id.drawDest2), draw2);
         setDestCard(window.getContentView().findViewById(R.id.drawDest3), draw3);
+    }
+
+    private void disableCardButtons() {
+        setCardButton(R.id.drawDest1, false);
+        setCardButton(R.id.drawDest2, false);
+        setCardButton(R.id.drawDest3, false);
+    }
+
+    private void enableCardButtons() {
+        setCardButton(R.id.drawDest1, true);
+        setCardButton(R.id.drawDest2, true);
+        setCardButton(R.id.drawDest3, true);
+    }
+
+    private void setCardButton(int id, boolean active) {
+        window.getContentView().findViewById(id).findViewById(R.id.returnButton).setEnabled(active);
     }
 
     private void setDestCard(View view, final DestCard card) {

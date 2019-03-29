@@ -22,6 +22,8 @@ import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishEvent;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishFailEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
@@ -30,6 +32,7 @@ import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
+import edu.byu.cs340.tickettoride.shared.Result.FinishDrawingDestCardsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
@@ -188,6 +191,15 @@ public class ModelFacade implements IModelFacade, ICallBack {
         task.execute(info);
     }
 
+    @Override
+    public void finishDrawingDestCards() {
+        GenericData info = new GenericData("finishDrawingDestCards",
+                new Class<?>[] { Username.class, ID.class},
+                new Object[]{model.getUsername(), model.getActiveGameID()});
+        GenericTask task = new GenericTask<FinishDrawingDestCardsResult>(this);
+        task.execute(info);
+    }
+
     public <T> void update(T response){
 
         if (response == null) {
@@ -299,6 +311,15 @@ public class ModelFacade implements IModelFacade, ICallBack {
             RouteClaimedResult result = (RouteClaimedResult) response;
             if (!result.getSuccess()) {
                 model.passErrorEvent(new RouteClaimedFailed());
+            }
+        }
+        else if (response.getClass() == FinishDrawingDestCardsResult.class) {
+            FinishDrawingDestCardsResult result = (FinishDrawingDestCardsResult) response;
+            if (result.getSuccess()) {
+                model.emitEvent(new DestCardFinishEvent());
+            }
+            else {
+                model.passErrorEvent(new DestCardFinishFailEvent());
             }
         }
 

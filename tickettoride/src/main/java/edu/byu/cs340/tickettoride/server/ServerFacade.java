@@ -38,6 +38,7 @@ import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
+import edu.byu.cs340.tickettoride.shared.Result.FinishDrawingDestCardsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
@@ -214,6 +215,12 @@ public class ServerFacade extends EventEmitter implements IServer {
                 player, game))
         );
         return null;
+    }
+
+    @Override
+    public FinishDrawingDestCardsResult finishDrawingDestCards(Username player, ID game) {
+        FinishDrawingDestCardsResult res = new DestCardService().finishDrawing(player, game);
+        return res;
     }
 
     public void playerDrew(Player p, ID game) {

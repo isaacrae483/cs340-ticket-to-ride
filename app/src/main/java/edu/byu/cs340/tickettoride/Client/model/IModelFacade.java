@@ -21,4 +21,5 @@ public interface IModelFacade {
     void drawFaceUpCard(Integer index, Username player);
     void drawFaceDownCard(Username player);
     void claimRoute(Integer routeId);
+    void finishDrawingDestCards();
 }

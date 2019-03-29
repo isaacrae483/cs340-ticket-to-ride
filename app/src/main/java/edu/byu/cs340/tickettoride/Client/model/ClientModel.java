@@ -104,21 +104,21 @@ public class ClientModel extends EventEmitter {
             DestCard draw3 = null;
 
             p = activeGame.getPlayer(player.getPlayerName());
-            if (diff > 0) {
-                draw1 = p.DestCardAt(last);
+
+            if (diff > 2) {
+                draw3 = p.DestCardAt(last - 2);
             }
             if (diff > 1) {
                 draw2 = p.DestCardAt(last - 1);
             }
-            if (diff > 2) {
-                draw3 = p.DestCardAt(last - 2);
+            if (diff > 0) {
+                draw1 = p.DestCardAt(last);
+                emitEvent(new DestCardDraw(draw1, draw2, draw3));
             }
-            emitEvent(new DestCardDraw(draw1, draw2, draw3));
         }
         else {
             resetPlayer(player);
         }
-        emitEvent(new DestDeckSizeChanged());
     }
 
     public void returnDestCard(DestCard toReturn) throws DestCardDeck.AlreadyInDeckException {

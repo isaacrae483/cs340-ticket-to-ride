@@ -9,6 +9,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
+import edu.byu.cs340.tickettoride.shared.Result.FinishDrawingDestCardsResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -45,9 +46,26 @@ public class DestCardService {
             int before = player.getNumDestCards();
             player.drawDestCard(gameInfo);
             numCards = player.getNumDestCards() - before;
-            success = true;
+            if (numCards != 0) {
+                success = true;
+            }
         }
 
         return new DrawTicketsResult(success, numCards);
+    }
+
+    public FinishDrawingDestCardsResult finishDrawing(Username username, ID game) {
+        FinishDrawingDestCardsResult res = null;
+        Game gameInfo = ServerModel.SINGLETON.getStartedGame(game);
+        if (gameInfo != null && gameInfo.contains(username)) {
+            Player player = gameInfo.getPlayer(username);
+            player.finishDrawingDestCards(gameInfo);
+            res = new FinishDrawingDestCardsResult(true);
+        }
+        else {
+            res = new FinishDrawingDestCardsResult(false);
+        }
+
+        return res;
     }
 }

@@ -17,6 +17,8 @@ import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishEvent;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishFailEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
@@ -30,31 +32,20 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
-    private DestCardActivity view;
+    private IDestCardActivity view;
     private ClientModel model;
     private ModelFacade modelFacade;
 
     private IDestCardActivity.ReturnCardLimit limit = IDestCardActivity.ReturnCardLimit.One();
 
-   // private boolean done = false;
-
     public DestCardPresenter(DestCardActivity view) {
         this.view = view;
         this.model = ClientModel.instance();
         this.modelFacade = ModelFacade.instance();
-        //DEBUG SECTION
-        //new DebugSetup().execute();
-        //END DEBUG SECTION
     }
 
     @Override
     public void syncWithModel() {
-//        if (!done) {
-///           return;
-// /      }
-//        if (!mClientModel.drawnYet()) {
-//            ModelFacade.instance().drawTickets();
-//        }
         view.SetDeckSize(model.getDestCardDeckSize());
         view.setCards(model.getDestCards());
     }
@@ -67,6 +58,11 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
     @Override
     public void returnCard(DestCard card) {
         modelFacade.returnTicket(card);
+    }
+
+    @Override
+    public void finishDrawing() {
+        modelFacade.finishDrawingDestCards();
     }
 
 
@@ -95,68 +91,13 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         else if (o instanceof DestDeckSizeChanged) {
             view.SetDeckSize(model.getDestCardDeckSize());
         }
-    }
-
-    private class DebugSetup extends AsyncTask<Void, Void, Void> {
-
-        private Username username;
-
-        @Override
-        protected void onPreExecute() {
-            try {
-                username = new Username("joe");
-            }
-
-            catch (Username.InvalidUserNameException e) {
-                e.printStackTrace();
-            }
-            new Poller().startPolling(username);
+        else if (o instanceof DestCardFinishEvent) {
+            view.FinishedDrawing();
+            syncWithModel();
         }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            URL url = null;
-            Password password = null;
-            ServerProxy proxy = ServerProxy.instance();
-            try {
-                url =  new URL("http://10.0.2.2:8080");
-                proxy.setHost(url);
-
-                password = new Password("joe");
-                LoginResult login = proxy.register(username, password);
-                model.setUsername(username);
-
-                CreateGameResult gameResult = proxy.createGame(username);
-                ID game = gameResult.getGame().getId();
-                while (model.getActiveGame() == null) {
-                    model.setActiveGameID(game);
-                }
-                model.incrementPlayers(game, new Player(username, Player.Color.BLACK));
-
-                Username user2 = new Username("joe2");
-                proxy.register(user2, password);
-                proxy.joinGame(user2, game);
-
-                proxy.startGame(username, game);
-
-                model.setUsername(user2);
-            }
-            catch (Password.InvalidPasswordException e) {
-                e.printStackTrace();
-            }
-            catch (Username.InvalidUserNameException e) {
-                e.printStackTrace();
-            }
-            catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-          //  DestCardPresenter.this.done = true;
-            DestCardPresenter.this.syncWithModel();
+        else if (o instanceof DestCardFinishFailEvent) {
+            view.makeToast("COULD NOT FINISH DRAWING DEST CARDS");
         }
     }
+
 }
