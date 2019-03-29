@@ -323,6 +323,7 @@ public class ClientModel extends EventEmitter {
 
     public void resetPlayer(Player player) {
         activeGame.ResetPlayer(player);
+        emitEvent(new HandChanged());
     }
 
 

@@ -126,6 +126,23 @@ public class Player implements IPlayer {
         }
     }
 
+    public boolean playRouteCards(Route route){
+        if(hand.hasCards(route.getLength(), route.getColor())){
+            hand.removeCards(route.getLength(), route.getColor());
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public boolean hasTrainCars(int length){
+        if(getTrainPieces() >= length){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public DestCard DestCardAt(int index) {
         return hand.getDestCards().get(index);
     }

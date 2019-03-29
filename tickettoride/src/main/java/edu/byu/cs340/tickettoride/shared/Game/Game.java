@@ -305,8 +305,15 @@ public class Game extends EventBubbler implements IGameListEntry {
         return bank.drawCard(index);
     }
 
-    public void ClaimRoute(Route route, Player player) {
-        board.claimRoute(route, player);
+    public boolean ClaimRoute(Route route, Player player)
+    {
+        if(player.playRouteCards(route)){
+            board.claimRoute(route, player);
+            return true;
+        }
+        else
+            return false;
+
     }
 
     public void ReturnDestCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
