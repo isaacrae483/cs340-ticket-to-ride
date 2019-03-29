@@ -95,13 +95,15 @@ public class ClientModel extends EventEmitter {
 
         if (player.getPlayerName().equals(getUsername())) {
             Player p = activeGame.getPlayer(player.getPlayerName());
-            int before = p.getNumDestCards();
             resetPlayer(player);
-            int diff = p.getNumDestCards() - before;
-            int last = p.getNumDestCards() - 1;
+
+            int diff = player.getNumDestCards() - p.getNumDestCards();
+            int last = player.getNumDestCards() - 1;
             DestCard draw1 = null;
             DestCard draw2 = null;
             DestCard draw3 = null;
+
+            p = activeGame.getPlayer(player.getPlayerName());
             if (diff > 0) {
                 draw1 = p.DestCardAt(last);
             }

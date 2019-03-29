@@ -7,11 +7,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.Poller;
 import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
 import edu.byu.cs340.tickettoride.Client.views.IDestCardActivity;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
@@ -19,7 +21,10 @@ import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -31,6 +36,8 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
     private IDestCardActivity.ReturnCardLimit limit = IDestCardActivity.ReturnCardLimit.One();
 
+   // private boolean done = false;
+
     public DestCardPresenter(DestCardActivity view) {
         this.view = view;
         this.model = ClientModel.instance();
@@ -38,11 +45,13 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         //DEBUG SECTION
         //new DebugSetup().execute();
         //END DEBUG SECTION
-       // syncWithModel();
     }
 
     @Override
     public void syncWithModel() {
+//        if (!done) {
+///           return;
+// /      }
 //        if (!mClientModel.drawnYet()) {
 //            ModelFacade.instance().drawTickets();
 //        }
@@ -90,6 +99,20 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
     private class DebugSetup extends AsyncTask<Void, Void, Void> {
 
+        private Username username;
+
+        @Override
+        protected void onPreExecute() {
+            try {
+                username = new Username("joe");
+            }
+
+            catch (Username.InvalidUserNameException e) {
+                e.printStackTrace();
+            }
+            new Poller().startPolling(username);
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             URL url = null;
@@ -99,12 +122,16 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
                 url =  new URL("http://10.0.2.2:8080");
                 proxy.setHost(url);
 
-                Username username = new Username("joe");
                 password = new Password("joe");
-                proxy.register(username, password);
+                LoginResult login = proxy.register(username, password);
+                model.setUsername(username);
+
                 CreateGameResult gameResult = proxy.createGame(username);
                 ID game = gameResult.getGame().getId();
-                model.setActiveGameID(game);
+                while (model.getActiveGame() == null) {
+                    model.setActiveGameID(game);
+                }
+                model.incrementPlayers(game, new Player(username, Player.Color.BLACK));
 
                 Username user2 = new Username("joe2");
                 proxy.register(user2, password);
@@ -128,7 +155,8 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
         @Override
         protected void onPostExecute(Void result) {
-            //DestCardPresenter.this.done = true;
+          //  DestCardPresenter.this.done = true;
+            DestCardPresenter.this.syncWithModel();
         }
     }
 }
