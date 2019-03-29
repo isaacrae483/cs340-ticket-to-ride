@@ -60,6 +60,11 @@ public class ClientModel extends EventEmitter {
     boolean mDrawnCards = false;
     private Player winningPlayer;
 
+    private boolean waitingToFinishDestCards = false;
+    private DestCard lastDraw1;
+    private DestCard lastDraw2;
+    private DestCard lastDraw3;
+
     private int destCardDeckSize;
 
     public Username getUsername() {
@@ -99,26 +104,44 @@ public class ClientModel extends EventEmitter {
 
             int diff = player.getNumDestCards() - p.getNumDestCards();
             int last = player.getNumDestCards() - 1;
-            DestCard draw1 = null;
-            DestCard draw2 = null;
-            DestCard draw3 = null;
 
             p = activeGame.getPlayer(player.getPlayerName());
 
             if (diff > 2) {
-                draw3 = p.DestCardAt(last - 2);
+                lastDraw3 = p.DestCardAt(last - 2);
             }
             if (diff > 1) {
-                draw2 = p.DestCardAt(last - 1);
+                lastDraw2 = p.DestCardAt(last - 1);
             }
             if (diff > 0) {
-                draw1 = p.DestCardAt(last);
-                emitEvent(new DestCardDraw(draw1, draw2, draw3));
+                lastDraw1 = p.DestCardAt(last);
+                emitEvent(new DestCardDraw(lastDraw1, lastDraw2, lastDraw3));
+                waitingToFinishDestCards = true;
             }
         }
         else {
             resetPlayer(player);
         }
+    }
+
+    public boolean doneReturningCards() {
+        return !waitingToFinishDestCards;
+    }
+
+    public void finishDrawingDestCards() {
+        waitingToFinishDestCards = false;
+    }
+
+    public DestCard getLastDraw1() {
+        return lastDraw1;
+    }
+
+    public DestCard getLastDraw2() {
+        return lastDraw2;
+    }
+
+    public DestCard getLastDraw3() {
+        return lastDraw3;
     }
 
     public void returnDestCard(DestCard toReturn) throws DestCardDeck.AlreadyInDeckException {

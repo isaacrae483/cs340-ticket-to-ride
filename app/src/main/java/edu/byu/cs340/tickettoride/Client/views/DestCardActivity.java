@@ -3,6 +3,7 @@ package edu.byu.cs340.tickettoride.Client.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -78,27 +79,37 @@ public class DestCardActivity  extends IDestCardActivity {
     }
 
     private void closeWindow() {
-        window.dismiss();
-        button.setEnabled(true);
+        if (window != null) {
+            window.setContentView(null);
+            window.dismiss();
+            button.setEnabled(true);
+            window = null;
+        }
     }
 
     @Override
    public void onCardDraw(DestCard card1, DestCard card2, DestCard card3) {
 
-        View popupView = ((LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.draw_popup, null);
+        final View popupView = ((LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.draw_popup,
+                null);
 
 
-        if (window == null) {
-            int height = this.getWindow().getDecorView().getHeight();
-            int width = this.getWindow().getDecorView().getWidth();
-            window = new PopupWindow(popupView, width, height, false);
-        }
+        int height = this.getWindow().getDecorView().getHeight();
+        int width = this.getWindow().getDecorView().getWidth();
+        window = new PopupWindow(popupView, width, height, false);
 
-        window.showAtLocation(new View(this), Gravity.CENTER, 0, 0);
+
+        new Handler(this.getMainLooper()).postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        window.showAtLocation(new View(DestCardActivity.this), Gravity.CENTER, 0, 0);
+                    }
+                }, 3000);
+
         button.setEnabled(false);
         enableCardButtons();
-
         popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,12 +118,20 @@ public class DestCardActivity  extends IDestCardActivity {
             }
         });
 
+
         draw1 = card1;
         draw2 = card2;
         draw3 = card3;
         setCards();
 
         cardsReturned = 0;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.finishDrawing();
+        closeWindow();
     }
 
     @Override
@@ -146,6 +165,7 @@ public class DestCardActivity  extends IDestCardActivity {
     public void FinishedDrawing() {
         closeWindow();
     }
+
 
     private void setCards() {
         setDestCard(window.getContentView().findViewById(R.id.drawDest1), draw1);

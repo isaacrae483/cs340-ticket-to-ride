@@ -48,6 +48,9 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
     public void syncWithModel() {
         view.SetDeckSize(model.getDestCardDeckSize());
         view.setCards(model.getDestCards());
+        if (!model.doneReturningCards()) {
+            view.onCardDraw(model.getLastDraw1(), model.getLastDraw2(), model.getLastDraw3());
+        }
     }
 
     @Override
@@ -63,7 +66,10 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
     @Override
     public void finishDrawing() {
         modelFacade.finishDrawingDestCards();
+        model.finishDrawingDestCards();
     }
+
+
 
 
     @Override
