@@ -76,6 +76,7 @@ public class ClientFacade implements IClient {
     @Override
     public void claimRoute(Route route, Player player) {
         model.claimRoute(route, player);
+        model.resetPlayer(player);
     }
 
     @Override

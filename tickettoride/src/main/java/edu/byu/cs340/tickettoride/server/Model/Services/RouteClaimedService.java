@@ -19,9 +19,10 @@ public class RouteClaimedService {
         if (gameInfo != null && gameInfo.contains(username)) {
             Route toClaim = gameInfo.getRoute(route.getId());
             claimingPlayer = gameInfo.getPlayer(username);
-            if (!toClaim.getClaimed()) {
+            if (!toClaim.getClaimed() && claimingPlayer.hasTrainCars(route.getLength())) {
                 ClaimRoute(claimingPlayer, toClaim, gameInfo);
-                success = true;
+                if(gameInfo.getRoute(toClaim.getId()).getClaimed())
+                    success = true;
                 CheckGameEnd(game, claimingPlayer);
             }
         }

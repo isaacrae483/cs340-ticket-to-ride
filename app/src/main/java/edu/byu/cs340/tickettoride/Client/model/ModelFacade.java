@@ -378,9 +378,6 @@ public class ModelFacade implements IModelFacade, ICallBack {
 
     }
 
-
-
-
     public List<Player> getPlayers(){
         return model.getActiveGame().getPlayers();
     }

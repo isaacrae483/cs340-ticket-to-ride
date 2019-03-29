@@ -33,7 +33,9 @@ public class BeginTurnState extends TurnState {
 
     @Override
     public TurnState claimRoute(Player player, Game game, Route route){
-        game.ClaimRoute(route, player);
-        return new OtherTurnState();
+        if(game.ClaimRoute(route, player))
+            return new OtherTurnState();
+        else
+            return this;
     }
 }
