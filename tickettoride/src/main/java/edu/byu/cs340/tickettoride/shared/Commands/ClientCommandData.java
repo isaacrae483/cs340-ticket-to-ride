@@ -13,7 +13,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class ClientCommandData {
     public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS,
         REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY,
-        DEST_DECK_CHANGE}
+        DEST_DECK_CHANGE, NEXT_TURN}
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;

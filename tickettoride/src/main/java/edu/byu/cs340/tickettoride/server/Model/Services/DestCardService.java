@@ -61,6 +61,7 @@ public class DestCardService {
             Player player = gameInfo.getPlayer(username);
             player.finishDrawingDestCards(gameInfo);
             res = new FinishDrawingDestCardsResult(true);
+            gameInfo.updateWaitingToStart();
         }
         else {
             res = new FinishDrawingDestCardsResult(false);

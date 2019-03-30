@@ -133,6 +133,16 @@ public class ClientProxy extends ClientObserver {
         );
     }
 
+    public void updateTurn(ID game) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.NEXT_TURN,
+                        game
+                )
+        );
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public boolean equals(Object o) {

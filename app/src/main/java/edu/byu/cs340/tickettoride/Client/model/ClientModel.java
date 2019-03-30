@@ -28,6 +28,7 @@ import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.CardLimitEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
@@ -66,6 +67,8 @@ public class ClientModel extends EventEmitter {
     private DestCard lastDraw3;
 
     private int destCardDeckSize;
+    private int numReturned;
+    private boolean firstDraw = true;
 
     public Username getUsername() {
         return username;
@@ -99,10 +102,19 @@ public class ClientModel extends EventEmitter {
     public void drawDestCards(Player player) {
 
         if (player.getPlayerName().equals(getUsername())) {
+
+            numReturned = 0;
             Player p = activeGame.getPlayer(player.getPlayerName());
             resetPlayer(player);
 
             int diff = player.getNumDestCards() - p.getNumDestCards();
+            if (firstDraw) {
+                diff = 3;
+                firstDraw = false;
+            }
+            else {
+                emitEvent(new CardLimitEvent());
+            }
             int last = player.getNumDestCards() - 1;
 
             p = activeGame.getPlayer(player.getPlayerName());
@@ -144,9 +156,27 @@ public class ClientModel extends EventEmitter {
         return lastDraw3;
     }
 
+    public int getNumReturned() {
+        return numReturned;
+    }
+
     public void returnDestCard(DestCard toReturn) throws DestCardDeck.AlreadyInDeckException {
         Player current = activeGame.getPlayer(username);
-        current.returnDestCard(activeGame, toReturn);
+        current.ReturnTicket(toReturn);
+
+        if (toReturn.equals(getLastDraw1())) {
+            lastDraw1 = null;
+            ++numReturned;
+        }
+        else if (toReturn.equals(getLastDraw2())) {
+            lastDraw2 = null;
+            ++numReturned;
+        }
+        else if (toReturn.equals(getLastDraw3())) {
+            lastDraw3 = null;
+            ++numReturned;
+        }
+
         emitEvent(new DestCardReturned(toReturn));
     }
 

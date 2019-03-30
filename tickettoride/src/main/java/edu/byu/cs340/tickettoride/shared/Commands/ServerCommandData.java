@@ -62,6 +62,7 @@ public class ServerCommandData {
     }
 
 
+
     public commandType type;
     public Username username;
     public Password password;

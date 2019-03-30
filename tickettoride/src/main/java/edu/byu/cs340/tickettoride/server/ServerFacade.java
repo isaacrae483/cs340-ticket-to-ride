@@ -1,9 +1,5 @@
 package edu.byu.cs340.tickettoride.server;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.DestCardService;
@@ -19,9 +15,9 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
-import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandData;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -30,7 +26,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
-import edu.byu.cs340.tickettoride.shared.Interface.IClient;
 import edu.byu.cs340.tickettoride.shared.Interface.IServer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.ChatResult;
@@ -202,24 +197,30 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     @Override
     public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game) {
+
+        int turn = ServerModel.SINGLETON.getGameTurn(game);
         this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
                 ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),
                 player, game))
         );
+        checkNextTurn(turn, game);
         return null;
     }
 
     @Override
     public DrawFaceDownCardResult drawFaceDownCard(Username player, ID game) {
+        int turn = ServerModel.SINGLETON.getGameTurn(game);
         this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FROM DECK",
                 player, game))
         );
+        checkNextTurn(turn, game);
         return null;
     }
 
     @Override
     public FinishDrawingDestCardsResult finishDrawingDestCards(Username player, ID game) {
         FinishDrawingDestCardsResult res = new DestCardService().finishDrawing(player, game);
+        this.nextTurn(game);
         return res;
     }
 
@@ -263,6 +264,7 @@ public class ServerFacade extends EventEmitter implements IServer {
             this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: CLAIMED ROUTE: " +
                     route.toString(), player, game))
             );
+            nextTurn(game);
         }
         return res;
     }
@@ -272,6 +274,17 @@ public class ServerFacade extends EventEmitter implements IServer {
         this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: LAST TURN",
                 ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
         );
+    }
+
+    private void checkNextTurn(int lastIndex, ID game) {
+        Game gameInfo = ServerModel.SINGLETON.getStartedGame(game);
+        if (lastIndex != gameInfo.getPlayerTurnIndex()) {
+            nextTurn(game);
+        }
+    }
+
+    private void nextTurn(ID game) {
+        this.emitEvent(new PlayerTurnEvent(game));
     }
 
 

@@ -110,5 +110,10 @@ public class ClientFacade implements IClient {
         model.resetPlayer(player);
     }
 
+    @Override
+    public void updateTurn(ID game) {
+        model.updatePlayerTurn();
+    }
+
 
 }

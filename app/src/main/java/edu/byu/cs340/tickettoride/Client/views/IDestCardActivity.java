@@ -10,6 +10,7 @@ public abstract class IDestCardActivity extends PresenterViewActivity {
     public abstract void onCardReturn(DestCard card, ReturnCardLimit cardLimit);
     public abstract void SetDeckSize(int size);
     public abstract void FinishedDrawing();
+    public abstract void SetNumReturned(int numReturned);
 
     public static class ReturnCardLimit {
         private int limit;

@@ -72,6 +72,8 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     private int playerTurnIndex;
 
+    private boolean waitingToStart = true;
+
     /**
      * Initializes a Game
      */
@@ -112,6 +114,9 @@ public class Game extends EventBubbler implements IGameListEntry {
     public void nextPlayerTurn(){
         playerTurnIndex = (playerTurnIndex + 1) % (players.size());
         playerTurn = players.get(playerTurnIndex).getPlayerName();
+        for (Player p : players) {
+            p.nextTurn(this);
+        }
     }
 
     public Username getPlayerTurn() {
@@ -177,6 +182,11 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     public void startGame() {
         gameStarted = true;
+    }
+
+    public void playersReturnedDestCards() {
+        waitingToStart = false;
+        getPlayers().get(0).setTurn();
     }
 
     /**
@@ -332,4 +342,20 @@ public class Game extends EventBubbler implements IGameListEntry {
             }
         }
     }
+
+    public void updateWaitingToStart() {
+        if (waitingToStart) {
+            boolean someonesTurn = false;
+            for(Player p : players) {
+                if (p.isTurn()) {
+                    someonesTurn = true;
+                }
+            }
+            if (!someonesTurn) {
+                playersReturnedDestCards();
+            }
+        }
+    }
+
+
 }

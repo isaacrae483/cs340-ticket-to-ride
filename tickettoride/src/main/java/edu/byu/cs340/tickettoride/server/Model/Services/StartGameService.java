@@ -49,11 +49,16 @@ public class StartGameService  {
             player.DrawCard(game.drawCard());
         }
         ServerFacade.SINGLETON.playerDrew(p, game.getId());
+        ServerFacade.SINGLETON.drawTickets(p.getPlayerName(), game.getId());
     }
 
     private void InitializeFaceUp(List<TrainCard> cards, Game game) {
         for (int i = 0; i < cards.size(); ++i) {
             ServerFacade.SINGLETON.SetFaceUpCard(game, cards.get(i), i);
         }
+    }
+
+    private void DrawDestCards(Game game, Player player) {
+
     }
 }

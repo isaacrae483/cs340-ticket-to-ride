@@ -10,6 +10,8 @@ import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.State.BeginTurnState;
+import edu.byu.cs340.tickettoride.shared.Player.State.DrawnDestState;
+import edu.byu.cs340.tickettoride.shared.Player.State.OtherTurnState;
 import edu.byu.cs340.tickettoride.shared.Player.State.TurnState;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
@@ -191,5 +193,13 @@ public class Player implements IPlayer {
     }
     public void nextTurn(Game game){
         state = state.nextTurn(this, game);
+    }
+
+    public void setTurn() {
+        state = new BeginTurnState();
+    }
+
+    public boolean isTurn() {
+        return !(state.getClass() == OtherTurnState.class);
     }
 }

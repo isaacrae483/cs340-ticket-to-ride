@@ -45,5 +45,9 @@ public class ServerModel {
         return startedGames.getPlayer(game, username);
     }
 
+    public int getGameTurn(ID game) {
+        return mapGames.getGame(game).getPlayerTurnIndex();
+    }
+
 //implement methods for login, register, joinGame, newGame here.
 }
