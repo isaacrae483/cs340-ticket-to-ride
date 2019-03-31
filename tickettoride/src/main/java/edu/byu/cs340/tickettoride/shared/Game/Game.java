@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
-import java.awt.Color;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -73,6 +74,7 @@ public class Game extends EventBubbler implements IGameListEntry {
     private int playerTurnIndex;
 
     private boolean waitingToStart = true;
+
 
     /**
      * Initializes a Game
@@ -312,7 +314,15 @@ public class Game extends EventBubbler implements IGameListEntry {
     }
 
     public TrainCard drawFaceUpCard(int index) {
-        return bank.drawCard(index);
+        TrainCard card = bank.drawCard(index);
+        TrainCard replacementCard = trainCardDeck.drawCard();
+        bank.replaceCard(index, replacementCard);
+        if (bank.needsFullRedraw()) {
+            for (int i = 0; i < bank.MAX_CARDS; i++) {
+                bank.replaceCard(i, trainCardDeck.drawCard());
+            }
+        }
+        return card;
     }
 
     public boolean ClaimRoute(Route route, Player player)
@@ -355,6 +365,10 @@ public class Game extends EventBubbler implements IGameListEntry {
                 playersReturnedDestCards();
             }
         }
+    }
+
+    private Boolean consumeCards(Colors color, Player player) {
+        return false;
     }
 
 

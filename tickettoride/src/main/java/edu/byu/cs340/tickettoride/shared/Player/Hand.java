@@ -67,7 +67,7 @@ public class Hand {
      * @return
      */
 
-    public boolean hasCards(int num, Enum color){
+    public boolean hasCards(int num, Colors color){
         int count = 0;
 
         for(TrainCard card : trainCards){
@@ -75,10 +75,7 @@ public class Hand {
                 count++;
             }
         }
-        if(count >= num)
-            return true;
-        else
-            return false;
+        return count >= num;
     }
 
     public void popDestCard(DestCard card) {
@@ -91,7 +88,7 @@ public class Hand {
 
     /**
      * pre: hasCards function returns true for same num and color
-     * post: train card hand contains the same number of cards minus num, and cards of the given color or missing first then rainbows equal to num
+     * post: train card hand contains the same number of cards minus num, cards of the given color @param color are first removed, then rainbow cards are removed
      * @param num
      * @param color
      */

@@ -26,6 +26,11 @@ public class Player implements IPlayer {
     private Points longTrainPoints;
     private Points totalPoints;
     private TrainPieces trainPieces = new TrainPieces();
+
+    public TurnState getState() {
+        return state;
+    }
+
     private TurnState state = new BeginTurnState();
 
     public Player(Username username, Color color) {

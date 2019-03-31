@@ -19,4 +19,5 @@ public class TurnState {
     public TurnState() {
         //CUZ JSON BE A JERKZ
     }
+
 }

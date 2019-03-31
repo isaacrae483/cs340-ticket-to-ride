@@ -3,6 +3,7 @@ package edu.byu.cs340.tickettoride.server;
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.DestCardService;
+import edu.byu.cs340.tickettoride.server.Model.Services.DrawCardService;
 import edu.byu.cs340.tickettoride.server.Model.Services.JoinGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.LoginService;
 import edu.byu.cs340.tickettoride.server.Model.Services.RegisterService;
@@ -197,14 +198,16 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     @Override
     public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game) {
-
+        DrawFaceUpCardResult res = DrawCardService.drawFaceUpCard(index, player, game);
         int turn = ServerModel.SINGLETON.getGameTurn(game);
-        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
-                ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),
-                player, game))
-        );
+        if (res.getSuccess()) {
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
+                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),
+                    player, game))
+            );
+        }
         checkNextTurn(turn, game);
-        return null;
+        return res;
     }
 
     @Override
