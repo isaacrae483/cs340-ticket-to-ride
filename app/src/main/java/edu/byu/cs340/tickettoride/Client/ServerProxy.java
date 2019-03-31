@@ -16,6 +16,7 @@ import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceDownCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawFaceUpCardResult;
 import edu.byu.cs340.tickettoride.shared.Result.DrawTicketsResult;
+import edu.byu.cs340.tickettoride.shared.Result.FinishDrawingDestCardsResult;
 import edu.byu.cs340.tickettoride.shared.Result.JoinGameResult;
 import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.Result.ReturnTicketResult;
@@ -107,6 +108,12 @@ public class ServerProxy implements IServer {
     public DrawFaceDownCardResult drawFaceDownCard(Username player, ID game) {
         data = new ServerCommandData(commandType.DRAWFACEDOWNCARD, player, game);
         return communicator.send(data, DrawFaceDownCardResult.class);
+    }
+
+    @Override
+    public FinishDrawingDestCardsResult finishDrawingDestCards(Username player, ID game) {
+        data = new ServerCommandData(commandType.FINISHDESTCARDS, player, game);
+        return communicator.send(data, FinishDrawingDestCardsResult.class);
     }
 
     @Override

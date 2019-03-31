@@ -17,12 +17,14 @@ public class DrawnOneCardState extends TurnState {
         }
 
         player.DrawCard(game.drawFaceUpCard(index));
+        game.nextPlayerTurn();
         return new OtherTurnState();
     }
 
     @Override
     public TurnState drawFaceDownCard(Player player, Game game){
         player.DrawCard(game.drawCard());
+        game.nextPlayerTurn();
         return new OtherTurnState();
     }
 }

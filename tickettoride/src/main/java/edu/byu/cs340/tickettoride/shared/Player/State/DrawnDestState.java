@@ -17,6 +17,7 @@ public class DrawnDestState extends TurnState {
 
     @Override
     public TurnState finishDrawingDestCards(Player player, Game game){
+        game.nextPlayerTurn();
         return new OtherTurnState();
     }
 }

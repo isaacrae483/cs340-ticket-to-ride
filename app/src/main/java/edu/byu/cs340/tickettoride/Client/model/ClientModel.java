@@ -1,8 +1,9 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
@@ -23,25 +24,24 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
-import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.MapGames;
 import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.CardLimitEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.PlayerTurnChanged;
-import edu.byu.cs340.tickettoride.shared.Player.Hand;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
-        trainCardDeck = new TrainCardDeck();
+        //trainCardDeck = new TrainCardDeck();
         bank = new Bank();
         destCardDeckSize = DestCardDeck.standardSize;
     }
@@ -57,13 +57,21 @@ public class ClientModel extends EventEmitter {
     private MapGames games = new MapGames();
     private ID activeGameID;
     private Chat chatMessages;
-    private TrainCardDeck trainCardDeck;
+    //private TrainCardDeck trainCardDeck;
+    int trainCardDeckSize = 0;
     private Bank bank;
     private Routes mRoutes = new Routes();
     boolean mDrawnCards = false;
     private Player winningPlayer;
 
+    private boolean waitingToFinishDestCards = false;
+    private DestCard lastDraw1;
+    private DestCard lastDraw2;
+    private DestCard lastDraw3;
+
     private int destCardDeckSize;
+    private int numReturned;
+    private boolean firstDraw = true;
 
     public Username getUsername() {
         return username;
@@ -97,34 +105,81 @@ public class ClientModel extends EventEmitter {
     public void drawDestCards(Player player) {
 
         if (player.getPlayerName().equals(getUsername())) {
+
+            numReturned = 0;
             Player p = activeGame.getPlayer(player.getPlayerName());
-            int before = p.getNumDestCards();
-            ResetPlayer(player);
-            int diff = p.getNumDestCards() - before;
-            int last = p.getNumDestCards() - 1;
-            DestCard draw1 = null;
-            DestCard draw2 = null;
-            DestCard draw3 = null;
-            if (diff > 0) {
-                draw1 = p.DestCardAt(last);
+            resetPlayer(player);
+
+            int diff = player.getNumDestCards() - p.getNumDestCards();
+            if (firstDraw) {
+                diff = 3;
+                firstDraw = false;
+            }
+            else {
+                emitEvent(new CardLimitEvent());
+            }
+            int last = player.getNumDestCards() - 1;
+
+            p = activeGame.getPlayer(player.getPlayerName());
+
+            if (diff > 2) {
+                lastDraw3 = p.DestCardAt(last - 2);
             }
             if (diff > 1) {
-                draw2 = p.DestCardAt(last - 1);
+                lastDraw2 = p.DestCardAt(last - 1);
             }
-            if (diff > 2) {
-                draw3 = p.DestCardAt(last - 2);
+            if (diff > 0) {
+                lastDraw1 = p.DestCardAt(last);
+                emitEvent(new DestCardDraw(lastDraw1, lastDraw2, lastDraw3));
+                waitingToFinishDestCards = true;
             }
-            emitEvent(new DestCardDraw(draw1, draw2, draw3));
         }
         else {
-            ResetPlayer(player);
+            resetPlayer(player);
         }
-        emitEvent(new DestDeckSizeChanged());
+    }
+
+    public boolean doneReturningCards() {
+        return !waitingToFinishDestCards;
+    }
+
+    public void finishDrawingDestCards() {
+        waitingToFinishDestCards = false;
+    }
+
+    public DestCard getLastDraw1() {
+        return lastDraw1;
+    }
+
+    public DestCard getLastDraw2() {
+        return lastDraw2;
+    }
+
+    public DestCard getLastDraw3() {
+        return lastDraw3;
+    }
+
+    public int getNumReturned() {
+        return numReturned;
     }
 
     public void returnDestCard(DestCard toReturn) throws DestCardDeck.AlreadyInDeckException {
         Player current = activeGame.getPlayer(username);
-        current.returnDestCard(activeGame, toReturn);
+        current.ReturnTicket(toReturn);
+
+        if (toReturn.equals(getLastDraw1())) {
+            lastDraw1 = null;
+            ++numReturned;
+        }
+        else if (toReturn.equals(getLastDraw2())) {
+            lastDraw2 = null;
+            ++numReturned;
+        }
+        else if (toReturn.equals(getLastDraw3())) {
+            lastDraw3 = null;
+            ++numReturned;
+        }
+
         emitEvent(new DestCardReturned(toReturn));
     }
 
@@ -191,7 +246,7 @@ public class ClientModel extends EventEmitter {
     }
 
     public int getTrainCardDeckSize() {
-        return trainCardDeck.getSize();
+        return trainCardDeckSize;
     }
 
     public void drewDestCards(int numCards) {
@@ -243,6 +298,14 @@ public class ClientModel extends EventEmitter {
         }
         emitEvent(new Event() {});//should pass a real event
     }
+
+    public void setFaceUpTrainCards(List<TrainCard> newTrainCards) {
+        for(int i = 0; i < bank.MAX_CARDS; i++) {
+            bank.replaceCard(i, newTrainCards.get(i));
+        }
+        emitEvent(new BankCardsChanged());
+    }
+
     public void addTrainCard(TrainCard card){
         Player current = activeGame.getPlayer(username);
         current.DrawCard(card);
@@ -253,7 +316,6 @@ public class ClientModel extends EventEmitter {
         //current.removeCards(1, card.getColor());
         emitEvent(new HandChanged());
     }
-
 
     public void updateOppTrainCars(int cars){
         for(Player player : activeGame.getPlayers()){
@@ -295,12 +357,13 @@ public class ClientModel extends EventEmitter {
     }
 
     public void modifyTrainCardDeckSize(int deckSize) {
-        trainCardDeck.drawCard();
+        trainCardDeckSize = deckSize;
         emitEvent(new TCDeckSizeChanged());
     }
 
-    public void ResetPlayer(Player player) {
+    public void resetPlayer(Player player) {
         activeGame.ResetPlayer(player);
+        emitEvent(new HandChanged());
     }
 
 

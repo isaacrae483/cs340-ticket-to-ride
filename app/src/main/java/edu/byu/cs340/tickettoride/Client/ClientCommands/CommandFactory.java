@@ -27,6 +27,11 @@ public class CommandFactory {
                 return new DestDeckChangedCommand(info.pos, info.player);
             case DRAW_TRAIN_CARD:
                 return new DrawTrainCardCommand(info.player);
+            case NEXT_TURN:
+                return new NextTurnCommand(info.id);
+            case DRAW_FACE_UP:
+                return new DrawFaceUpCardCommand(info.deckSize, info.player, info.cards);
+
 
         }
         //tried to create non-existent command

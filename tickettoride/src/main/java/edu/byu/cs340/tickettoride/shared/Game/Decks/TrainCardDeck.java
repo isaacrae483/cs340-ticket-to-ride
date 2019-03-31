@@ -12,6 +12,8 @@ import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 public class TrainCardDeck {
     private Deque<TrainCard> deck;
 
+    private List<TrainCard> discardPile = new ArrayList<>();
+
     public TrainCardDeck() {
         deck = new ArrayDeque<>();
 
@@ -36,12 +38,19 @@ public class TrainCardDeck {
         deck.addAll(temp);
     }
 
+    public TrainCard peekCard() {
+        return deck.peekFirst();
+    }
+
     /**
      * @pre none
      * @post deck should have one fewer card, or have zero cards.
      * @return drawn TrainCard or null if empty
      */
     public TrainCard drawCard() {
+        if (deck.size() == 0) {
+            takeCards(discardPile);
+        }
         return deck.size() == 0 ? null : deck.removeFirst();
     }
 
@@ -63,5 +72,16 @@ public class TrainCardDeck {
      */
     public int getSize() {
         return deck.size();
+    }
+
+    public void takeCards(List<TrainCard> cards) {
+        Collections.shuffle(cards);
+        deck.addAll(cards);
+        cards.clear();
+    }
+
+    public void addToDiscardPile(TrainCard card) {
+        if (card != null)
+            discardPile.add(card);
     }
 }

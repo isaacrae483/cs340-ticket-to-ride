@@ -1,7 +1,7 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.events.game.LastTurnEvent;
@@ -56,7 +56,7 @@ public class ClientFacade implements IClient {
 
     @Override
     public void addCards(Player player) {
-        model.ResetPlayer(player);
+        model.resetPlayer(player);
     }
 
     @Override
@@ -66,17 +66,20 @@ public class ClientFacade implements IClient {
 
     @Override
     public void drawTrainCard(Player player) {
-        model.ResetPlayer(player);
+        model.resetPlayer(player);
     }
 
     @Override
-    public void drawFaceUpCard(Player player) {
-        model.ResetPlayer(player);
+    public void drawFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
+        model.resetPlayer(player);
+        model.modifyTrainCardDeckSize(newTrainCardDeckSize);
+        model.setFaceUpTrainCards(newTrainCards);
     }
 
     @Override
     public void claimRoute(Route route, Player player) {
         model.claimRoute(route, player);
+        model.resetPlayer(player);
     }
 
     @Override
@@ -86,7 +89,16 @@ public class ClientFacade implements IClient {
 
     @Override
     public void endGame(List<Player> players) {
-
+        Player winner = null;
+        int winnerScore = 0;
+        for(Player player : players){
+            model.resetPlayer(player);
+            if(player.getTotalPoints() > winnerScore){
+                winner = player;
+                winnerScore = player.getTotalPoints();
+            }
+        }
+        model.setWinningPlayer(winner);
     }
 
     @Override
@@ -97,7 +109,13 @@ public class ClientFacade implements IClient {
     @Override
     public void changeDestDeckSize(int offset, Player player) {
         model.drewDestCards(offset);
-        model.ResetPlayer(player);
+        model.drawDestCards(player);
+        model.resetPlayer(player);
+    }
+
+    @Override
+    public void updateTurn(ID game) {
+        model.updatePlayerTurn();
     }
 
 

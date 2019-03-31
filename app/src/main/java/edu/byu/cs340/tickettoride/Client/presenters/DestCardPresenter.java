@@ -7,25 +7,33 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Observable;
 
+import edu.byu.cs340.tickettoride.Client.Poller;
 import edu.byu.cs340.tickettoride.Client.ServerProxy;
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.views.DestCardActivity;
 import edu.byu.cs340.tickettoride.Client.views.IDestCardActivity;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommands.RegisterCommand;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.CardLimitEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishEvent;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishFailEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDrawFailed;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.ReturnDestCardFailed;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.Result.CreateGameResult;
+import edu.byu.cs340.tickettoride.shared.Result.LoginResult;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class DestCardPresenter extends Presenter implements IDestCardPresenter {
 
-    private DestCardActivity view;
+    private IDestCardActivity view;
     private ClientModel model;
     private ModelFacade modelFacade;
 
@@ -35,19 +43,20 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         this.view = view;
         this.model = ClientModel.instance();
         this.modelFacade = ModelFacade.instance();
-        //DEBUG SECTION
-        //new DebugSetup().execute();
-        //END DEBUG SECTION
-       // syncWithModel();
+    }
+
+    private void maxReturnLimit() {
+        limit = IDestCardActivity.ReturnCardLimit.Two();
     }
 
     @Override
     public void syncWithModel() {
-//        if (!mClientModel.drawnYet()) {
-//            ModelFacade.instance().drawTickets();
-//        }
         view.SetDeckSize(model.getDestCardDeckSize());
         view.setCards(model.getDestCards());
+        if (!model.doneReturningCards()) {
+            view.onCardDraw(model.getLastDraw1(), model.getLastDraw2(), model.getLastDraw3());
+            view.SetNumReturned(model.getNumReturned());
+        }
     }
 
     @Override
@@ -60,6 +69,14 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         modelFacade.returnTicket(card);
     }
 
+    @Override
+    public void finishDrawing() {
+        modelFacade.finishDrawingDestCards();
+        model.finishDrawingDestCards();
+    }
+
+
+
 
     @Override
     public void update(Observable observable, Object o) {
@@ -71,11 +88,8 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         }
         else if (o instanceof DestCardReturned) {
             DestCardReturned returned = (DestCardReturned) o;
-            view.onCardReturn(returned.getReturned(), limit);
             syncWithModel();
-            if (limit.value() == 1) {
-                limit = IDestCardActivity.ReturnCardLimit.Two();
-            }
+            view.onCardReturn(returned.getReturned(), limit);
         }
         else if (o instanceof DestDrawFailed) {
             view.makeToast("DRAWING A DEST CARD FAILED");
@@ -86,49 +100,16 @@ public class DestCardPresenter extends Presenter implements IDestCardPresenter {
         else if (o instanceof DestDeckSizeChanged) {
             view.SetDeckSize(model.getDestCardDeckSize());
         }
-    }
-
-    private class DebugSetup extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            URL url = null;
-            Password password = null;
-            ServerProxy proxy = ServerProxy.instance();
-            try {
-                url =  new URL("http://10.0.2.2:8080");
-                proxy.setHost(url);
-
-                Username username = new Username("joe");
-                password = new Password("joe");
-                proxy.register(username, password);
-                CreateGameResult gameResult = proxy.createGame(username);
-                ID game = gameResult.getGame().getId();
-                model.setActiveGameID(game);
-
-                Username user2 = new Username("joe2");
-                proxy.register(user2, password);
-                proxy.joinGame(user2, game);
-
-                proxy.startGame(username, game);
-
-                model.setUsername(user2);
-            }
-            catch (Password.InvalidPasswordException e) {
-                e.printStackTrace();
-            }
-            catch (Username.InvalidUserNameException e) {
-                e.printStackTrace();
-            }
-            catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            return null;
+        else if (o instanceof DestCardFinishEvent) {
+            view.FinishedDrawing();
+            syncWithModel();
         }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            //DestCardPresenter.this.done = true;
+        else if (o instanceof DestCardFinishFailEvent) {
+            view.makeToast("COULD NOT FINISH DRAWING DEST CARDS");
+        }
+        else if (o instanceof CardLimitEvent) {
+            this.maxReturnLimit();
         }
     }
+
 }

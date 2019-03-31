@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
-import java.awt.Color;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +18,6 @@ import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
-import edu.byu.cs340.tickettoride.shared.Player.State.BeginTurnState;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 /**
@@ -73,6 +73,9 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     private int playerTurnIndex;
 
+    private boolean waitingToStart = true;
+
+
     /**
      * Initializes a Game
      */
@@ -113,7 +116,9 @@ public class Game extends EventBubbler implements IGameListEntry {
     public void nextPlayerTurn(){
         playerTurnIndex = (playerTurnIndex + 1) % (players.size());
         playerTurn = players.get(playerTurnIndex).getPlayerName();
-        //getPlayer(playerTurn).setState(new BeginTurnState());
+        for (Player p : players) {
+            p.nextTurn(this);
+        }
     }
 
     public Username getPlayerTurn() {
@@ -179,7 +184,11 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     public void startGame() {
         gameStarted = true;
-        GetLeader().setState(new BeginTurnState());
+    }
+
+    public void playersReturnedDestCards() {
+        waitingToStart = false;
+        getPlayers().get(0).setTurn();
     }
 
     /**
@@ -305,11 +314,30 @@ public class Game extends EventBubbler implements IGameListEntry {
     }
 
     public TrainCard drawFaceUpCard(int index) {
-        return bank.drawCard(index);
+        TrainCard card = bank.drawCard(index);
+        TrainCard replacementCard = trainCardDeck.drawCard();
+        bank.replaceCard(index, replacementCard);
+        if (bank.needsFullRedraw()) {
+            for (int i = 0; i < bank.MAX_CARDS; i++) {
+                bank.replaceCard(i, trainCardDeck.drawCard());
+            }
+        }
+        return card;
     }
 
-    public void ClaimRoute(Route route, Player player) {
-        board.claimRoute(route, player);
+    public boolean ClaimRoute(Route route, Player player)
+    {
+        ArrayList<TrainCard> playedCards = player.playRouteCards(route);
+        if(playedCards.size() > 0){
+            board.claimRoute(route, player);
+            for (TrainCard card : playedCards) {
+                trainCardDeck.addToDiscardPile(card);
+            }
+            return true;
+        }
+        else
+            return false;
+
     }
 
     public void ReturnDestCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
@@ -320,6 +348,10 @@ public class Game extends EventBubbler implements IGameListEntry {
         return bank.getCards().get(index);
     }
 
+    public TrainCard peekTrainCardDeck() {
+        return trainCardDeck.peekCard();
+    }
+
     public void ResetPlayer(Player player) {
 
         for (int i = 0; i < players.size(); ++i) {
@@ -328,4 +360,20 @@ public class Game extends EventBubbler implements IGameListEntry {
             }
         }
     }
+
+    public void updateWaitingToStart() {
+        if (waitingToStart) {
+            boolean someonesTurn = false;
+            for(Player p : players) {
+                if (p.isTurn()) {
+                    someonesTurn = true;
+                }
+            }
+            if (!someonesTurn) {
+                playersReturnedDestCards();
+            }
+        }
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.State.BeginTurnState;
+import edu.byu.cs340.tickettoride.shared.Player.State.DrawnDestState;
 import edu.byu.cs340.tickettoride.shared.Player.State.OtherTurnState;
 import edu.byu.cs340.tickettoride.shared.Player.State.TurnState;
 import edu.byu.cs340.tickettoride.shared.User.Username;
@@ -25,7 +27,12 @@ public class Player implements IPlayer {
     private Points longTrainPoints;
     private Points totalPoints;
     private TrainPieces trainPieces = new TrainPieces();
-    private TurnState state = new OtherTurnState();
+
+    public TurnState getState() {
+        return state;
+    }
+
+    private TurnState state = new BeginTurnState();
 
     public Player(Username username, Color color) {
         this.username = username;
@@ -127,6 +134,17 @@ public class Player implements IPlayer {
         }
     }
 
+    public ArrayList<TrainCard> playRouteCards(Route route){
+        if(hand.hasCards(route.getLength(), route.getColor())){
+            return hand.removeCards(route.getLength(), route.getColor());
+        }
+        else
+            return new ArrayList<>();
+    }
+
+    public boolean hasTrainCars(int length){
+        return getTrainPieces() >= length;
+    }
     public DestCard DestCardAt(int index) {
         return hand.getDestCards().get(index);
     }
@@ -173,12 +191,15 @@ public class Player implements IPlayer {
     public void claimRoute(Game game, Route route){
         state = state.claimRoute(this, game, route);
     }
-
-    public void setState(TurnState state) {
-        this.state = state;
-    }
-
     public void nextTurn(Game game){
         state = state.nextTurn(this, game);
+    }
+
+    public void setTurn() {
+        state = new BeginTurnState();
+    }
+
+    public boolean isTurn() {
+        return !(state.getClass() == OtherTurnState.class);
     }
 }

@@ -3,6 +3,7 @@ package edu.byu.cs340.tickettoride.Client.views;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +23,7 @@ import edu.byu.cs340.tickettoride.Client.presenters.IDestCardPresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 
-public class DestCardActivity extends PresenterViewActivity implements IDestCardActivity {
+public class DestCardActivity  extends IDestCardActivity {
 
     private IDestCardPresenter presenter;
 
@@ -64,7 +65,6 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         return new Intent(packageContext, DestCardActivity.class);
     }
 
-    @Override
     public void addCard(DestCard card) {
         adapter.addCard(card);
     }
@@ -79,44 +79,63 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
     }
 
     private void closeWindow() {
-        window.dismiss();
-        button.setEnabled(true);
+        if (window != null) {
+            window.setContentView(null);
+            window.dismiss();
+            button.setEnabled(true);
+            window = null;
+        }
     }
 
     @Override
    public void onCardDraw(DestCard card1, DestCard card2, DestCard card3) {
-
-        View popupView = ((LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.draw_popup, null);
-
-
-        if (window == null) {
-            int height = this.getWindow().getDecorView().getHeight();
-            int width = this.getWindow().getDecorView().getWidth();
-            window = new PopupWindow(popupView, width, height, false);
+        if (window != null) {
+            return;
         }
 
-        window.showAtLocation(new View(this), Gravity.CENTER, 0, 0);
+        new Handler(this.getMainLooper()).postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        final View popupView = ((LayoutInflater)
+                                getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.draw_popup,
+                                null);
+
+                        int height = DestCardActivity.this.getWindow().getDecorView().getHeight();
+                        int width = DestCardActivity.this.getWindow().getDecorView().getWidth();
+                        window = new PopupWindow(popupView, width, height, false);
+                        window.showAtLocation(new View(DestCardActivity.this), Gravity.CENTER, 0, 0);
+                        enableCardButtons();
+                        popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                disableCardButtons();
+                                presenter.finishDrawing();
+                            }
+                        });
+                        setCards();
+                    }
+                }, 500);
+
         button.setEnabled(false);
 
-        popupView.findViewById(R.id.drawDestConfirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                closeWindow();
-            }
-        });
 
         draw1 = card1;
         draw2 = card2;
         draw3 = card3;
-        setCards();
 
         cardsReturned = 0;
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        //presenter.finishDrawing();
+        closeWindow();
+    }
+
+    @Override
     public void onCardReturn(DestCard card, ReturnCardLimit limit) {
-        ++cardsReturned;
         if (card != null) {
             if (card.equals(draw1)) {
                 draw1 = null;
@@ -128,9 +147,11 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
                 draw3 = null;
             }
             setCards();
+            enableCardButtons();
         }
         if (cardsReturned >= limit.value()) {
-            closeWindow();
+            disableCardButtons();
+            presenter.finishDrawing();
         }
     }
 
@@ -140,10 +161,39 @@ public class DestCardActivity extends PresenterViewActivity implements IDestCard
         cardsLeft.setText(size + " cards left");
     }
 
+    @Override
+    public void FinishedDrawing() {
+        closeWindow();
+    }
+
+    @Override
+    public void SetNumReturned(int numReturned) {
+        cardsReturned = numReturned;
+    }
+
+
     private void setCards() {
         setDestCard(window.getContentView().findViewById(R.id.drawDest1), draw1);
         setDestCard(window.getContentView().findViewById(R.id.drawDest2), draw2);
         setDestCard(window.getContentView().findViewById(R.id.drawDest3), draw3);
+    }
+
+    private void disableCardButtons() {
+        setCardButton(R.id.drawDest1, false);
+        setCardButton(R.id.drawDest2, false);
+        setCardButton(R.id.drawDest3, false);
+    }
+
+    private void enableCardButtons() {
+        setCardButton(R.id.drawDest1, true);
+        setCardButton(R.id.drawDest2, true);
+        setCardButton(R.id.drawDest3, true);
+    }
+
+    private void setCardButton(int id, boolean active) {
+        if (window != null) {
+            window.getContentView().findViewById(id).findViewById(R.id.returnButton).setEnabled(active);
+        }
     }
 
     private void setDestCard(View view, final DestCard card) {

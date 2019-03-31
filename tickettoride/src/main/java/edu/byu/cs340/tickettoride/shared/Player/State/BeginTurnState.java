@@ -26,6 +26,7 @@ public class BeginTurnState extends TurnState {
         TrainCard card = game.drawFaceUpCard(index);
         player.DrawCard(card);
         if (card.getColor().equals(Colors.RAINBOW)) {
+            game.nextPlayerTurn();
             return new OtherTurnState();
         }
         return new DrawnOneCardState();
@@ -33,7 +34,11 @@ public class BeginTurnState extends TurnState {
 
     @Override
     public TurnState claimRoute(Player player, Game game, Route route){
-        game.ClaimRoute(route, player);
-        return new OtherTurnState();
+        if(game.ClaimRoute(route, player)) {
+            game.nextPlayerTurn();
+            return new OtherTurnState();
+        }
+        else
+            return this;
     }
 }
