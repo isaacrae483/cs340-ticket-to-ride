@@ -17,6 +17,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.Player.State.BeginTurnState;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
 /**
@@ -112,6 +113,7 @@ public class Game extends EventBubbler implements IGameListEntry {
     public void nextPlayerTurn(){
         playerTurnIndex = (playerTurnIndex + 1) % (players.size());
         playerTurn = players.get(playerTurnIndex).getPlayerName();
+        //getPlayer(playerTurn).setState(new BeginTurnState());
     }
 
     public Username getPlayerTurn() {
@@ -177,6 +179,7 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     public void startGame() {
         gameStarted = true;
+        GetLeader().setState(new BeginTurnState());
     }
 
     /**
