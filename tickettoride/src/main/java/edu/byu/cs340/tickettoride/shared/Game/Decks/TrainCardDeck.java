@@ -38,6 +38,10 @@ public class TrainCardDeck {
         deck.addAll(temp);
     }
 
+    public TrainCard peekCard() {
+        return deck.peekFirst();
+    }
+
     /**
      * @pre none
      * @post deck should have one fewer card, or have zero cards.
