@@ -348,6 +348,10 @@ public class Game extends EventBubbler implements IGameListEntry {
         return bank.getCards().get(index);
     }
 
+    public TrainCard peekTrainCardDeck() {
+        return trainCardDeck.peekCard();
+    }
+
     public void ResetPlayer(Player player) {
 
         for (int i = 0; i < players.size(); ++i) {

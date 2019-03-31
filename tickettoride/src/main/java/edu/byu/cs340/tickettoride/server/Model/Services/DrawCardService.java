@@ -36,9 +36,22 @@ public class DrawCardService {
     }
 
     static public DrawFaceDownCardResult drawFaceDownCard(Username playerName, ID gameId) {
+        boolean success = false;
+        TrainCard card = null;
+
+        ServerModel serverModel = ServerModel.SINGLETON;
+        Game relevantGame = serverModel.getStartedGame(gameId);
+        card = relevantGame.peekTrainCardDeck();
+        Player player = relevantGame.getPlayer(playerName);
+        TurnState oldState = player.getState();
+        player.drawFaceDownCard(relevantGame);
+        TurnState newState = player.getState();
+
+        if (oldState != newState) {
+            success = true;
+        }
 
 
-
-        return null;// new DrawFaceDownCardResult(success, drawnCard);
+        return new DrawFaceDownCardResult(success, card);// new DrawFaceDownCardResult(success, drawnCard);
     }
 }
