@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,24 +93,28 @@ public class Hand {
      * @param num
      * @param color
      */
-    public void removeCards(int num, Colors color){
+    public ArrayList<TrainCard> removeCards(int num, Colors color){
+        ArrayList<TrainCard> removedCards = new ArrayList<>();
         for(TrainCard card : trainCards){
             if(card.getColor() == color){
                 trainCards.remove(card);
+                removedCards.add(card);
                 num--;
                 if(num == 0){
-                    return;
+                    return removedCards;
                 }
             }
         }
         for(TrainCard card : trainCards){
             if(card.getColor() == Colors.RAINBOW){
                 trainCards.remove(card);
+                removedCards.add(card);
                 num--;
                 if(num == 0){
-                    return;
+                    return removedCards;
                 }
             }
         }
+        return new ArrayList<>();
     }
 }

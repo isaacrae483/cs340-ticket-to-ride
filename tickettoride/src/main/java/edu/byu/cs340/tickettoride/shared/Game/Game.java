@@ -327,8 +327,12 @@ public class Game extends EventBubbler implements IGameListEntry {
 
     public boolean ClaimRoute(Route route, Player player)
     {
-        if(player.playRouteCards(route)){
+        ArrayList<TrainCard> playedCards = player.playRouteCards(route);
+        if(playedCards.size() > 0){
             board.claimRoute(route, player);
+            for (TrainCard card : playedCards) {
+                trainCardDeck.addToDiscardPile(card);
+            }
             return true;
         }
         else

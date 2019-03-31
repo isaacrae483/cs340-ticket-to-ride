@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -133,22 +134,16 @@ public class Player implements IPlayer {
         }
     }
 
-    public boolean playRouteCards(Route route){
+    public ArrayList<TrainCard> playRouteCards(Route route){
         if(hand.hasCards(route.getLength(), route.getColor())){
-            hand.removeCards(route.getLength(), route.getColor());
-            return true;
+            return hand.removeCards(route.getLength(), route.getColor());
         }
         else
-            return false;
+            return new ArrayList<>();
     }
 
     public boolean hasTrainCars(int length){
-        if(getTrainPieces() >= length){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return getTrainPieces() >= length;
     }
     public DestCard DestCardAt(int index) {
         return hand.getDestCards().get(index);
