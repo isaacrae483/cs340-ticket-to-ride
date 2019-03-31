@@ -1,5 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Interface;
 
+import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,7 +25,7 @@ public interface IClient {
     void setFaceUpCard(TrainCard card, int pos);
 
     void drawTrainCard(Player player);
-    void drawFaceUpCard(Player player);
+    void drawFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards);
     void claimRoute(Route route, Player player);
     void lastTurn();//simply notify that it is last turn could influence state
     void endGame(List<Player> players); //this way we can get final points from all players(after destination cards) to determine winner

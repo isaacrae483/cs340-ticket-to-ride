@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
@@ -13,7 +14,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class ClientCommandData {
     public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS,
         REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY,
-        DEST_DECK_CHANGE, NEXT_TURN}
+        DEST_DECK_CHANGE, NEXT_TURN, DRAW_FACE_UP}
 
     public ClientCommandData(CommandType type, Player player, ID game) {
         this.id = game;
@@ -89,6 +90,13 @@ public class ClientCommandData {
         this.player = player;
     }
 
+    public ClientCommandData(CommandType type, Player player, int deckSize, List<TrainCard> cards) {
+        this.type = type;
+        this.deckSize = deckSize;
+        this.player = player;
+        this.cards = cards;
+    }
+
 
 
     public ID id;
@@ -99,6 +107,7 @@ public class ClientCommandData {
     public List<TrainCard> cards;
     public TrainCard trainCard;
     public int pos;
+    public int deckSize;
     public Route route;
     public List<Player> players;
 

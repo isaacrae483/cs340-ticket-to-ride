@@ -213,10 +213,10 @@ public class Demo {
     //Update the number of invisible (face down) cards in train card deck
     private void updateFaceDown() {
         Toast.makeText(context, "UPDATING FACE DOWN CARDS", Toast.LENGTH_LONG).show();
-        model.modifyTrainCardDeckSize(0);
-        model.modifyTrainCardDeckSize(0);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.ORANGE), 0);
+        model.modifyTrainCardDeckSize(109);
         model.replaceFaceUpTrainCard(new TrainCard(Colors.GREEN), 1);
+        model.modifyTrainCardDeckSize(108);
     }
 
     //Update the number of cards in destination card deck

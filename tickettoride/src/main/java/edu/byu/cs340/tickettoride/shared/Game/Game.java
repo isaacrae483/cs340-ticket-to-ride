@@ -371,9 +371,5 @@ public class Game extends EventBubbler implements IGameListEntry {
         }
     }
 
-    private Boolean consumeCards(Colors color, Player player) {
-        return false;
-    }
-
 
 }

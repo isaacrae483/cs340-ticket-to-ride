@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.Client.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
@@ -39,7 +41,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class ClientModel extends EventEmitter {
     private static ClientModel _instance;
     private ClientModel(){
-        trainCardDeck = new TrainCardDeck();
+        //trainCardDeck = new TrainCardDeck();
         bank = new Bank();
         destCardDeckSize = DestCardDeck.standardSize;
     }
@@ -55,7 +57,8 @@ public class ClientModel extends EventEmitter {
     private MapGames games = new MapGames();
     private ID activeGameID;
     private Chat chatMessages;
-    private TrainCardDeck trainCardDeck;
+    //private TrainCardDeck trainCardDeck;
+    int trainCardDeckSize = 0;
     private Bank bank;
     private Routes mRoutes = new Routes();
     boolean mDrawnCards = false;
@@ -243,7 +246,7 @@ public class ClientModel extends EventEmitter {
     }
 
     public int getTrainCardDeckSize() {
-        return trainCardDeck.getSize();
+        return trainCardDeckSize;
     }
 
     public void drewDestCards(int numCards) {
@@ -295,6 +298,14 @@ public class ClientModel extends EventEmitter {
         }
         emitEvent(new Event() {});//should pass a real event
     }
+
+    public void setFaceUpTrainCards(List<TrainCard> newTrainCards) {
+        for(int i = 0; i < bank.MAX_CARDS; i++) {
+            bank.replaceCard(i, newTrainCards.get(i));
+        }
+        emitEvent(new BankCardsChanged());
+    }
+
     public void addTrainCard(TrainCard card){
         Player current = activeGame.getPlayer(username);
         current.DrawCard(card);
@@ -305,7 +316,6 @@ public class ClientModel extends EventEmitter {
         //current.removeCards(1, card.getColor());
         emitEvent(new HandChanged());
     }
-
 
     public void updateOppTrainCars(int cars){
         for(Player player : activeGame.getPlayers()){
@@ -347,7 +357,7 @@ public class ClientModel extends EventEmitter {
     }
 
     public void modifyTrainCardDeckSize(int deckSize) {
-        trainCardDeck.drawCard();
+        trainCardDeckSize = deckSize;
         emitEvent(new TCDeckSizeChanged());
     }
 

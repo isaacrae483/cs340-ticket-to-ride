@@ -16,21 +16,25 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 public class DrawCardService {
 
     static public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username playerName, ID gameId) {
+        // Get everything we need
         boolean success = false;
         TrainCard drawnCard = null;
         ServerModel serverModel = ServerModel.SINGLETON;
         Game relevantGame = serverModel.getStartedGame(gameId);
         drawnCard = relevantGame.peekFaceUp(index);
         Player player = relevantGame.getPlayer(playerName);
+
+        //Attempt to have the player draw
         TurnState oldState  = player.getState();
         relevantGame.getPlayer(playerName).drawFaceUpCard(relevantGame, index);
         TurnState newState = player.getState();
+
         // If the state changed then we drew a card
+        // Make sure the state changed and the new card is not the old card
         if (!oldState.getClass().getName().equals(newState.getClass().getName()) &&
-            !drawnCard.equals(relevantGame.peekFaceUp(index))) {
+            !(drawnCard == relevantGame.peekFaceUp(index))) {
             success = true;
         }
-        //relevantGame.getPlayer(playerName).drawFaceUpCard(relevantGame, index);
 
         return new DrawFaceUpCardResult(success, drawnCard);
     }

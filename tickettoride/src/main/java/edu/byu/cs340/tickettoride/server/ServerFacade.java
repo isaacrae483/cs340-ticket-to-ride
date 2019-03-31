@@ -200,6 +200,7 @@ public class ServerFacade extends EventEmitter implements IServer {
     public DrawFaceUpCardResult drawFaceUpCard(Integer index, Username player, ID game) {
         DrawFaceUpCardResult res = DrawCardService.drawFaceUpCard(index, player, game);
         int turn = ServerModel.SINGLETON.getGameTurn(game);
+        //TODO: here or in service, need to get the new deck size and bank cards and send them back to all clients. This is because the bank may need to be entirely redrawn under some circumstances.
         if (res.getSuccess()) {
             this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
                     ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),

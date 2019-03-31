@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.Client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.ClientModel;
@@ -69,8 +70,10 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void drawFaceUpCard(Player player) {
+    public void drawFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
         model.resetPlayer(player);
+        model.modifyTrainCardDeckSize(newTrainCardDeckSize);
+        model.setFaceUpTrainCards(newTrainCards);
     }
 
     @Override
