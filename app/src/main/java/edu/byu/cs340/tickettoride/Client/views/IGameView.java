@@ -7,4 +7,6 @@ public interface IGameView extends IPlayerCardsView, IDeckView {
     void moveToChat();
     void moveToPlayerView();
     void moveToDestCards();
+    void moveToResults();
+    void makeToast(String toastText);
 }
