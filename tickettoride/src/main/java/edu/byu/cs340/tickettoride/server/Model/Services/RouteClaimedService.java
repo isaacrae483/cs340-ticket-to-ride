@@ -40,6 +40,7 @@ public class RouteClaimedService {
     private void CheckGameEnd(ID game, Player claimingPlayer) {
         if (claimingPlayer.getTrainPieces() <= 2) {
             ServerFacade.SINGLETON.LastTurn(game);
+            ServerModel.SINGLETON.getStartedGame(game).setGameEnder(claimingPlayer.getPlayerName());
         }
     }
 }

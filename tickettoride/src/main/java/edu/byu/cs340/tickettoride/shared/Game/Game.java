@@ -24,6 +24,17 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
  * The Game class is the class that will hold all the elements and methods of a Game.
  */
 public class Game extends EventBubbler implements IGameListEntry {
+
+    private Username gameEnder;
+
+    public void setGameEnder(Username gameEnder) {
+        this.gameEnder = gameEnder;
+    }
+
+    public Username getGameEnder() {
+        return gameEnder;
+    }
+
     /**
      * An ID to identify the game from other games
      */

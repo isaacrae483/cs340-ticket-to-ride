@@ -33,6 +33,8 @@ public class CommandFactory {
                 return new DrawFaceUpCardCommand(info.deckSize, info.player, info.cards);
             case TC_DECK_CHANGE:
                 return new TCDeckChangedCommand(info.pos, info.player);
+            case END_GAME:
+                return new EndGameCommand(info.players);
 
 
         }
