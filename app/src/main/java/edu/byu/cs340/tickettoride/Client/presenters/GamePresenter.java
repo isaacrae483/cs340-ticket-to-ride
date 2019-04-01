@@ -4,6 +4,8 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
+import edu.byu.cs340.tickettoride.Client.model.ClientModel;
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.game.EndGameEvent;
 import edu.byu.cs340.tickettoride.Client.model.events.game.LastTurnEvent;
@@ -20,6 +22,7 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
 
     IGameView mGameView;
     private ClientFacade mClientFacade;
+    private ModelFacade mModelFacade;
 
     private boolean waitingForResponse = false;
 
@@ -27,6 +30,7 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
         super();
         mGameView = view;
         mClientFacade = ClientFacade.instance();
+        mModelFacade = ModelFacade.instance();
     }
 
     @Override

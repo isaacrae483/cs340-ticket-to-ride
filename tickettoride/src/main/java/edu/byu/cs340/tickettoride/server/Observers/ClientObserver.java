@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceDownCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.EndGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
@@ -100,6 +101,7 @@ public abstract class ClientObserver implements IClient, Observer {
         } else if (e instanceof TCDeckSizeEvent) {
             TCDeckSizeEvent event = (TCDeckSizeEvent) e;
             this.changeTCDeckSize(event.getSize(), event.getPlayer());
-        }
+        } else if (e instanceof DrewFaceDownCardEvent)
+            this.drawTrainCard(((DrewFaceDownCardEvent) e).getPlayer());
     }
 }
