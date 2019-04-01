@@ -14,6 +14,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.EndGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
@@ -293,6 +294,10 @@ public class ServerFacade extends EventEmitter implements IServer {
         );
     }
 
+    public void EndGame(ID game) {
+        this.emitEvent(new EndGameEvent(game, ServerModel.SINGLETON.getStartedGame(game).getPlayers()));
+    }
+
     private void checkNextTurn(int lastIndex, ID game) {
         Game gameInfo = ServerModel.SINGLETON.getStartedGame(game);
         if (lastIndex != gameInfo.getPlayerTurnIndex()) {
@@ -301,10 +306,17 @@ public class ServerFacade extends EventEmitter implements IServer {
     }
 
     private void nextTurn(ID game) {
-        this.emitEvent(new PlayerTurnEvent(game));
-        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: TURN STARTED",
-                ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
-        );
+        //if end game
+        Game dumbGame = ServerModel.SINGLETON.getStartedGame(game);
+        if(dumbGame.getPlayerTurn().equals(dumbGame.getGameEnder())){
+            EndGame(game);
+        }
+        else {
+            this.emitEvent(new PlayerTurnEvent(game));
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: TURN STARTED",
+                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
+            );
+        }
     }
 
 

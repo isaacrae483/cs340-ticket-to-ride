@@ -119,7 +119,13 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void endGame(List<Player> players) {
-
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.END_GAME,
+                        players
+                )
+        );
     }
 
     @Override

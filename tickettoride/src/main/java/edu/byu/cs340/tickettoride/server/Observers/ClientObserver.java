@@ -8,6 +8,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.EndGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.GameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
@@ -84,6 +85,10 @@ public abstract class ClientObserver implements IClient, Observer {
         else if (e instanceof LastTurnEvent) {
             //LastTurnEvent event = (LastTurnEvent) e;
             this.lastTurn();
+        }
+        else if (e instanceof EndGameEvent){
+            EndGameEvent event = (EndGameEvent)e;
+            this.endGame(event.getPlayers());
         }
         else if (e instanceof DestDeckSizeEvent) {
             DestDeckSizeEvent event = (DestDeckSizeEvent) e;
