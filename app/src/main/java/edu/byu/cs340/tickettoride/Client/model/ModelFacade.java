@@ -162,20 +162,20 @@ public class ModelFacade implements IModelFacade, ICallBack {
     }
 
     @Override
-    public void drawFaceUpCard(Integer index, Username player) {
+    public void drawFaceUpCard(Integer index) {
         GenericData info = new GenericData("drawFaceUpCard",
                 new Class<?>[] {Integer.class, Username.class, ID.class},
-                new Object[] {index, player, model.getActiveGameID()});
+                new Object[] {index, model.getUsername(), model.getActiveGameID()});
 
         GenericTask task = new GenericTask<DrawFaceUpCardResult>(this);
         task.execute(info);
     }
 
     @Override
-    public void drawFaceDownCard(Username player) {
+    public void drawFaceDownCard() {
         GenericData info = new GenericData("drawFaceDownCard",
                 new Class<?>[] {Username.class, ID.class},
-                new Object[] {player, model.getActiveGameID()});
+                new Object[] {model.getUsername(), model.getActiveGameID()});
 
         GenericTask task = new GenericTask<DrawFaceDownCardResult>(this);
         task.execute(info);

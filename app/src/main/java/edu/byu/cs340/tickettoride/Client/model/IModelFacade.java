@@ -18,8 +18,8 @@ public interface IModelFacade {
     void sendChat(ChatMessage message);
     void drawTickets();
     void returnTicket(DestCard card);
-    void drawFaceUpCard(Integer index, Username player);
-    void drawFaceDownCard(Username player);
+    void drawFaceUpCard(Integer index);
+    void drawFaceDownCard();
     void claimRoute(Integer routeId);
     void finishDrawingDestCards();
 }

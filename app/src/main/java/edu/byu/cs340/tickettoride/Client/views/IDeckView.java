@@ -11,5 +11,5 @@ public interface IDeckView {
     void setCardsAvailable(List<TrainCard> availableCards);
     void setDeckVisible(Boolean isVisible);
     void setDeckSize(int size);
-
+    void displayDrawFailed();
 }

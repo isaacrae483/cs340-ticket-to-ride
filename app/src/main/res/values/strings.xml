@@ -64,6 +64,6 @@
     <string name="ticket_score">TICKETS</string>
     <string name="neg_ticket_score">NEG TICKETS</string>
     <string name="long_train">LONG TRAIN</string>
-
+    <string name="unable_to_draw">Unable to draw train card</string>
     <string name="place_holder">-</string>
 </resources>

@@ -70,7 +70,7 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void drawFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
+    public void drewFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
         model.resetPlayer(player);
         model.modifyTrainCardDeckSize(newTrainCardDeckSize);
         model.setFaceUpTrainCards(newTrainCards);
@@ -111,6 +111,12 @@ public class ClientFacade implements IClient {
         model.drewDestCards(offset);
         model.drawDestCards(player);
         model.resetPlayer(player);
+    }
+
+    public void changeTCDeckSize(Integer size, Player player) {
+        if (player != null)
+            model.resetPlayer(player);
+        model.modifyTrainCardDeckSize(size);
     }
 
     @Override

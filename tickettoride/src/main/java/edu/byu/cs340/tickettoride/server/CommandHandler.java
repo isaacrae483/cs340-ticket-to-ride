@@ -36,6 +36,8 @@ public class CommandHandler implements HttpHandler {
                     communicator.error();
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

@@ -31,6 +31,8 @@ public class CommandFactory {
                 return new NextTurnCommand(info.id);
             case DRAW_FACE_UP:
                 return new DrawFaceUpCardCommand(info.deckSize, info.player, info.cards);
+            case TC_DECK_CHANGE:
+                return new TCDeckChangedCommand(info.pos, info.player);
 
 
         }

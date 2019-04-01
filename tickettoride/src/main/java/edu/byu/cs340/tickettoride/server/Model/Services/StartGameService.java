@@ -28,12 +28,8 @@ public class StartGameService  {
             for (Player p : game.getPlayers()) {
                 this.PlayerDrawCards(p, game);
             }
-            final int DEST_CARD_SIZE = 5;
-            List<TrainCard> cards = new ArrayList<>();
-            for (int i = 0; i < DEST_CARD_SIZE; ++i) {
-                cards.add(game.drawCard());
-            }
-            InitializeFaceUp(cards, game);
+            InitializeFaceUp(game);
+            ServerFacade.SINGLETON.setTCDeckSize(game, game.getTrainCardDeckSize());
         }
         else {
             res = new StartGameResult(false);
@@ -52,9 +48,10 @@ public class StartGameService  {
         ServerFacade.SINGLETON.drawTickets(p.getPlayerName(), game.getId());
     }
 
-    private void InitializeFaceUp(List<TrainCard> cards, Game game) {
-        for (int i = 0; i < cards.size(); ++i) {
-            ServerFacade.SINGLETON.SetFaceUpCard(game, cards.get(i), i);
+    private void InitializeFaceUp(Game game) {
+        final int NUM_FACE_UP = 5;
+        for (int i = 0; i < NUM_FACE_UP; ++i) {
+            ServerFacade.SINGLETON.SetFaceUpCard(game, game.peekFaceUp(i), i);
         }
     }
 

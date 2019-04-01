@@ -1,6 +1,5 @@
 package edu.byu.cs340.tickettoride.Client.ClientCommands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
@@ -21,7 +20,7 @@ public class DrawFaceUpCardCommand implements ICommand {
 
     @Override
     public Object execute() {
-        ClientFacade.instance().drawFaceUpCard(player, trainCardDeckSize, newFaceUpCards);
+        ClientFacade.instance().drewFaceUpCard(player, trainCardDeckSize, newFaceUpCards);
         return null;
     }
 }

@@ -11,13 +11,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.Demo;
 import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 /**
  * Created by Thomas Lewis on 2/6/19.
@@ -120,8 +125,19 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         demoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new Demo(GameActivity.this).execute();
-                moveToResults();
+                makeToast("no demo here");
+            }
+        });
+        mCardOne.setOnClickListener(new FaceUpOnClickListener(0));
+        mCardTwo.setOnClickListener(new FaceUpOnClickListener(1));
+        mCardThree.setOnClickListener(new FaceUpOnClickListener(2));
+        mCardFour.setOnClickListener(new FaceUpOnClickListener(3));
+        mCardFive.setOnClickListener(new FaceUpOnClickListener(4));
+
+        mDeckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGamePresenter.deckPressed();
             }
         });
     }
@@ -277,5 +293,25 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
     private void setPlayerCardText(TextView cardCountDisplay, int cardCount) {
         cardCountDisplay.setVisibility(cardCount == 0 ? View.INVISIBLE : View.VISIBLE);
         cardCountDisplay.setText(Integer.toString(cardCount));
+    }
+
+    private class FaceUpOnClickListener implements View.OnClickListener {
+        // Never null, assigned in the constructor of the listener
+        Integer cardPos;
+
+        FaceUpOnClickListener(Integer cardPos) {
+            this.cardPos = cardPos;
+        }
+
+        @Override
+        public void onClick(View view) {
+            mGamePresenter.faceUpCardPressed(cardPos);
+            //setColor((ImageView)view, IPlayer.Color.RED);
+        }
+    }
+
+    @Override
+    public void displayDrawFailed() {
+        makeToast(getString(R.string.unable_to_draw));
     }
 }

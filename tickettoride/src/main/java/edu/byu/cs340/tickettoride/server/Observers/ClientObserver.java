@@ -7,6 +7,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.GameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
@@ -14,6 +15,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.TCDeckSizeEvent;
 import edu.byu.cs340.tickettoride.server.ServerModel;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Interface.IClient;
@@ -67,6 +69,10 @@ public abstract class ClientObserver implements IClient, Observer {
             FaceUpCardEvent event = (FaceUpCardEvent) e;
             this.setFaceUpCard(event.getCard(), event.getIndex());
         }
+        else if (e instanceof DrewFaceUpCardEvent) {
+            DrewFaceUpCardEvent event = (DrewFaceUpCardEvent) e;
+            this.drewFaceUpCard(event.getPlayer(), event.getTrainCardDeckSize(), event.getNewFaceUpCards());
+        }
         else if (e instanceof AddCardsEvent) {
             AddCardsEvent event = (AddCardsEvent) e;
             this.addCards(event.getPlayer());
@@ -84,8 +90,11 @@ public abstract class ClientObserver implements IClient, Observer {
             this.changeDestDeckSize(event.getOffset(), event.getPlayer());
         }
         else if (e instanceof PlayerTurnEvent) {
-            //PlayerTurnEvent event = (PlayerTurnEvent) e;
+            PlayerTurnEvent event = (PlayerTurnEvent) e;
             this.updateTurn(e.getId());
+        } else if (e instanceof TCDeckSizeEvent) {
+            TCDeckSizeEvent event = (TCDeckSizeEvent) e;
+            this.changeTCDeckSize(event.getSize(), event.getPlayer());
         }
     }
 }
