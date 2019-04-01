@@ -97,24 +97,32 @@ public class Hand {
         ArrayList<TrainCard> removedCards = new ArrayList<>();
         for(TrainCard card : trainCards){
             if(card.getColor() == color){
-                trainCards.remove(card);
+                //trainCards.remove(card);
                 removedCards.add(card);
                 num--;
                 if(num == 0){
+                    cleanUp(removedCards);
                     return removedCards;
                 }
             }
         }
         for(TrainCard card : trainCards){
             if(card.getColor() == Colors.RAINBOW){
-                trainCards.remove(card);
+                //trainCards.remove(card);
                 removedCards.add(card);
                 num--;
                 if(num == 0){
+                    cleanUp(removedCards);
                     return removedCards;
                 }
             }
         }
         return new ArrayList<>();
+    }
+
+    private void cleanUp(ArrayList<TrainCard> removableCards){
+        for(TrainCard remove: removableCards){
+            trainCards.remove(remove);
+        }
     }
 }
