@@ -1,6 +1,5 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,7 @@ import edu.byu.cs340.tickettoride.shared.Game.Chat.Chat;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.Bank;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.TrainCardDeck;
+import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Interface.IGameListEntry;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
@@ -184,7 +184,12 @@ public class Game extends EventBubbler implements IGameListEntry {
      */
     public void startGame() {
         gameStarted = true;
+        final int FACE_UP_CARDS = 5;
+        for (int i = 0; i < FACE_UP_CARDS; i++) {
+            bank.replaceCard(i, trainCardDeck.drawCard());
+        }
     }
+
 
     public void playersReturnedDestCards() {
         waitingToStart = false;
@@ -330,6 +335,7 @@ public class Game extends EventBubbler implements IGameListEntry {
         ArrayList<TrainCard> playedCards = player.playRouteCards(route);
         if(playedCards.size() > 0){
             board.claimRoute(route, player);
+            awardDestCardPoints(player);
             for (TrainCard card : playedCards) {
                 trainCardDeck.addToDiscardPile(card);
             }
@@ -338,6 +344,29 @@ public class Game extends EventBubbler implements IGameListEntry {
         else
             return false;
 
+    }
+
+    /**
+     * Awards the player that just claimed a route points for having claimed a destination card if they connected cities needed
+     *
+     * @param player
+     */
+    private void awardDestCardPoints(Player player) {
+        List<DestCard> cards = player.getTickets();
+        for (DestCard card : cards) {
+            if (!card.isCompleted()) {
+                if (board.areTwoCitiesConnectedForUser(
+                        card.getCity1(),
+                        card.getCity2(),
+                        player.getPlayerName(),
+                        null
+                )) {
+                    card.setCompleted(true);
+                    player.addTicketPoints(card.getPoints());
+                    System.out.println("Awarded player: " + player.getPlayerName().getUsername() + " with dest card points " + card.getPoints());
+                }
+            }
+        }
     }
 
     public void ReturnDestCard(DestCard card) throws DestCardDeck.AlreadyInDeckException {
@@ -373,6 +402,14 @@ public class Game extends EventBubbler implements IGameListEntry {
                 playersReturnedDestCards();
             }
         }
+    }
+
+    public Integer getTrainCardDeckSize() {
+        return trainCardDeck.getSize();
+    }
+
+    public List<TrainCard> getBankCards() {
+        return bank.getCards();
     }
 
 

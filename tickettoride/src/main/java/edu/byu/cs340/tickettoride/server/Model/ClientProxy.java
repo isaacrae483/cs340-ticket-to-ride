@@ -87,7 +87,7 @@ public class ClientProxy extends ClientObserver {
     }
 
     @Override
-    public void drawFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
+    public void drewFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
         ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.DRAW_FACE_UP,
@@ -145,6 +145,18 @@ public class ClientProxy extends ClientObserver {
                 new ClientCommandData(
                         ClientCommandData.CommandType.NEXT_TURN,
                         game
+                )
+        );
+    }
+
+    @Override
+    public void changeTCDeckSize(Integer size, Player player) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(
+                getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.TC_DECK_CHANGE,
+                        size,
+                        player
                 )
         );
     }

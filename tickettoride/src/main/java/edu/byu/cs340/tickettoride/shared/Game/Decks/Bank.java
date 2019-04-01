@@ -22,7 +22,7 @@ public class Bank {
 
     }
     public void replaceCard(int id, TrainCard card){
-        bank.add(id, card);
+        bank.set(id, card);
     }
 
     public Boolean needsFullRedraw() {

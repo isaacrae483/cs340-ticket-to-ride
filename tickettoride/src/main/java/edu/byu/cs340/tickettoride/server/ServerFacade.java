@@ -13,12 +13,14 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.LastTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerJoinedGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.PlayerTurnEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.RouteClaimedEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.StartGameEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.TCDeckSizeEvent;
 import edu.byu.cs340.tickettoride.shared.Commands.ClientCommandList;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
@@ -202,10 +204,17 @@ public class ServerFacade extends EventEmitter implements IServer {
         int turn = ServerModel.SINGLETON.getGameTurn(game);
         //TODO: here or in service, need to get the new deck size and bank cards and send them back to all clients. This is because the bank may need to be entirely redrawn under some circumstances.
         if (res.getSuccess()) {
-            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD" +
-                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).peekFaceUp(index).getColor(),
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FACE UP CARD " +
+                    res.getDrawnCard().getColor(),
                     player, game))
             );
+            Game relevantGame = ServerModel.SINGLETON.getMapStartedGames().getGame(game);
+            this.emitEvent(new DrewFaceUpCardEvent(
+                    relevantGame.getTrainCardDeckSize(),
+                    relevantGame.getPlayer(player),
+                    relevantGame.getBankCards(),
+                    game
+            ));
         }
         checkNextTurn(turn, game);
         return res;
@@ -237,6 +246,10 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     public void SetFaceUpCard(Game game, TrainCard card, int pos) {
         this.emitEvent(new FaceUpCardEvent(card, pos, game.getId()));
+    }
+
+    public void setTCDeckSize(Game game, Integer deckSize) {
+        this.emitEvent(new TCDeckSizeEvent(game.getId(), deckSize, null));
     }
 
     /**
@@ -289,6 +302,9 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     private void nextTurn(ID game) {
         this.emitEvent(new PlayerTurnEvent(game));
+        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: TURN STARTED",
+                ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
+        );
     }
 
 

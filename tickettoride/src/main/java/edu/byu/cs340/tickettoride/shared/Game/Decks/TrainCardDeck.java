@@ -70,7 +70,7 @@ public class TrainCardDeck {
      * @post none
      * @return number of TrainCards in deck
      */
-    public int getSize() {
+    public Integer getSize() {
         return deck.size();
     }
 

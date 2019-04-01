@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimed;
+import edu.byu.cs340.tickettoride.Client.model.events.map.RouteClaimedFailed;
 import edu.byu.cs340.tickettoride.Client.views.IMapView;
 import edu.byu.cs340.tickettoride.shared.Game.Board.IRoute;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Routes;
@@ -23,9 +24,13 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
         this.mMapView = mapView;
     }
 
+    private boolean waitingForResponse = false;
+
     @Override
     public void routePressed(Integer routeId) {
-        ModelFacade.instance().claimRoute(routeId);
+        if (!waitingForResponse)
+            ModelFacade.instance().claimRoute(routeId);
+        waitingForResponse = true;
     }
 
     @Override
@@ -47,6 +52,10 @@ public class GameMapPresenter extends Presenter implements IGameMapPresenter {
         if (o instanceof RouteClaimed) {
             RouteClaimed e = (RouteClaimed) o;
             mMapView.claimRoute(e.getRoute());
+            waitingForResponse = false;
+        } else if (o instanceof RouteClaimedFailed) {
+            waitingForResponse = false;
+            mMapView.displayClaimFail();
         }
     }
 

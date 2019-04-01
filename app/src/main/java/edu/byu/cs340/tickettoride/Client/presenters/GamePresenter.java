@@ -3,7 +3,9 @@ package edu.byu.cs340.tickettoride.Client.presenters;
 import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
+import edu.byu.cs340.tickettoride.Client.model.ModelFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.hand.DrawTrainCardFailed;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.views.IGameView;
@@ -16,6 +18,8 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
 
     IGameView mGameView;
     private ClientFacade mClientFacade;
+
+    private boolean waitingForResponse = false;
 
     public GamePresenter(IGameView view) {
         super();
@@ -41,6 +45,7 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
     public void update(Observable observable, Object o) {
         super.update(observable, o);
         if (o instanceof HandChanged) {
+            waitingForResponse = false;
             mGameView.setPlayerCards(mClientModel.getPlayerTrainCards());
         }
         else if (o instanceof BankCardsChanged) {
@@ -48,6 +53,9 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
         }
         else if (o instanceof TCDeckSizeChanged) {
             mGameView.setDeckSize(mClientModel.getTrainCardDeckSize());
+        } else if (o instanceof DrawTrainCardFailed) {
+            waitingForResponse = false;
+            mGameView.displayDrawFailed();
         }
     }
 
@@ -70,12 +78,17 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
 
 
     @Override
-    public void cardPressed(TrainCard card) {
-
+    public void faceUpCardPressed(Integer pos) {
+        if (!waitingForResponse)
+            ModelFacade.instance().drawFaceUpCard(pos);
+        waitingForResponse = true;
     }
 
     @Override
     public void deckPressed() {
-
+        if (!waitingForResponse) {
+            ModelFacade.instance().drawFaceDownCard();
+        }
+        waitingForResponse = true;
     }
 }
