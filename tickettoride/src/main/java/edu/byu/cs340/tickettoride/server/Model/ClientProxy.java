@@ -83,6 +83,11 @@ public class ClientProxy extends ClientObserver {
 //////////////////////////////////////////new for phase three  ///////////// not yet implemented////////////////////////////////
     @Override
     public void drawTrainCard(Player player) {
+        ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
+                new ClientCommandData(
+                        ClientCommandData.CommandType.DRAW_TRAIN_CARD,
+                        player
+                ));
 
     }
 

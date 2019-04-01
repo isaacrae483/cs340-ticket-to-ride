@@ -13,6 +13,7 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
+import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceDownCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.EndGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
@@ -223,12 +224,22 @@ public class ServerFacade extends EventEmitter implements IServer {
 
     @Override
     public DrawFaceDownCardResult drawFaceDownCard(Username player, ID game) {
+        DrawFaceDownCardResult result = DrawCardService.drawFaceDownCard(player, game);
         int turn = ServerModel.SINGLETON.getGameTurn(game);
-        this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FROM DECK",
-                player, game))
-        );
+        if (result.getSuccess()) {
+            this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FROM DECK",
+                    player, game))
+            );
+            Game relevantGame = ServerModel.SINGLETON.getMapStartedGames().getGame(game);
+            this.emitEvent(new DrewFaceDownCardEvent(
+                    relevantGame.getTrainCardDeckSize(),
+                    relevantGame. getPlayer(player),
+                    relevantGame.getBankCards(),
+                    game
+            ));
+        }
         checkNextTurn(turn, game);
-        return null;
+        return result;
     }
 
     @Override
