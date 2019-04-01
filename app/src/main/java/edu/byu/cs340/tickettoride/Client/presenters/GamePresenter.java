@@ -4,6 +4,8 @@ import java.util.Observable;
 
 import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
+import edu.byu.cs340.tickettoride.Client.model.events.game.EndGameEvent;
+import edu.byu.cs340.tickettoride.Client.model.events.game.LastTurnEvent;
 import edu.byu.cs340.tickettoride.Client.model.events.hand.HandChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.traincarddeck.TCDeckSizeChanged;
 import edu.byu.cs340.tickettoride.Client.views.IGameView;
@@ -48,6 +50,12 @@ public class GamePresenter extends Presenter implements IGamePresenter, IDeckPre
         }
         else if (o instanceof TCDeckSizeChanged) {
             mGameView.setDeckSize(mClientModel.getTrainCardDeckSize());
+        }
+        else if (o instanceof LastTurnEvent) {
+            mGameView.makeToast("IT IS THE LAST TURN");
+        }
+        else if (o instanceof EndGameEvent) {
+            mGameView.moveToResults();
         }
     }
 

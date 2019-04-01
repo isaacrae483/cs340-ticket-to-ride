@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.byu.cs340.tickettoride.Client.model.events.bank.BankCardsChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.chat.ChatSendFailed;
+import edu.byu.cs340.tickettoride.Client.model.events.game.EndGameEvent;
 import edu.byu.cs340.tickettoride.Client.model.events.game.PlayerCountChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.ActiveGameChanged;
 import edu.byu.cs340.tickettoride.Client.model.events.gamelist.GameAdded;
@@ -264,7 +265,7 @@ public class ClientModel extends EventEmitter {
 
     public void setWinningPlayer(Player player){
         this.winningPlayer = player;
-        emitEvent(new Event(){});
+        emitEvent(new EndGameEvent());
     }
 
     public Username getWinningPlayer(){

@@ -11,13 +11,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.byu.cs340.tickettoride.Client.ClientFacade;
 import edu.byu.cs340.tickettoride.Client.Demo;
 import edu.byu.cs340.tickettoride.Client.presenters.GamePresenter;
 import edu.byu.cs340.tickettoride.R;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
+import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
+import edu.byu.cs340.tickettoride.shared.Player.Player;
+import edu.byu.cs340.tickettoride.shared.User.Username;
 
 /**
  * Created by Thomas Lewis on 2/6/19.
@@ -120,8 +125,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
         demoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new Demo(GameActivity.this).execute();
-                moveToResults();
+                makeToast("no demo here");
             }
         });
     }
