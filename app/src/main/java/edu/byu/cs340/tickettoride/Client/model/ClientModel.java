@@ -33,6 +33,7 @@ import edu.byu.cs340.tickettoride.shared.Game.events.Event;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.CardLimitEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardDraw;
+import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardFinishEvent;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestCardReturned;
 import edu.byu.cs340.tickettoride.shared.Game.events.destCard.DestDeckSizeChanged;
 import edu.byu.cs340.tickettoride.shared.Game.events.PlayerTurnChanged;
@@ -107,7 +108,7 @@ public class ClientModel extends EventEmitter {
 
         if (player.getPlayerName().equals(getUsername())) {
 
-            numReturned = 0;
+
             Player p = activeGame.getPlayer(player.getPlayerName());
             resetPlayer(player);
 
@@ -131,6 +132,7 @@ public class ClientModel extends EventEmitter {
             }
             if (diff > 0) {
                 lastDraw1 = p.DestCardAt(last);
+                numReturned = 0;
                 emitEvent(new DestCardDraw(lastDraw1, lastDraw2, lastDraw3));
                 waitingToFinishDestCards = true;
             }
@@ -146,6 +148,7 @@ public class ClientModel extends EventEmitter {
 
     public void finishDrawingDestCards() {
         waitingToFinishDestCards = false;
+        this.emitEvent(new DestCardFinishEvent());
     }
 
     public DestCard getLastDraw1() {
@@ -168,17 +171,15 @@ public class ClientModel extends EventEmitter {
         Player current = activeGame.getPlayer(username);
         current.ReturnTicket(toReturn);
 
+        ++numReturned;
         if (toReturn.equals(getLastDraw1())) {
             lastDraw1 = null;
-            ++numReturned;
         }
         else if (toReturn.equals(getLastDraw2())) {
             lastDraw2 = null;
-            ++numReturned;
         }
         else if (toReturn.equals(getLastDraw3())) {
             lastDraw3 = null;
-            ++numReturned;
         }
 
         emitEvent(new DestCardReturned(toReturn));

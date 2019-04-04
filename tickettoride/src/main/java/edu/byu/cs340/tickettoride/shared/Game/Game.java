@@ -125,6 +125,9 @@ public class Game extends EventBubbler implements IGameListEntry {
      * playerTurn is a player that is in the game. at index playerTurnIndex
      */
     public void nextPlayerTurn(){
+        if (waitingToStart) {
+            return;
+        }
         playerTurnIndex = (playerTurnIndex + 1) % (players.size());
         playerTurn = players.get(playerTurnIndex).getPlayerName();
         for (Player p : players) {
