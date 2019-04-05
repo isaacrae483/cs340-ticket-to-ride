@@ -185,7 +185,7 @@ public class LoginPresenter extends Presenter implements ILoginPresenter {
     @Override
     public void serverHostChanged(String host) {
         try {
-            mSeverHost = new URL(host);
+            mSeverHost = new URL("http://" + host + ":8080");
         } catch (MalformedURLException e) {
             mSeverHost = null;
         }
