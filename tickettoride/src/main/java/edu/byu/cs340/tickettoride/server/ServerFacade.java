@@ -319,6 +319,9 @@ public class ServerFacade extends EventEmitter implements IServer {
     private void nextTurn(ID game) {
         //if end game
         Game dumbGame = ServerModel.SINGLETON.getStartedGame(game);
+        if (dumbGame == null) {
+            return;
+        }
         if(dumbGame.getPlayerTurn().equals(dumbGame.getGameEnder())){
             EndGame(game);
         }

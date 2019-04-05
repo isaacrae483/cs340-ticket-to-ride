@@ -124,7 +124,7 @@ public class DestCardActivity  extends IDestCardActivity {
         draw2 = card2;
         draw3 = card3;
 
-        cardsReturned = 0;
+        //cardsReturned = 0;
     }
 
     @Override
