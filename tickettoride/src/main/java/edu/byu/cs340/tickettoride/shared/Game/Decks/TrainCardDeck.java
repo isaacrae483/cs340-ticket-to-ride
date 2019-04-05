@@ -48,7 +48,7 @@ public class TrainCardDeck {
      * @return drawn TrainCard or null if empty
      */
     public TrainCard drawCard() {
-        if (deck.size() == 0) {
+        if (deck.size() == 1) {
             takeCards(discardPile);
         }
         return deck.size() == 0 ? null : deck.removeFirst();

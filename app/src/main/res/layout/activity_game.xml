@@ -47,6 +47,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/dest_cards_button"
             android:text="DEMO"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_add_location_black_45dp" />
 
     </LinearLayout>

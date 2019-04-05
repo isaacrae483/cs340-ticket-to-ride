@@ -76,7 +76,7 @@ public class GameLobbyPresenter extends Presenter implements IGameLobbyPresenter
         if (currentGame == null) {
             mGameLobbyView.finishView();
         }
-        if (mClientModel.getActiveGame().isGameStarted()) {
+        if (currentGame.isGameStarted()) {
             mGameLobbyView.moveToStartGame();
         } else {
             mGameLobbyView.setPlayerSet(mClientModel.getActiveGame().getPlayers());

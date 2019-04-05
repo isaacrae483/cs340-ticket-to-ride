@@ -338,6 +338,9 @@ public class Game extends EventBubbler implements IGameListEntry {
         bank.replaceCard(index, replacementCard);
         if (bank.needsFullRedraw()) {
             for (int i = 0; i < bank.MAX_CARDS; i++) {
+                TrainCard oldCard = bank.drawCard(i);
+                if (oldCard != null)
+                    trainCardDeck.addToDiscardPile(oldCard);
                 bank.replaceCard(i, trainCardDeck.drawCard());
             }
         }
