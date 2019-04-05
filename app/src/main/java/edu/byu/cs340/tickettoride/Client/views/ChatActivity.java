@@ -107,7 +107,10 @@ public class ChatActivity extends PresenterViewActivity implements IChatView {
         }
 
         public void bind(ChatMessage message) {
-            mPlayerNameView.setText(message.getUser().getUsername());
+            if(message.getUser() != null)
+                mPlayerNameView.setText(message.getUser().getUsername());
+            else
+                mPlayerNameView.setText("NULL");
             //mPlayerIcon.setColorFilter(getColorFromEnum(.getColor()));
             mChatMessage.setText(message.getMessage());
         }
