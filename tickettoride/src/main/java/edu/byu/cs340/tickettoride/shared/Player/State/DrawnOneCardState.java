@@ -11,7 +11,7 @@ public class DrawnOneCardState extends TurnState {
 
     @Override
     public TurnState drawFaceUpCard(Player player, Game game, int index){
-        TrainCard card = game.drawFaceUpCard(index);
+        TrainCard card = game.peekFaceUp(index);
         if (card == null)
             return this;
         if (card.getColor().equals(Colors.RAINBOW)) {
