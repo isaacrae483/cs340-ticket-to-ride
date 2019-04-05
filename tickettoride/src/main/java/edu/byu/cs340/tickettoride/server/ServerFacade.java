@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.server;
 
+import java.util.List;
+
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
 import edu.byu.cs340.tickettoride.server.Model.Services.DestCardService;
@@ -322,7 +324,7 @@ public class ServerFacade extends EventEmitter implements IServer {
         if (dumbGame == null) {
             return;
         }
-        if(dumbGame.getPlayerTurn().equals(dumbGame.getGameEnder())){
+        if(dumbGame.getGameEnder() != null && dumbGame.getPlayerTurn().equals(dumbGame.getGameEnder())){
             EndGame(game);
         }
         else {

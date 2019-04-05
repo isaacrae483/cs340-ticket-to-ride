@@ -76,6 +76,14 @@ public class Player implements IPlayer {
         totalPoints.addPoints(add);
     }
 
+    public void calculateNegTicketPoints(){
+        for(DestCard card : hand.getDestCards()){
+            if(!card.isCompleted()){
+                addNegTicketPoints((-1)*card.getPoints());
+            }
+        }
+    }
+
     public int getNegTicketPoints() {
         return negTicketPoints.getPoints();
     }
