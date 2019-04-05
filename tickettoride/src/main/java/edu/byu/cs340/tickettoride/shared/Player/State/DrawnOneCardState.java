@@ -28,7 +28,7 @@ public class DrawnOneCardState extends TurnState {
         TrainCard drawnCard = game.drawCard();
         if (drawnCard == null)
             return this;
-        player.DrawCard(game.drawCard());
+        player.DrawCard(drawnCard);
         game.nextPlayerTurn();
         return new OtherTurnState();
     }

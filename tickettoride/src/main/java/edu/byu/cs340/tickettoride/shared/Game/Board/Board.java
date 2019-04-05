@@ -79,14 +79,13 @@ public class Board {
             Route route = routes.getRoute(i);
             if(route.getClaimed()){
                 Username claimedBy = route.getClaimedBy().getPlayerName();
-                for(int j = 0; j < players.size(); j++){
+                for(int j = 0; j < players.size(); j++) {
                     if(players.get(j).getPlayerName().equals(claimedBy)){
                         routeCounts[j]++;
                         break;
                     }
                 }
             }
-
         }
 
         int winningIndex = 0;
