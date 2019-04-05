@@ -233,7 +233,7 @@ public class ServerFacade extends EventEmitter implements IServer {
                     player, game))
             );
             Game relevantGame = ServerModel.SINGLETON.getMapStartedGames().getGame(game);
-            this.emitEvent(new DrewFaceDownCardEvent(
+            this.emitEvent(new DrewFaceUpCardEvent(
                     relevantGame.getTrainCardDeckSize(),
                     relevantGame. getPlayer(player),
                     relevantGame.getBankCards(),
