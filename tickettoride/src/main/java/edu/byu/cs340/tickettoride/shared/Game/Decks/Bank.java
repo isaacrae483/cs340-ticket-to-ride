@@ -21,8 +21,10 @@ public class Bank {
         return bank.get(id);
 
     }
-    public void replaceCard(int id, TrainCard card){
+    public TrainCard replaceCard(int id, TrainCard card){
+        TrainCard oldCard = bank.get(id);
         bank.set(id, card);
+        return oldCard;
     }
 
     public Boolean needsFullRedraw() {

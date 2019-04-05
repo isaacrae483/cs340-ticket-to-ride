@@ -17,13 +17,18 @@ public class BeginTurnState extends TurnState {
 
     @Override
     public TurnState drawFaceDownCard(Player player, Game game){
-        player.DrawCard(game.drawCard());
+        TrainCard drawnCard = game.drawCard();
+        if (drawnCard == null)
+            return this;
+        player.DrawCard(drawnCard);
         return new DrawnOneCardState();
     }
 
     @Override
     public TurnState drawFaceUpCard(Player player, Game game, int index){
         TrainCard card = game.drawFaceUpCard(index);
+        if (card == null)
+            return this;
         player.DrawCard(card);
         if (card.getColor().equals(Colors.RAINBOW)) {
             game.nextPlayerTurn();
