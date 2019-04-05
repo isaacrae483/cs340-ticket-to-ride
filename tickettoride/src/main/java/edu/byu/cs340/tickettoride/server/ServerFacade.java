@@ -325,6 +325,7 @@ public class ServerFacade extends EventEmitter implements IServer {
             return;
         }
         if(dumbGame.getGameEnder() != null && dumbGame.getPlayerTurn().equals(dumbGame.getGameEnder())){
+            dumbGame.longestRoute();
             EndGame(game);
         }
         else {

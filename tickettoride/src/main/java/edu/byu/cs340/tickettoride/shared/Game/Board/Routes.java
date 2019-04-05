@@ -158,4 +158,8 @@ public class Routes {
     public Route getRoute(int id){
         return routes.get(id);
     }
+
+    public int getSize(){
+        return routes.size();
+    }
 }
