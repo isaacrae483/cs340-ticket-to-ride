@@ -329,9 +329,14 @@ public class ClientModel extends EventEmitter {
         emitEvent(new Event() {});//should pass a real event
     }
 
+    public int getPlayerTurnIndex() {
+        return playerTurnIndex;
+    }
+
+    private int playerTurnIndex;
 
     public void updatePlayerTurn(){
-        activeGame.nextPlayerTurn();
+        playerTurnIndex = (playerTurnIndex + 1) % activeGame.getPlayerCount();
         emitEvent(new PlayerTurnChanged());
     }
 

@@ -14,13 +14,13 @@ public class PlayerListPresenter extends Presenter implements IPlayerListPresent
     public PlayerListPresenter(IPlayerListView view) {
         super();
         this.mPlayerListView = view;
-        mPlayerListView.updateData(mGame.getPlayers(), mGame.getPlayerTurnIndex());
+        mPlayerListView.updateData(mGame.getPlayers(), ClientModel.instance().getPlayerTurnIndex());
     }
 
     @Override
     public void syncWithModel() {
         super.syncWithModel();
-        mPlayerListView.updateData(mGame.getPlayers(), mGame.getPlayerTurnIndex());
+        mPlayerListView.updateData(mGame.getPlayers(), ClientModel.instance().getPlayerTurnIndex());
     }
 
     @Override
