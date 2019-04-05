@@ -68,7 +68,33 @@ public class Board {
         return adjacentOwnedRoutes;
     }
 
-    public Username longestRoute(ID gameId) {
-        return null;
+    public Player longestRoute(List<Player> players)
+    {
+
+        int[] routeCounts = new int[5];
+        for(int a = 0; a < routeCounts.length; a++){
+            routeCounts[a] = 0;
+        }
+        for(int i = 0; i < routes.getSize(); i++){
+            Route route = routes.getRoute(i);
+            if(route.getClaimed()){
+                Username claimedBy = route.getClaimedBy().getPlayerName();
+                for(int j = 0; j < players.size(); j++){
+                    if(players.get(j).getPlayerName().equals(claimedBy)){
+                        routeCounts[j]++;
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        int winningIndex = 0;
+        for ( int k = 1; k < routeCounts.length; k++ )
+        {
+            if ( routeCounts[k] > routeCounts[winningIndex] )
+                winningIndex = k;
+        }
+        return players.get(winningIndex);
     }
 }

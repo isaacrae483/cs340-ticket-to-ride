@@ -15,14 +15,14 @@ public class DestCard {
     private City city1;
     private City city2;
     private int points;
-    private Boolean claimed = false;
+    private Boolean completed = false;
 
     public Boolean isCompleted() {
-        return claimed;
+        return completed;
     }
 
     public void setCompleted(Boolean completed) {
-        this.claimed = completed;
+        this.completed = completed;
     }
 
     public City getCity1() {

@@ -89,6 +89,9 @@ public class ClientFacade implements IClient {
 
     @Override
     public void endGame(List<Player> players) {
+        for(Player player : players){
+            player.calculateNegTicketPoints();
+        }
         Player winner = null;
         int winnerScore = 0;
         for(Player player : players){

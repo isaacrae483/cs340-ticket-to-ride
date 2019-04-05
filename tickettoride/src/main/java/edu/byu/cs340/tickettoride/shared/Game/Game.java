@@ -426,5 +426,8 @@ public class Game extends EventBubbler implements IGameListEntry {
         return bank.getCards();
     }
 
-
+    public void longestRoute(){
+        Player longestRoutePlayer = board.longestRoute(players);
+        longestRoutePlayer.addLongTrainPoints(10);
+    }
 }

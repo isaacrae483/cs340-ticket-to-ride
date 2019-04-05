@@ -136,4 +136,8 @@ public class ResultsActivity extends PresenterViewActivity implements IResultsVi
         mWinner.setText(winner.getUsername());
     }
 
+    @Override
+    public void onBackPressed(){
+        makeToast("can't go back now");
+    }
 }

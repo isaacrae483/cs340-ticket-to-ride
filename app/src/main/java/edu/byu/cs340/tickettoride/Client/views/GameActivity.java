@@ -126,6 +126,7 @@ public class GameActivity extends PresenterViewActivity implements IGameView {
             @Override
             public void onClick(View v) {
                 makeToast("no demo here");
+               // moveToResults();
             }
         });
         mCardOne.setOnClickListener(new FaceUpOnClickListener(0));
