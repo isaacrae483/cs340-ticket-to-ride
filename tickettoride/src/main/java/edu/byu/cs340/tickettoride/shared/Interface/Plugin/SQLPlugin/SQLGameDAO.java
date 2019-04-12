@@ -10,7 +10,7 @@ import javax.xml.transform.Result;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.MapGameDAO;
 
-public class SQLGameDAO implements GameDAO {
+public class SQLGameDAO extends SQLParentDAO implements GameDAO {
     // ----- DataBase Initialization ------
     Connection conn;
     SQLGameDAO(Connection connection){
@@ -181,7 +181,7 @@ public class SQLGameDAO implements GameDAO {
             //for each ID in game or deltas,
             String query = "select * from Delta UNION ALL " +
                     "select * from Game";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
                 // create a new GameDAO with that ID
