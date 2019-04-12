@@ -13,29 +13,50 @@ public class SQLUserDAO implements UserDAO {
     Connection conn;
     Statement stmt;
     SQLUserDAO(Connection connection){
-        createTable(connection);
         conn = connection;
+        createTables();
     }
 
-    public void createTable(Connection connection){
-        Statement stmt = null;
+    public void createTables(){
+        stmt = null;
         try {
-            try {
-                stmt = connection.createStatement();
-                stmt.executeUpdate("DROP TABLE IF EXISTS User");
-                stmt.executeUpdate("CREATE TABLE 'User' (\n" +
-                        "\t`Username`\tTEXT NOT NULL UNIQUE,\n" +
-                        "\t`Password`\tTEXT NOT NULL,\n"+
-                        ")");
-
-            }finally {
-                if(stmt != null){
-                    stmt.close();
-                    stmt = null;
-                }
-            }
+            createUserTable();
+            createCommandsTable();
         }catch(Exception e){
             e.printStackTrace();
+        }
+    }
+
+    private void createUserTable() throws java.sql.SQLException{
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate("DROP TABLE IF EXISTS User");
+            stmt.executeUpdate("CREATE TABLE 'User' (\n" +
+                    "\t`Username`\tTEXT NOT NULL UNIQUE,\n" +
+                    "\t`Password`\tTEXT NOT NULL,\n"+
+                    ")");
+
+        }finally {
+            if(stmt != null){
+                stmt.close();
+                stmt = null;
+            }
+        }
+    }
+    private void createCommandsTable() throws java.sql.SQLException{
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate("DROP TABLE IF EXISTS Commands");
+            stmt.executeUpdate("CREATE TABLE 'Commands' (\n" +
+                    "\t`Username`\tTEXT NOT NULL UNIQUE,\n" +
+                    "\t`CommandList`\tTEXT NOT NULL,\n"+
+                    ")");
+
+        }finally {
+            if(stmt != null){
+                stmt.close();
+                stmt = null;
+            }
         }
     }
 
