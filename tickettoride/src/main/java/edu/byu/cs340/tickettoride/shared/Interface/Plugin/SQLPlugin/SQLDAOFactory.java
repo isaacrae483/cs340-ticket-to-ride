@@ -10,8 +10,7 @@ import edu.byu.cs340.tickettoride.shared.Interface.Plugin.UserDAO;
 public class SQLDAOFactory implements DAOFactory {
     @Override
     public UserDAO generateUserDAO() {
-        Connection connection = null;
-        return new SQLUserDAO(connection);
+        return new SQLUserDAO();
     }
 
     @Override
