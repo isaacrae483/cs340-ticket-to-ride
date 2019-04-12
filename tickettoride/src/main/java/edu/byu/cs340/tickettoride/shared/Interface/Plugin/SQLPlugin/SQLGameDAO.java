@@ -49,9 +49,9 @@ public class SQLGameDAO implements GameDAO {
     // ----- GameDAO Operations -----
     @Override
 
-    public void updateGame(String data, String game) {
+    public void updateGame(String data, String game, String id) {
         //if not at a checkpoint (numTillCheckpoint > 0)
-        if(numTillCheckpoint > 0){
+        if(/*numTillCheckpoint*/ 1 > 0){
             //save data as the delta ?(it will be of type serverCommandData)? *
             try{
                 PreparedStatement stmt = null;
@@ -59,7 +59,7 @@ public class SQLGameDAO implements GameDAO {
                 try{
                     String sql = "insert into Delta values (?,?)";
                     stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, this.id);
+                    stmt.setString(1, id);
                     stmt.setString(2, data);
                     if(stmt.executeUpdate() != 1){
                         throw new Exception ("Could Not Save Delta");
@@ -74,7 +74,7 @@ public class SQLGameDAO implements GameDAO {
                 e.printStackTrace();
             }
             //subtract one from numTillCheckpoint
-            numTillCheckpoint--;
+            //numTillCheckpoint--;
         } else {
             //save game
             try{
@@ -83,7 +83,7 @@ public class SQLGameDAO implements GameDAO {
                 try{
                     String sql = "insert int Game values (?,?)";
                     stmt = conn.prepareStatement(sql);
-                    stmt.setString(1, this.id);
+                    stmt.setString(1, id);
                     stmt.setString(2, game);
                     if(stmt.executeUpdate() != 1){
                         throw new Exception ("Could Not Save Game");
@@ -106,13 +106,13 @@ public class SQLGameDAO implements GameDAO {
                 e.printStackTrace();
             }
             //set numTillCheckpoint = 0 (do you mean back to this.deltas?)
-            numTillCheckpoint = this.deltas;
+            //numTillCheckpoint = this.deltas;
         }
     }
 
 
     @Override
-    public void deleteGame() {
+    public void deleteGame(String id) {
         //delete rows from delta table and from game table where ID = id
         try{
             PreparedStatement stmt = null;
@@ -135,7 +135,7 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public String getGame() {
+    public String getGame(String id) {
         //return game where ID = id
         String game = null; // what type should this have?
         try{
@@ -154,13 +154,13 @@ public class SQLGameDAO implements GameDAO {
     }
 
     @Override
-    public List<String> getCommands() {
+    public List<String> getCommands(String id) {
         //return commands in delta table where ID = id
         List<String> commands = new ArrayList<>();
         try{
             String query = "select * from Delta where ID = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, this.id);
+            stmt.setString(1, id);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
                 commands.add(results.getString(2));
@@ -175,9 +175,9 @@ public class SQLGameDAO implements GameDAO {
 
     // This cod needs help. How and why do we create a new GameDAO here?
 
-    public static MapGameDAO getGames() {
-        MapGameDAO games = new MapGameDAO();
-        /*try{
+    public Map<String, String> getGames(String id) {
+        Map<String, String> games = new HashMap<>();
+        try{
             //for each ID in game or deltas,
             String query = "select * from Delta UNION ALL " +
                     "select * from Game";
@@ -186,22 +186,20 @@ public class SQLGameDAO implements GameDAO {
             while (results.next()) {
                 // create a new GameDAO with that ID
                 // add to games
-                games.add(results.getString(1), new SQLGameDAO(results.getString(1), results.getString(2));
+                games.put(results.getString(1), results.getString(2));
             }
         }catch(Exception e){
             e.printStackTrace();
             return null;
-        }*/
+        }
         return games;
     }
 
-    public SQLGameDAO(String id, int deltas) {
-        this.id = id;
+    public SQLGameDAO(int deltas) {
         this.deltas = deltas;
-        numTillCheckpoint = deltas;
+        // numTillCheckpoint = deltas;
     }
 
-    private String id;
     private int deltas;
-    private int numTillCheckpoint;
+    // private int numTillCheckpoint; // This needs to be changed to check how many deltas are in the table.
 }

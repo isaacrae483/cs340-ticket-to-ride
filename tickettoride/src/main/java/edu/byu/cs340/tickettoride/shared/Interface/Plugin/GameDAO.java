@@ -4,8 +4,8 @@ package edu.byu.cs340.tickettoride.shared.Interface.Plugin;
 import java.util.List;
 
 public interface GameDAO {
-    void updateGame(String data, String game);
-    void deleteGame();
-    String getGame();
-    List<String> getCommands();
+    void updateGame(String data, String game, String id);
+    void deleteGame(String id);
+    String getGame(String id);
+    List<String> getCommands(String id);
 }
