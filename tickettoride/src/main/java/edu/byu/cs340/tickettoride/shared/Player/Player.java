@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ import edu.byu.cs340.tickettoride.shared.Player.State.OtherTurnState;
 import edu.byu.cs340.tickettoride.shared.Player.State.TurnState;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Player implements IPlayer {
+public class Player implements IPlayer, Serializable {
 
     private Username username;
     private Color color;

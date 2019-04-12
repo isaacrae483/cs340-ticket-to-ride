@@ -10,12 +10,12 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 
 public class LoginService {
     public static LoginResult login(Username username, Password password){
-        User user = ServerModel.SINGLETON.getMapUsers().getUser(username);
+        User user = ServerModel.SINGLETON.getUser(username);
 
         if(user != null && user.getPassword().equals(password)) {
             ServerFacade.SINGLETON.addObserver(new ClientProxy(username));
-            ServerModel.SINGLETON.getCommandList().GetCommands(username);
-            return new LoginResult(ServerModel.SINGLETON.getMapNewGames().getAsListGames(), true);
+            ServerModel.SINGLETON.getCommands(username);
+            return new LoginResult(ServerModel.SINGLETON.getUnstartedGames(), true);
         }
 
         return new LoginResult(null, false);

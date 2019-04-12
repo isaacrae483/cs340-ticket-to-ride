@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.xml.transform.Result;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
-import edu.byu.cs340.tickettoride.shared.Interface.Plugin.MapGameDAO;
 
 public class SQLGameDAO extends SQLParentDAO implements GameDAO {
     // ----- DataBase Initialization ------
@@ -170,6 +169,11 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<String> getIDs() {
+        return null;
     }
 
 

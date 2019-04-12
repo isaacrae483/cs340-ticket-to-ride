@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
-public class TrainPieces {
+import java.io.Serializable;
+
+public class TrainPieces implements Serializable {
     private int pieces;
     private int END_NUM_PIECES = 3;
 

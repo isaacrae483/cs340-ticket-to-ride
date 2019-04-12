@@ -1,9 +1,11 @@
 package edu.byu.cs340.tickettoride.shared.Game.Chat;
 
+import java.io.Serializable;
+
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ChatMessage {
+public class ChatMessage implements Serializable {
     private String message;
     private Username user;
     private ID game;

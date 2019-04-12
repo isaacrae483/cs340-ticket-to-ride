@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,7 +13,7 @@ import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Board {
+public class Board implements Serializable {
     Routes routes;
     private final int NUM_ROUTES = 100;
     public Board() {

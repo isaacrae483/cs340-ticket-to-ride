@@ -1,12 +1,14 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
+import java.io.Serializable;
+
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Interface.IPlayer;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class Route implements IRoute, Comparable<Route> {
+public class Route implements IRoute, Comparable<Route>, Serializable {
     City startCity;
     City endCity;
     Length length;

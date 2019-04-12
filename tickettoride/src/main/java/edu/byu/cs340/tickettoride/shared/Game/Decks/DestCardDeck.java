@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Game.Decks;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +11,7 @@ import java.util.Set;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 
-public class DestCardDeck {
+public class DestCardDeck implements Serializable {
 
     public DestCardDeck() {
         ArrayList<DestCard> temp = new ArrayList<>();

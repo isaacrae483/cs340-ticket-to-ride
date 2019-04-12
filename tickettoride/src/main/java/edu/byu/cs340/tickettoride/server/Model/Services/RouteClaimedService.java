@@ -1,7 +1,9 @@
 package edu.byu.cs340.tickettoride.server.Model.Services;
 
+import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerFacade;
 import edu.byu.cs340.tickettoride.server.ServerModel;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -26,6 +28,8 @@ public class RouteClaimedService {
                     claimingPlayer.addTrainCarPoints(toClaim.getPoints());
                     claimingPlayer.playTrains(toClaim.getLength());
                 CheckGameEnd(game, claimingPlayer);
+                ServerModel.SINGLETON.updateGame(gameInfo,
+                        new ServerCommandData(ServerCommandData.commandType.CLAIMROUTE, username, route, game));
             }
         }
 
@@ -33,10 +37,6 @@ public class RouteClaimedService {
         return result;
     }
 
-    private void ClaimRoute(Player claimingPlayer, Route toClaim, Game game) {
-
-
-    }
 
     private void CheckGameEnd(ID game, Player claimingPlayer) {
         if (claimingPlayer.getTrainPieces() <= 2) {

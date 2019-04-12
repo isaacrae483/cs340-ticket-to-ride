@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.server.Model.Services;
 
+import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerModel;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
@@ -34,8 +36,9 @@ public class DrawCardService {
         if (!oldState.getClass().getName().equals(newState.getClass().getName()) &&
             !(drawnCard == relevantGame.peekFaceUp(index))) {
             success = true;
+            ServerModel.SINGLETON.updateGame(relevantGame,
+                    new ServerCommandData(ServerCommandData.commandType.DRAWFACEUPCARD, index, playerName, gameId));
         }
-
         return new DrawFaceUpCardResult(success, drawnCard);
     }
 
@@ -53,8 +56,9 @@ public class DrawCardService {
 
         if (oldState != newState) {
             success = true;
+            serverModel.updateGame(relevantGame,
+                    new ServerCommandData(ServerCommandData.commandType.DRAWFACEDOWNCARD, playerName, gameId));
         }
-
 
         return new DrawFaceDownCardResult(success, card);// new DrawFaceDownCardResult(success, drawnCard);
     }

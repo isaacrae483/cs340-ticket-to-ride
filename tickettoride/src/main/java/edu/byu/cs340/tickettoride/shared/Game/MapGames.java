@@ -44,6 +44,16 @@ public class MapGames {
         games.remove(id);
     }
 
+    public void replace(Game game) {
+        if (contains(game.getId())) {
+            addGame(game);
+        }
+    }
+
+    public boolean contains(ID id) {
+        return games.containsKey(id);
+    }
+
     public Player getPlayer(ID game, Username user) {
         return games.get(game).getPlayer(user);
     }

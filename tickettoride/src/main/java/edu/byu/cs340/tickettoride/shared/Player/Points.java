@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Player;
 
-public class Points {
+import java.io.Serializable;
+
+public class Points implements Serializable {
     private int points;
     public Points(){
         points = 0;

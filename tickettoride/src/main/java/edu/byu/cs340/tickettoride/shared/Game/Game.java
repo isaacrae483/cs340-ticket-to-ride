@@ -1,6 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +24,7 @@ import edu.byu.cs340.tickettoride.shared.User.Username;
 /**
  * The Game class is the class that will hold all the elements and methods of a Game.
  */
-public class Game extends EventBubbler implements IGameListEntry {
+public class Game extends EventBubbler implements IGameListEntry, Serializable {
 
     private Username gameEnder;
 

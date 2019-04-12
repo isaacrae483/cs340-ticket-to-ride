@@ -125,4 +125,9 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public String getCommands(String username) {
+        return null;
+    }
 }

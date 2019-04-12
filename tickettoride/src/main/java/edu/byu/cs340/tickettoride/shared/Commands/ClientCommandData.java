@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ClientCommandData {
+public class ClientCommandData implements Serializable {
     public enum CommandType {INCREMENTPLAYER, NEWGAME, STARTGAME, CHAT, ADD_CARDS,
         REPLACE_FACE_UP, DRAW_TRAIN_CARD, CLAIM_ROUTE, LAST_TURN, END_GAME, GAME_HISTORY,
         DEST_DECK_CHANGE, TC_DECK_CHANGE, NEXT_TURN, DRAW_FACE_UP}

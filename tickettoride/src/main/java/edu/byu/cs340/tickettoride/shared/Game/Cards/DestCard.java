@@ -1,10 +1,11 @@
 package edu.byu.cs340.tickettoride.shared.Game.Cards;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 
-public class DestCard {
+public class DestCard implements Serializable {
 
     public DestCard(City city1, City city2, int points) {
         this.city1 = city1;

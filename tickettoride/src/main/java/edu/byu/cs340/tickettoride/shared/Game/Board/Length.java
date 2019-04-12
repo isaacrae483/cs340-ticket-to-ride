@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
-public class Length {
+import java.io.Serializable;
+
+public class Length implements Serializable {
     @Override
     public String toString() {
         return length + "";

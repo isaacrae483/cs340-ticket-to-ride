@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Game.Chat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import edu.byu.cs340.tickettoride.shared.Game.EventEmitter;
 import edu.byu.cs340.tickettoride.shared.Game.ID;
 import edu.byu.cs340.tickettoride.shared.Game.events.chat.ChatAdded;
 
-public class Chat extends EventBubbler {
+public class Chat extends EventBubbler implements Serializable {
 
     private List<ChatMessage> messages;
     private ID game;

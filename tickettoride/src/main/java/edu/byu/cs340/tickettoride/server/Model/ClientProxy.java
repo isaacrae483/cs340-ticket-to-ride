@@ -25,7 +25,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void incrementPlayers(ID id, Player player) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.INCREMENTPLAYER, player, id
                 )
@@ -34,7 +34,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void addGame(Game game) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.NEWGAME, game
                 )
@@ -43,7 +43,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void startGame(ID gameId) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.STARTGAME, gameId
                 )
@@ -52,7 +52,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void receiveChat(ChatMessage message) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.CHAT,
                         message.getUser(), message.getGame(), message.getMessage()
@@ -62,7 +62,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void addCards(Player p) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.ADD_CARDS,
                         p
@@ -72,7 +72,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void setFaceUpCard(TrainCard card, int pos) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(), new ClientCommandData(
                         ClientCommandData.CommandType.REPLACE_FACE_UP,
                         card,
@@ -83,7 +83,7 @@ public class ClientProxy extends ClientObserver {
 //////////////////////////////////////////new for phase three  ///////////// not yet implemented////////////////////////////////
     @Override
     public void drawTrainCard(Player player) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
+        ServerModel.SINGLETON.AddCommand(getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.DRAW_TRAIN_CARD,
                         player
@@ -93,7 +93,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void drewFaceUpCard(Player player, int newTrainCardDeckSize, List<TrainCard> newTrainCards) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
+        ServerModel.SINGLETON.AddCommand(getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.DRAW_FACE_UP,
                         player,
@@ -104,7 +104,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void claimRoute(Route route, Player player) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(getUser(),
+        ServerModel.SINGLETON.AddCommand(getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.CLAIM_ROUTE,
                         route,
@@ -114,7 +114,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void lastTurn() {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.LAST_TURN
@@ -124,7 +124,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void endGame(List<Player> players) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.END_GAME,
@@ -140,7 +140,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void changeDestDeckSize(int offset, Player player) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.DEST_DECK_CHANGE,
@@ -151,7 +151,7 @@ public class ClientProxy extends ClientObserver {
     }
 
     public void updateTurn(ID game) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.NEXT_TURN,
@@ -162,7 +162,7 @@ public class ClientProxy extends ClientObserver {
 
     @Override
     public void changeTCDeckSize(Integer size, Player player) {
-        ServerModel.SINGLETON.getCommandList().AddCommand(
+        ServerModel.SINGLETON.AddCommand(
                 getUser(),
                 new ClientCommandData(
                         ClientCommandData.CommandType.TC_DECK_CHANGE,

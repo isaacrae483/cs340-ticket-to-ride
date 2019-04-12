@@ -1,6 +1,6 @@
 package edu.byu.cs340.tickettoride.server;
 
-import java.util.List;
+
 
 import edu.byu.cs340.tickettoride.server.Model.Services.ChatService;
 import edu.byu.cs340.tickettoride.server.Model.Services.CreateGameService;
@@ -15,7 +15,6 @@ import edu.byu.cs340.tickettoride.server.Observers.Event.AddCardsEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.AddGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.ChatEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DestDeckSizeEvent;
-import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceDownCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.DrewFaceUpCardEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.EndGameEvent;
 import edu.byu.cs340.tickettoride.server.Observers.Event.FaceUpCardEvent;
@@ -137,7 +136,7 @@ public class ServerFacade extends EventEmitter implements IServer {
      */
     @Override
     public ClientCommandList getCommands(Username username) {
-        return ServerModel.SINGLETON.getCommandList().GetCommands(username);
+        return ServerModel.SINGLETON.getCommands(username);
     }
 
     /**
@@ -212,7 +211,7 @@ public class ServerFacade extends EventEmitter implements IServer {
                     res.getDrawnCard().getColor(),
                     player, game))
             );
-            Game relevantGame = ServerModel.SINGLETON.getMapStartedGames().getGame(game);
+            Game relevantGame = ServerModel.SINGLETON.getGame(game);
             this.emitEvent(new DrewFaceUpCardEvent(
                     relevantGame.getTrainCardDeckSize(),
                     relevantGame.getPlayer(player),
@@ -232,7 +231,7 @@ public class ServerFacade extends EventEmitter implements IServer {
             this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: DREW FROM DECK",
                     player, game))
             );
-            Game relevantGame = ServerModel.SINGLETON.getMapStartedGames().getGame(game);
+            Game relevantGame = ServerModel.SINGLETON.getGame(game);
             this.emitEvent(new DrewFaceUpCardEvent(
                     relevantGame.getTrainCardDeckSize(),
                     relevantGame. getPlayer(player),
@@ -303,7 +302,7 @@ public class ServerFacade extends EventEmitter implements IServer {
     public void LastTurn(ID game) {
         this.emitEvent(new LastTurnEvent(game));
         this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: LAST TURN",
-                ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
+                ServerModel.SINGLETON.getGame(game).getPlayerTurn(), game))
         );
     }
 
@@ -331,7 +330,7 @@ public class ServerFacade extends EventEmitter implements IServer {
         else {
             this.emitEvent(new PlayerTurnEvent(game));
             this.emitEvent(new ChatEvent(new ChatMessage("GAME HISTORY: TURN STARTED",
-                    ServerModel.SINGLETON.getMapStartedGames().getGame(game).getPlayerTurn(), game))
+                    ServerModel.SINGLETON.getGame(game).getPlayerTurn(), game))
             );
         }
     }

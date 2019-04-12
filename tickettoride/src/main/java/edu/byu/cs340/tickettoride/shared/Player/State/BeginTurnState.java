@@ -1,13 +1,15 @@
 package edu.byu.cs340.tickettoride.shared.Player.State;
 
 
+import java.io.Serializable;
+
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
 import edu.byu.cs340.tickettoride.shared.Player.Player;
 
-public class BeginTurnState extends TurnState {
+public class BeginTurnState extends TurnState implements Serializable {
 
     @Override
     public TurnState drawDestCard(Player player, Game game){

@@ -1,8 +1,9 @@
 package edu.byu.cs340.tickettoride.shared.User;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Password{
+public class Password implements Serializable {
     private String password;
 
     public Password(String password) throws InvalidPasswordException {

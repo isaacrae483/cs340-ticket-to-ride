@@ -1,8 +1,9 @@
 package edu.byu.cs340.tickettoride.shared.Game;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ID{
+public class ID implements Serializable {
     private String id;
 
     //note: private. You should only get an ID by calling the generate method below.

@@ -1,5 +1,7 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
+import java.io.Serializable;
+
 import edu.byu.cs340.tickettoride.shared.Game.Board.Route;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Chat.ChatMessage;
@@ -8,7 +10,7 @@ import edu.byu.cs340.tickettoride.shared.Player.Player;
 import edu.byu.cs340.tickettoride.shared.User.Password;
 import edu.byu.cs340.tickettoride.shared.User.Username;
 
-public class ServerCommandData {
+public class ServerCommandData implements Serializable {
     public enum commandType {LOGIN, REGISTER, JOINGAME, CREATEGAME, STARTGAME,
         CHAT, DRAWTICKETS, RETURNCARD, DRAWFACEUPCARD, DRAWFACEDOWNCARD, CLAIMROUTE,
         FINISHDESTCARDS}

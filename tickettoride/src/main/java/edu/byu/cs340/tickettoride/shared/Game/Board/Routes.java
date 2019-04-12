@@ -1,12 +1,13 @@
 package edu.byu.cs340.tickettoride.shared.Game.Board;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.byu.cs340.tickettoride.shared.Game.Enums.City;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
-public class Routes {
+public class Routes implements Serializable {
 
     private Map<Integer, Route> routes = new HashMap<>();
 

@@ -1,5 +1,6 @@
 package edu.byu.cs340.tickettoride.shared.Game.Decks;
 
+import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.List;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
-public class TrainCardDeck {
+public class TrainCardDeck implements Serializable {
     private Deque<TrainCard> deck;
 
     private List<TrainCard> discardPile = new ArrayList<>();

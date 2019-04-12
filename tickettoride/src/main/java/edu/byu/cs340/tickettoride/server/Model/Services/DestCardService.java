@@ -2,7 +2,9 @@ package edu.byu.cs340.tickettoride.server.Model.Services;
 
 import java.util.Set;
 
+import edu.byu.cs340.tickettoride.server.Server;
 import edu.byu.cs340.tickettoride.server.ServerModel;
+import edu.byu.cs340.tickettoride.shared.Commands.ServerCommandData;
 import edu.byu.cs340.tickettoride.shared.Game.Cards.DestCard;
 import edu.byu.cs340.tickettoride.shared.Game.Decks.DestCardDeck;
 import edu.byu.cs340.tickettoride.shared.Game.Game;
@@ -19,12 +21,14 @@ public class DestCardService {
         boolean success = false;
         ServerModel model = ServerModel.SINGLETON;
 
-        Game gameInfo = model.getMapStartedGames().getGame(game);
+        Game gameInfo = model.getStartedGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
             Player player = gameInfo.getPlayer(username);
             try {
                 player.returnDestCard(gameInfo, card);
                 success = true;
+                model.updateGame(gameInfo,
+                        new ServerCommandData(ServerCommandData.commandType.RETURNCARD, username, card, game));
             }
             catch (DestCardDeck.AlreadyInDeckException ex) {
                 success = false;
@@ -40,7 +44,7 @@ public class DestCardService {
         ServerModel model = ServerModel.SINGLETON;
         int numCards = 0;
 
-        Game gameInfo = model.getMapStartedGames().getGame(game);
+        Game gameInfo = model.getStartedGame(game);
         if (gameInfo != null && gameInfo.contains(username)) {
             Player player = gameInfo.getPlayer(username);
             int before = player.getNumDestCards();
@@ -48,6 +52,8 @@ public class DestCardService {
             numCards = player.getNumDestCards() - before;
             if (numCards != 0) {
                 success = true;
+                model.updateGame(gameInfo,
+                        new ServerCommandData(ServerCommandData.commandType.DRAWTICKETS, username, game));
             }
         }
 
@@ -62,6 +68,8 @@ public class DestCardService {
             player.finishDrawingDestCards(gameInfo);
             res = new FinishDrawingDestCardsResult(true);
             gameInfo.updateWaitingToStart();
+            ServerModel.SINGLETON.updateGame(gameInfo,
+                    new ServerCommandData(ServerCommandData.commandType.FINISHDESTCARDS, username, game));
         }
         else {
             res = new FinishDrawingDestCardsResult(false);

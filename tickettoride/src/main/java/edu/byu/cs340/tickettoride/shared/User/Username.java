@@ -1,8 +1,9 @@
 package edu.byu.cs340.tickettoride.shared.User;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Username{
+public class Username implements Serializable {
     private String username;
 
     @Override

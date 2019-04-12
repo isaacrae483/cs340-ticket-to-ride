@@ -1,9 +1,10 @@
 package edu.byu.cs340.tickettoride.shared.Commands;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientCommandList {
+public class ClientCommandList implements Serializable {
     private List<ClientCommandData> data = new ArrayList<>();
 
     public ClientCommandData get(int index) {

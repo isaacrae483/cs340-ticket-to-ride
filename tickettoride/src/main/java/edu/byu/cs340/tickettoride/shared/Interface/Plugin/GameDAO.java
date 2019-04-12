@@ -8,4 +8,5 @@ public interface GameDAO {
     void deleteGame(String id);
     String getGame(String id);
     List<String> getCommands(String id);
+    List<String> getIDs();
 }

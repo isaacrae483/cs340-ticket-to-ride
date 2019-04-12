@@ -1,12 +1,13 @@
 package edu.byu.cs340.tickettoride.shared.Game.Decks;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Game.Cards.TrainCard;
 import edu.byu.cs340.tickettoride.shared.Game.Enums.Colors;
 
-public class Bank {
+public class Bank implements Serializable {
     private List<TrainCard> bank = new ArrayList<>();
     public final int MAX_CARDS = 5;
     public Bank() {
