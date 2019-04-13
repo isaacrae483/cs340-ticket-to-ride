@@ -50,7 +50,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
 
     public void updateGame(String data, String game, String id) {
         //if not at a checkpoint (numTillCheckpoint > 0)
-        if(/*numTillCheckpoint*/ 1 > 0){
+        if(getCount(id) < deltas){
             //save data as the delta ?(it will be of type serverCommandData)? *
             try{
                 PreparedStatement stmt = null;
@@ -99,13 +99,13 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                     if (stmt != null) {
                         stmt.close();
                         stmt = null;
+                        //set numDeltas = 0
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //set numTillCheckpoint = 0 (do you mean back to this.deltas?)
-            //numTillCheckpoint = this.deltas;
+
         }
     }
 
@@ -199,11 +199,29 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         return games;
     }
 
+    private int getCount (String id){
+        int count = 0;
+        try{
+            //for each ID in game or deltas,
+            String query = "select count(?) as total from Delta";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, id);
+
+            ResultSet results = stmt.executeQuery();
+            while (results.next()) {
+                count = results.getInt(1);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return -1;
+        }
+        return count;
+    }
+
     public SQLGameDAO(int deltas) {
         this.deltas = deltas;
         // numTillCheckpoint = deltas;
     }
 
     private int deltas;
-    // private int numTillCheckpoint; // This needs to be changed to check how many deltas are in the table.
 }
