@@ -173,7 +173,21 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
 
     @Override
     public List<String> getIDs() {
-        return null;
+        List<String> games = new ArrayList<>();
+        try{
+            //for each ID in game or deltas,
+            String query = "select * from Game";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet results = stmt.executeQuery();
+            while (results.next()) {
+                // add game id to games
+                games.add(results.getString(1));
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return games;
     }
 
 
