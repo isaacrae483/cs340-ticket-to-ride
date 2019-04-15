@@ -70,13 +70,21 @@ public class ServerModel {
         return startedGames.getGame(game).getPlayerTurnIndex();
     }
 
-    public void AddFactory(DAOFactory factory, int deltas) {
+    public void AddFactory(DAOFactory factory, int deltas)  {
         this.gameDAO = factory.generateGameDAO(deltas);
         this.userDAO = factory.generateUserDAO();
 
         Map<String, String> users = userDAO.getUsers();
         for (Map.Entry<String, String> entry: users.entrySet()) {
             this.users.addUser(entry.getKey(), entry.getValue());
+            String comamandList = userDAO.getCommands(entry.getKey());
+            ClientCommandList list = (ClientCommandList) DatabaseSerializer.fromString(comamandList);
+            try {
+                commandList.AddCommands(new Username(entry.getKey()), list);
+            }
+            catch (Username.InvalidUserNameException e) {
+                e.printStackTrace();
+            }
         }
 
         List<String> ids = gameDAO.getIDs();
@@ -105,13 +113,17 @@ public class ServerModel {
         return users.getUser(username);
     }
 
-    public ClientCommandList getCommands(Username username) {
+    private ClientCommandList getCommandsDatatbase(Username username) {
         String commandList = userDAO.getCommands(username.getUsername());
         ClientCommandList result = new ClientCommandList();
         if(commandList != null) {
             result = (ClientCommandList) DatabaseSerializer.fromString(commandList);
         }
         return result;
+    }
+
+    public ClientCommandList getCommands(Username username) {
+        return commandList.GetCommands(username);
     }
 
     public List<Game> getUnstartedGames() {
@@ -133,6 +145,17 @@ public class ServerModel {
         ClientCommandList list = commandList.GetCommandsNoClear(username);
         String listData = DatabaseSerializer.toString(list);
         userDAO.updateCommandQueue(username.getUsername(), listData);
+    }
+
+    public void addGame(Game game) {
+        unstartedGames.addGame(game);
+
+        String gameInfo = DatabaseSerializer.toString(game);
+        String command = DatabaseSerializer.toString(new ServerCommandData(
+                ServerCommandData.commandType.CREATEGAME, game.GetLeader().getPlayerName()));
+        String id = game.getId().getId();
+
+        gameDAO.updateGame(command, gameInfo, id);
     }
 
     private UserDAO userDAO;

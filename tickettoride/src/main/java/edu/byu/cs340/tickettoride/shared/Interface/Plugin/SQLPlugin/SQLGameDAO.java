@@ -88,7 +88,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 //in the game table, save the game with the first column as ID and the second column as game
                 try{
                     openConnection();
-                    String sql = "insert int Game values (?,?)";
+                    String sql = "insert into Game values (?,?)";
                     stmt = connection.prepareStatement(sql);
                     stmt.setString(1, id);
                     stmt.setString(2, game);

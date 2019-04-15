@@ -38,4 +38,8 @@ public class CommandList implements Serializable {
         }
         commands.get(user).add(command);
     }
+
+    public void AddCommands(Username user, ClientCommandList list) {
+        commands.put(user, list);
+    }
 }

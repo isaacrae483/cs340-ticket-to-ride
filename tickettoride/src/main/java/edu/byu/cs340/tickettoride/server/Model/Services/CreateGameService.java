@@ -23,8 +23,7 @@ public class CreateGameService {
         Game newGame = new Game(ID.generate());
         Player first = new Player(username, IPlayer.Color.values()[0]);
         newGame.addPlayer(first);
-        ServerModel.SINGLETON.updateGame(newGame,
-                new ServerCommandData(ServerCommandData.commandType.CREATEGAME, username));
+        ServerModel.SINGLETON.addGame(newGame);
 
         return new CreateGameResult(true, newGame);
     }
