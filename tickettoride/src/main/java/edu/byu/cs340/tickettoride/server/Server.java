@@ -37,7 +37,21 @@ public class Server {
 
         try {
             if (args.length > 1) {
-                Class factoryClass = Class.forName(args[0]);
+                Class factoryClass;
+
+                if (args[0].equals("SQL")) {
+                    factoryClass = Class.forName(
+                            "edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory"
+                    );
+                } else if (args[0].equals("FlatFile")){
+                    factoryClass = Class.forName(
+                            "edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory"
+                    );
+                } else {
+                    System.out.println("INVALID ARGUMENT: {DAOFactory} must be \"SQL\" or \"FlatFile\"");
+                    return;
+                }
+
                 DAOFactory daoFactory = (DAOFactory) factoryClass.newInstance();
 
                 int deltas = Integer.parseInt(args[1]);
@@ -46,6 +60,7 @@ public class Server {
             }
             else {
                 System.out.println("NOT ENOUGH ARGUMENTS: need {DAOFactory} {deltas}");
+                return;
             }
 
             new Server(DEFAULT_PORT, DEFAULT_MAX_CONNECTIONS)
