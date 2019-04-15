@@ -84,7 +84,7 @@ public class ServerFacadeTest {
 
         assertFalse(fail.getSuccess());
         assertEquals(2, facade.NumObservers());
-        assertNull(model.getMapUsers().getUser(fakeUser));
+        assertNull(model.getUser(fakeUser));
 
         fail = facade.login(null, null);
 
@@ -94,12 +94,12 @@ public class ServerFacadeTest {
     @Test
     public void register() {
         assertEquals(0, facade.NumObservers());
-        assertNull(model.getMapUsers().getUser(user));
+        assertNull(model.getUser(user));
 
         LoginResult res = facade.register(user, password);
 
         assertTrue(res.getSuccess());
-        assertNotNull(model.getMapUsers().getUser(user));
+        assertNotNull(model.getUser(user));
         assertEquals(1, facade.NumObservers());
 
         res = facade.register(null, null);
@@ -107,7 +107,7 @@ public class ServerFacadeTest {
 
         res = facade.register(user2, password2);
         assertTrue(res.getSuccess());
-        assertNotNull(model.getMapUsers().getUser(user));
+        assertNotNull(model.getUser(user));
         assertEquals(2, facade.NumObservers());
     }
 
@@ -117,7 +117,7 @@ public class ServerFacadeTest {
 
         facade.joinGame(user2, id);
 
-        ClientCommandList commands = model.getCommandList().GetCommands(user);
+        ClientCommandList commands = model.getCommands(user);
         assertEquals(1, commands.size());
         ClientCommandData command = commands.get(0);
 
@@ -125,9 +125,9 @@ public class ServerFacadeTest {
         assertNull(command.game);
         assertEquals(id, command.id);
         assertEquals(user2, command.player.getPlayerName());
-        assertEquals(2, model.getMapNewGames().getGame(id).getPlayerCount());
+        assertEquals(2, model.getGame(id).getPlayerCount());
         assertEquals(user2.getUsername(),
-                model.getMapNewGames().getGame(id).getPlayers().get(1).getPlayerName().getUsername());
+                model.getGame(id).getPlayers().get(1).getPlayerName().getUsername());
     }
 
     @Test
@@ -135,7 +135,7 @@ public class ServerFacadeTest {
 
         this.login();
 
-        assertNull(model.getMapNewGames().getGame(id));
+        assertNull(model.getGame(id));
         assertEquals(0, facade.getCommands(user).size());
 
         CreateGameResult res = facade.createGame(user);
@@ -145,23 +145,23 @@ public class ServerFacadeTest {
         assertEquals(1, game.getPlayerCount());
         assertEquals(user.getUsername(), game.getPlayers().get(0).getPlayerName().getUsername());
 
-        ClientCommandList commands = model.getCommandList().GetCommands(user);
+        ClientCommandList commands = model.getCommands(user);
         assertEquals(1, commands.size());
         ClientCommandData command = commands.get(0);
         //getting the command should clear it
-        assertEquals(0, model.getCommandList().GetCommands(user).size());
+        assertEquals(0, model.getCommands(user).size());
         assertEquals(ClientCommandData.CommandType.NEWGAME, command.type);
         assertNull(command.id);
         assertEquals(1, command.game.getPlayers().size());
         assertEquals(user, command.game.getPlayers().get(0).getPlayerName());
         assertNull(command.player);
         assertEquals(id, command.game.getId());
-        assertNotNull(model.getMapNewGames().getGame(id));
+        assertNotNull(model.getGame(id));
 
         res = facade.createGame(null);
 
         assertFalse(res.getSuccess());
-        assertEquals(0, model.getCommandList().GetCommands(user).size());
+        assertEquals(0, model.getCommands(user).size());
     }
 
     @Test
