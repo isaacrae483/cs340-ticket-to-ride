@@ -11,27 +11,30 @@ import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
 
 public class SQLGameDAO extends SQLParentDAO implements GameDAO {
     // ----- DataBase Initialization ------
-    Connection conn;
-    SQLGameDAO(Connection connection){
-        createTable(connection);
-        conn = connection;
+    private int deltas;
+    public SQLGameDAO(int deltas) {
+        this.deltas = deltas;
+        openConnection();
+        createTables();
+        closeConnection(true);
+
     }
 
-    public void createTable(Connection connection){
+
+
+    public void createTables(){
         Statement stmt = null;
         try {
             try {
                 stmt = connection.createStatement();
-                stmt.executeUpdate("DROP TABLE IF EXISTS Game");
-                stmt.executeUpdate("DROP TABLE IF EXISTS Delta");
-                stmt.executeUpdate("CREATE TABLE 'Delta' (" +
-                        //(note: there should be multiple for each game at a time)
-                        "ID TEXT NOT NULL," +
-                        "Data TEXT NOT NULL,"+
+                //(note: there should be multiple for each game at a time)
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS 'Delta' (\n" +
+                        "\t'ID'\tTEXT NOT NULL,\n" +
+                        "\t'Data'\tTEXT NOT NULL\n" +
                         ")");
-                stmt.executeUpdate("CREATE TABLE 'Game' (" +
-                        "ID TEXT NOT NULL UNIQUE," +
-                        "Game TEXT NOT NULL,"+
+                stmt.executeUpdate("CREATE TABLE IF NOT EXISTS 'Game' (\n" +
+                        "\t'ID'\tTEXT NOT NULL UNIQUE,\n" +
+                        "\t'Game'\tTEXT NOT NULL\n" +
                         ")");
 
             }finally {
@@ -57,7 +60,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 //in the table, the first column will be ID and the second column will be the data
                 try{
                     String sql = "insert into Delta values (?,?)";
-                    stmt = conn.prepareStatement(sql);
+                    stmt = connection.prepareStatement(sql);
                     stmt.setString(1, id);
                     stmt.setString(2, data);
                     if(stmt.executeUpdate() != 1){
@@ -81,7 +84,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 //in the game table, save the game with the first column as ID and the second column as game
                 try{
                     String sql = "insert int Game values (?,?)";
-                    stmt = conn.prepareStatement(sql);
+                    stmt = connection.prepareStatement(sql);
                     stmt.setString(1, id);
                     stmt.setString(2, game);
                     if(stmt.executeUpdate() != 1){
@@ -89,7 +92,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                     } else {
                         //delete all commands from the delta table for that game
                         sql = "delete from Delta where ID = ?";
-                        stmt = conn.prepareStatement(sql);
+                        stmt = connection.prepareStatement(sql);
                         stmt.setString(1, game);
                         if(stmt.executeUpdate() != 1){
                             throw new Exception ("Could Not Delete Deltas");
@@ -117,7 +120,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             PreparedStatement stmt = null;
             try{
                 String sql = "delete from Game where ID = ?";
-                stmt = conn.prepareStatement(sql);
+                stmt = connection.prepareStatement(sql);
                 stmt.setString(1, id);
                 if(stmt.executeUpdate() != 1){
                     throw new Exception ("Could Not Delete Game");
@@ -139,7 +142,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         String game = null; // what type should this have?
         try{
             String sql = "select from Game where ID = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, id);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
@@ -158,7 +161,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         List<String> commands = new ArrayList<>();
         try{
             String query = "select * from Delta where ID = ?";
-            PreparedStatement stmt = conn.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
@@ -176,6 +179,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         List<String> games = new ArrayList<>();
         try{
             //for each ID in game or deltas,
+            openConnection();
             String query = "select * from Game";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet results = stmt.executeQuery();
@@ -185,8 +189,10 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             }
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
             return null;
         }
+        closeConnection(true);
         return games;
     }
 
@@ -232,10 +238,4 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         return count;
     }
 
-    public SQLGameDAO(int deltas) {
-        this.deltas = deltas;
-        // numTillCheckpoint = deltas;
-    }
-
-    private int deltas;
 }

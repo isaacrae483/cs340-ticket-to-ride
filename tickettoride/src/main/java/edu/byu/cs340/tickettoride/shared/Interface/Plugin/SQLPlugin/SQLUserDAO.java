@@ -12,7 +12,6 @@ import java.util.Map;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.UserDAO;
 
 public class SQLUserDAO extends SQLParentDAO implements UserDAO {
-    Connection connection;
     Statement stmt;
     SQLUserDAO(){
         openConnection();
@@ -33,10 +32,9 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
     private void createUserTable() throws java.sql.SQLException{
         try {
             stmt = connection.createStatement();
-            stmt.executeUpdate("DROP TABLE IF EXISTS User");
-            stmt.executeUpdate("CREATE TABLE 'User' (\n" +
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS `User` (\n" +
                     "\t`Username`\tTEXT NOT NULL UNIQUE,\n" +
-                    "\t`Password`\tTEXT NOT NULL,\n"+
+                    "\t`Password`\tTEXT NOT NULL\n" +
                     ")");
 
         }finally {
@@ -49,10 +47,9 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
     private void createCommandsTable() throws java.sql.SQLException{
         try {
             stmt = connection.createStatement();
-            stmt.executeUpdate("DROP TABLE IF EXISTS Commands");
-            stmt.executeUpdate("CREATE TABLE 'Commands' (\n" +
+            stmt.executeUpdate("CREATE TABLE IF NOT EXISTS 'Commands' (\n" +
                     "\t`Username`\tTEXT NOT NULL UNIQUE,\n" +
-                    "\t`CommandList`\tTEXT NOT NULL,\n"+
+                    "\t`CommandList`\tTEXT NOT NULL\n"+
                     ")");
 
         }finally {
@@ -90,15 +87,18 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
     public Map<String, String> getUsers() {
         Map<String, String> map = new HashMap<>();
         try{
+            openConnection();
             String query = "select * from User";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
                 map.put(results.getString(1), results.getString(2));
             }
+            closeConnection(true);
             return map;
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
             return null;
         }
     }
@@ -128,6 +128,19 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
 
     @Override
     public String getCommands(String username) {
-        return null;
+        try{
+            String query = "select * from Commands where Username = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, username);
+            ResultSet results = stmt.executeQuery();
+            String commands = null;
+            while (results.next()) {
+                commands = results.getString(2);
+            }
+            return commands;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }

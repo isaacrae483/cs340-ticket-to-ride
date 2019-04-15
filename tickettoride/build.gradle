@@ -5,6 +5,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'junit:junit:4.12'
     implementation 'junit:junit:4.12'
+    implementation files('src/main/java/edu/byu/cs340/tickettoride/shared/Interface/Plugin/SQLPlugin/sqlite-jdbc-3.7.2.jar')
 }
 
 sourceCompatibility = "7"
