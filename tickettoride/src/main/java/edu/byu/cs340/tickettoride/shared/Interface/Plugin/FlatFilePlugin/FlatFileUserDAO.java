@@ -38,7 +38,7 @@ public class FlatFileUserDAO extends FlatFileParentDAO implements UserDAO {
             File[] files = userDir.listFiles();
             if (files != null) {
                 for (File file : files) {
-                    result.put(file.getName(), this.readFile(file.getName()));
+                    result.put(file.getName(), this.readFile(userDir + File.separator + file.getName()));
                 }
             }
         }
