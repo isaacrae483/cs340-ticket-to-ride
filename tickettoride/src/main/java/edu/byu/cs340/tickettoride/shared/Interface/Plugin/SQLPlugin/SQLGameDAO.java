@@ -190,29 +190,6 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         return games;
     }
 
-
-    // This cod needs help. How and why do we create a new GameDAO here?
-
-    public Map<String, String> getGames(String id) {
-        Map<String, String> games = new HashMap<>();
-        try{
-            //for each ID in game or deltas,
-            String query = "select * from Delta UNION ALL " +
-                    "select * from Game";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            ResultSet results = stmt.executeQuery();
-            while (results.next()) {
-                // create a new GameDAO with that ID
-                // add to games
-                games.put(results.getString(1), results.getString(2));
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-        return games;
-    }
-
     private int getCount (String id){
         int count = 0;
         try{

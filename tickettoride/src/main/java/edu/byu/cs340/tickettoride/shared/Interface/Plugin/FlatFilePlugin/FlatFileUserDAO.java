@@ -4,7 +4,7 @@ import java.util.Map;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.UserDAO;
 
-public class FlatFileUserDAO implements UserDAO {
+public class FlatFileUserDAO extends FlatFileParentDAO implements UserDAO {
     @Override
     public void register(String username, String password) {
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
 
-public class FlatFileGameDAO implements GameDAO {
+public class FlatFileGameDAO extends FlatFileParentDAO implements GameDAO{
     @Override
     public void updateGame(String data, String game, String id) {
 
