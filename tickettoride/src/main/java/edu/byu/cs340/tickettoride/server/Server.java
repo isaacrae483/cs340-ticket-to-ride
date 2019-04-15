@@ -8,6 +8,8 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.DAOFactory;
+import edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory;
+import edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory;
 
 public class Server {
     public static final int DEFAULT_PORT = 8080;
@@ -37,22 +39,16 @@ public class Server {
 
         try {
             if (args.length > 1) {
-                Class factoryClass;
+                DAOFactory daoFactory;
 
                 if (args[0].equals("SQL")) {
-                    factoryClass = Class.forName(
-                            "edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory"
-                    );
+                    daoFactory = new SQLDAOFactory();
                 } else if (args[0].equals("FlatFile")){
-                    factoryClass = Class.forName(
-                            "edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory"
-                    );
+                    daoFactory = new FlatFileFactory();
                 } else {
                     System.out.println("INVALID ARGUMENT: {DAOFactory} must be \"SQL\" or \"FlatFile\"");
                     return;
                 }
-
-                DAOFactory daoFactory = (DAOFactory) factoryClass.newInstance();
 
                 int deltas = Integer.parseInt(args[1]);
 
@@ -69,14 +65,6 @@ public class Server {
                     .start();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (ClassNotFoundException e) {
-            System.out.println("Class " + args[0] + " not found!");
-        } catch (IllegalAccessException e) {
-            System.out.println("Class " + args[0] + " not accessible!");
-        } catch (InstantiationException e) {
-            System.out.println("Class " + args[0] + " unable to be instatiated: " + e.getMessage());
-
         }
     }
 }
