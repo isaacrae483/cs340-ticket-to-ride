@@ -65,6 +65,7 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
         try{
             PreparedStatement stmt = null;
             try{
+                openConnection();
                 String sql = "insert into User values (?, ?)";
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);
@@ -72,14 +73,17 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
                 if (stmt.executeUpdate() != 1) {
                     throw new Exception("Could Not Register User");
                 }
+                closeConnection(true);
             }finally {
                 if (stmt != null) {
                     stmt.close();
                     stmt = null;
                 }
+
             }
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
         }
     }
 
@@ -108,27 +112,32 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
         try{
             PreparedStatement stmt = null;
             try{
-                String sql = "insert into Commands values (?, ?)";
+                openConnection();
+                String sql = "insert or replace into Commands values (?, ?)";
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, username);
                 stmt.setString(2, commandList);
                 if (stmt.executeUpdate() != 1) {
                     throw new Exception("Could Not Add Command");
                 }
+                closeConnection(true);
             }finally {
                 if (stmt != null) {
                     stmt.close();
                     stmt = null;
                 }
+
             }
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
         }
     }
 
     @Override
     public String getCommands(String username) {
         try{
+            openConnection();
             String query = "select * from Commands where Username = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, username);
@@ -137,9 +146,11 @@ public class SQLUserDAO extends SQLParentDAO implements UserDAO {
             while (results.next()) {
                 commands = results.getString(2);
             }
+            closeConnection(true);
             return commands;
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
             return null;
         }
     }

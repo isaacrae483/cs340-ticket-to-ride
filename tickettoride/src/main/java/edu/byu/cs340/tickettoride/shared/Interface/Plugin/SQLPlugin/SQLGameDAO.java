@@ -29,12 +29,12 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 stmt = connection.createStatement();
                 //(note: there should be multiple for each game at a time)
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS 'Delta' (\n" +
-                        "\t'ID'\tTEXT NOT NULL,\n" +
-                        "\t'Data'\tTEXT NOT NULL\n" +
+                        "\t`ID`\tTEXT NOT NULL,\n" +
+                        "\t`Data`\tTEXT NOT NULL\n" +
                         ")");
                 stmt.executeUpdate("CREATE TABLE IF NOT EXISTS 'Game' (\n" +
-                        "\t'ID'\tTEXT NOT NULL UNIQUE,\n" +
-                        "\t'Game'\tTEXT NOT NULL\n" +
+                        "\t`ID`\tTEXT NOT NULL UNIQUE,\n" +
+                        "\t`Game`\tTEXT NOT NULL\n" +
                         ")");
 
             }finally {
@@ -59,6 +59,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 PreparedStatement stmt = null;
                 //in the table, the first column will be ID and the second column will be the data
                 try{
+                    openConnection();
                     String sql = "insert into Delta values (?,?)";
                     stmt = connection.prepareStatement(sql);
                     stmt.setString(1, id);
@@ -66,14 +67,17 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                     if(stmt.executeUpdate() != 1){
                         throw new Exception ("Could Not Save Delta");
                     }
+                    closeConnection(true);
                 }finally {
                     if (stmt != null) {
                         stmt.close();
                         stmt = null;
                     }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                closeConnection(false);
             }
             //subtract one from numTillCheckpoint
             //numTillCheckpoint--;
@@ -83,6 +87,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                 PreparedStatement stmt = null;
                 //in the game table, save the game with the first column as ID and the second column as game
                 try{
+                    openConnection();
                     String sql = "insert int Game values (?,?)";
                     stmt = connection.prepareStatement(sql);
                     stmt.setString(1, id);
@@ -98,15 +103,18 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                             throw new Exception ("Could Not Delete Deltas");
                         }
                     }
+                    closeConnection(true);
                 }finally {
                     if (stmt != null) {
                         stmt.close();
                         stmt = null;
                         //set numDeltas = 0
                     }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                closeConnection(false);
             }
 
         }
@@ -119,20 +127,24 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         try{
             PreparedStatement stmt = null;
             try{
+                openConnection();
                 String sql = "delete from Game where ID = ?";
                 stmt = connection.prepareStatement(sql);
                 stmt.setString(1, id);
                 if(stmt.executeUpdate() != 1){
                     throw new Exception ("Could Not Delete Game");
                 }
+                closeConnection(true);
             }finally {
                 if (stmt != null) {
                     stmt.close();
                     stmt = null;
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
+            closeConnection(false);
         }
     }
 
@@ -141,6 +153,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         //return game where ID = id
         String game = null; // what type should this have?
         try{
+            openConnection();
             String sql = "select from Game where ID = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, id);
@@ -148,9 +161,11 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             while (results.next()) {
                 game = results.getString(2);
             }
+            closeConnection(true);
             return game;
         } catch (Exception e) {
             e.printStackTrace();
+            closeConnection(false);
             return null;
         }
     }
@@ -160,6 +175,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         //return commands in delta table where ID = id
         List<String> commands = new ArrayList<>();
         try{
+            openConnection();
             String query = "select * from Delta where ID = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, id);
@@ -167,9 +183,11 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             while (results.next()) {
                 commands.add(results.getString(2));
             }
+            closeConnection(true);
             return commands;
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
             return null;
         }
     }
@@ -199,6 +217,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
     private int getCount (String id){
         int count = 0;
         try{
+            openConnection();
             //for each ID in game or deltas,
             String query = "select count(?) as total from Delta";
             PreparedStatement stmt = connection.prepareStatement(query);
@@ -210,8 +229,11 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
             }
         }catch(Exception e){
             e.printStackTrace();
+            closeConnection(false);
             return -1;
         }
+
+        closeConnection(true);
         return count;
     }
 

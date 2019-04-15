@@ -107,7 +107,10 @@ public class ServerModel {
 
     public ClientCommandList getCommands(Username username) {
         String commandList = userDAO.getCommands(username.getUsername());
-        ClientCommandList result = (ClientCommandList) DatabaseSerializer.fromString(commandList);
+        ClientCommandList result = new ClientCommandList();
+        if(commandList != null) {
+            result = (ClientCommandList) DatabaseSerializer.fromString(commandList);
+        }
         return result;
     }
 
