@@ -211,7 +211,6 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
 
     public SQLGameDAO(int deltas) {
         this.deltas = deltas;
-        // numTillCheckpoint = deltas;
     }
 
     private int deltas;

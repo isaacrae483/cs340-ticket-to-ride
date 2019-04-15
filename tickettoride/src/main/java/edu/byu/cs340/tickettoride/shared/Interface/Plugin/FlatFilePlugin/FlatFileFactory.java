@@ -12,6 +12,6 @@ public class FlatFileFactory implements DAOFactory {
 
     @Override
     public GameDAO generateGameDAO(int deltas) {
-        return new FlatFileGameDAO();
+        return new FlatFileGameDAO(deltas);
     }
 }
