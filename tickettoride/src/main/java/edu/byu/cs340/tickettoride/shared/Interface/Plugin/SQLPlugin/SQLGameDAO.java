@@ -98,8 +98,8 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
                         //delete all commands from the delta table for that game
                         sql = "delete from Delta where ID = ?";
                         stmt = connection.prepareStatement(sql);
-                        stmt.setString(1, game);
-                        if(stmt.executeUpdate() != 1){
+                        stmt.setString(1, id);
+                        if(stmt.executeUpdate() < 1){
                             throw new Exception ("Could Not Delete Deltas");
                         }
                     }
