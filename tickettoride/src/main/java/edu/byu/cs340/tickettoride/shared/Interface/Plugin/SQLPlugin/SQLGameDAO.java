@@ -154,7 +154,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         String game = null; // what type should this have?
         try{
             openConnection();
-            String sql = "select from Game where ID = ?";
+            String sql = "select * from Game where ID = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, id);
             ResultSet results = stmt.executeQuery();
