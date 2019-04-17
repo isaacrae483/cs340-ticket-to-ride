@@ -54,9 +54,11 @@ public class ServerModel {
     }
 
     public void updateGame(Game game, ServerCommandData data) {
-        String gameData = DatabaseSerializer.toString(game);
-        String commandData = DatabaseSerializer.toString(data);
-        gameDAO.updateGame(commandData, gameData, game.getId().toString());
+        if (dataBaseActive) {
+            String gameData = DatabaseSerializer.toString(game);
+            String commandData = DatabaseSerializer.toString(data);
+            gameDAO.updateGame(commandData, gameData, game.getId().toString());
+        }
         startedGames.replace(game);
         unstartedGames.replace(game);
     }
@@ -110,23 +112,18 @@ public class ServerModel {
                 }
             }
         }
-
+        dataBaseActive = true;
     }
 
     public User getUser(Username username) {
         return users.getUser(username);
     }
 
-    private ClientCommandList getCommandsDatatbase(Username username) {
-        String commandList = userDAO.getCommands(username.getUsername());
-        ClientCommandList result = new ClientCommandList();
-        if(commandList != null) {
-            result = (ClientCommandList) DatabaseSerializer.fromString(commandList);
-        }
-        return result;
-    }
 
     public ClientCommandList getCommands(Username username) {
+        String emptyCommands = DatabaseSerializer.toString(new ClientCommandList());
+        if (dataBaseActive)
+            userDAO.updateCommandQueue(username.getUsername(), emptyCommands);
         return commandList.GetCommands(username);
     }
 
@@ -135,7 +132,8 @@ public class ServerModel {
     }
 
     public void addUser(Username username, Password password) {
-        userDAO.register(username.getUsername(), password.getPassword());
+        if (dataBaseActive)
+            userDAO.register(username.getUsername(), password.getPassword());
         users.addUser(new User(username, password));
     }
 
@@ -146,9 +144,11 @@ public class ServerModel {
 
     public void AddCommand(Username username, ClientCommandData data) {
         commandList.AddCommand(username, data);
-        ClientCommandList list = commandList.GetCommandsNoClear(username);
-        String listData = DatabaseSerializer.toString(list);
-        userDAO.updateCommandQueue(username.getUsername(), listData);
+        if (dataBaseActive) {
+            ClientCommandList list = commandList.GetCommandsNoClear(username);
+            String listData = DatabaseSerializer.toString(list);
+            userDAO.updateCommandQueue(username.getUsername(), listData);
+        }
     }
 
     public void addGame(Game game) {
@@ -158,8 +158,9 @@ public class ServerModel {
         String command = DatabaseSerializer.toString(new ServerCommandData(
                 ServerCommandData.commandType.CREATEGAME, game.GetLeader().getPlayerName()));
         String id = game.getId().getId();
-
-        gameDAO.updateGame(command, gameInfo, id);
+        if (dataBaseActive) {
+            gameDAO.updateGame(command, gameInfo, id);
+        }
     }
 
     private UserDAO userDAO;
@@ -169,4 +170,5 @@ public class ServerModel {
     private MapGames startedGames = new MapGames();
     private MapUsers users = new MapUsers();
     private CommandList commandList = new CommandList();
+    boolean dataBaseActive = false;
 }
