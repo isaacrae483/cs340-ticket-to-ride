@@ -21,7 +21,7 @@ public class SQLParentDAO {
     protected Statement stmt = null;
 
     public void openConnection() {
-        String connectionURL = "jdbc:sqlite:cs340-ticket-to-ride.splite";
+        String connectionURL = "jdbc:sqlite:cs340-ticket-to-ride.sqlite";
 
         try {
             // Open a database connection
