@@ -56,7 +56,7 @@ public class ServerModel {
     public void updateGame(Game game, ServerCommandData data) {
         String gameData = DatabaseSerializer.toString(game);
         String commandData = DatabaseSerializer.toString(data);
-        gameDAO.updateGame(gameData, commandData, game.getId().toString());
+        gameDAO.updateGame(commandData, gameData, game.getId().toString());
         startedGames.replace(game);
         unstartedGames.replace(game);
     }
