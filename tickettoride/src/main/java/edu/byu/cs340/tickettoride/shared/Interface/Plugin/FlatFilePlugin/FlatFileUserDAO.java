@@ -24,7 +24,9 @@ public class FlatFileUserDAO extends FlatFileParentDAO implements UserDAO {
     @Override
     public void register(String username, String password) {
         try {
+            System.out.println(password);
             this.write(password, userDir.getName() + File.separator + username);
+            this.write("", commandDir.getName() + File.separator + username);
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -38,6 +40,7 @@ public class FlatFileUserDAO extends FlatFileParentDAO implements UserDAO {
             File[] files = userDir.listFiles();
             if (files != null) {
                 for (File file : files) {
+                    System.out.println(file.getName());
                     result.put(file.getName(), this.readFile(userDir + File.separator + file.getName()));
                 }
             }

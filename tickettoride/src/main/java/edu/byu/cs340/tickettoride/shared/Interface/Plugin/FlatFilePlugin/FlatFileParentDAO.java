@@ -7,20 +7,19 @@ import java.io.PrintWriter;
 
 public class FlatFileParentDAO {
     protected void write(String data, String filename) throws IOException {
-        try (PrintWriter out = new PrintWriter("filename.txt")) {
+        try (PrintWriter out = new PrintWriter(filename)) {
             out.println(data);
         }
     }
 
     protected String readFile(String filename) throws IOException {
-        String fileName;
         BufferedReader reader = new BufferedReader(new FileReader(filename));
         StringBuilder stringBuilder = new StringBuilder();
-        String line = null;
+        String line;
         String ls = System.getProperty("line.separator");
         while ((line = reader.readLine()) != null) {
             stringBuilder.append(line);
-            stringBuilder.append(ls);
+            stringBuilder.append('\n');
         }
 // delete the last new line separator
         stringBuilder.deleteCharAt(stringBuilder.length() - 1);

@@ -46,6 +46,7 @@ public class FlatFileGameDAO extends FlatFileParentDAO implements GameDAO{
 
     @Override
     public String getGame(String id) {
+        System.out.println(id);
         String game = "";
         try{
             game = readFile(gameDir.toString() + File.separator + id);
@@ -77,7 +78,8 @@ public class FlatFileGameDAO extends FlatFileParentDAO implements GameDAO{
         File[] listOfFiles = gameDir.listFiles();
         try{
             for(int i = 0; i < listOfFiles.length; i++){
-                games.add(listOfFiles[i].getName());
+                if(!listOfFiles[i].getName().equals("deltas"))
+                    games.add(listOfFiles[i].getName());
             }
         } catch (Exception e) {
             e.printStackTrace();

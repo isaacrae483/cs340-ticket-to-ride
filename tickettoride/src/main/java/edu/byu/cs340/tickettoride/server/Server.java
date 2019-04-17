@@ -8,7 +8,6 @@ import java.net.InetSocketAddress;
 import java.util.concurrent.Executor;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.DAOFactory;
-import edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory;
 //import edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory;
 
 public class Server {
@@ -51,7 +50,14 @@ public class Server {
                         // ERROR! Could not load database driver
                     }
                 } else if (args[0].equals("FlatFile")){
-                    daoFactory = new FlatFileFactory();
+                    try {
+                        final String driver = "edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory";
+                        Class c = Class.forName(driver);
+                        daoFactory = (DAOFactory) c.newInstance();
+                    }catch(ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        e.printStackTrace();
+                        // ERROR! Could not load database driver
+                    }
                 } else {
                     System.out.println("INVALID ARGUMENT: {DAOFactory} must be \"SQL\" or \"FlatFile\"");
                     return;

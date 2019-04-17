@@ -1,6 +1,8 @@
 package edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.DAOFactory;
+import edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileGameDAO;
+import edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileUserDAO;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.UserDAO;
 
