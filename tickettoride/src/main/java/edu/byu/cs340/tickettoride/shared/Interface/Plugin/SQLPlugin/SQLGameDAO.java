@@ -198,7 +198,7 @@ public class SQLGameDAO extends SQLParentDAO implements GameDAO {
         try{
             //for each ID in game or deltas,
             openConnection();
-            String query = "select * from Game";
+            String query = "select * from Game union all select * from Delta";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet results = stmt.executeQuery();
             while (results.next()) {
