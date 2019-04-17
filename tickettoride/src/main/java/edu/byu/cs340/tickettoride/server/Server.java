@@ -9,7 +9,7 @@ import java.util.concurrent.Executor;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.DAOFactory;
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory;
-import edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory;
+//import edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory;
 
 public class Server {
     public static final int DEFAULT_PORT = 8080;
@@ -39,10 +39,17 @@ public class Server {
 
         try {
             if (args.length > 1) {
-                DAOFactory daoFactory;
+                DAOFactory daoFactory = null;
 
                 if (args[0].equals("SQL")) {
-                    daoFactory = new SQLDAOFactory();
+                    try {
+                        final String driver = "edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory";
+                        Class c = Class.forName(driver);
+                        daoFactory = (DAOFactory) c.newInstance();
+                    }catch(ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                        e.printStackTrace();
+                        // ERROR! Could not load database driver
+                    }
                 } else if (args[0].equals("FlatFile")){
                     daoFactory = new FlatFileFactory();
                 } else {
