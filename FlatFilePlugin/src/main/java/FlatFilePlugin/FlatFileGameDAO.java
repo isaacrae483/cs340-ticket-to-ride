@@ -1,10 +1,9 @@
-package edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin;
+package FlatFilePlugin;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.byu.cs340.tickettoride.shared.Interface.Plugin.GameDAO;
 
 public class FlatFileGameDAO extends FlatFileParentDAO implements GameDAO{
     private File gameDir;

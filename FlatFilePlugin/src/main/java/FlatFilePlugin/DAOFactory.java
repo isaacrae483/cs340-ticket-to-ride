@@ -1,7 +1,5 @@
-package edu.byu.cs340.tickettoride.shared.Interface.Plugin;
+package FlatFilePlugin;
 
-
-import java.util.List;
 
 public interface DAOFactory {
     UserDAO generateUserDAO();

@@ -3,8 +3,11 @@ package edu.byu.cs340.tickettoride.server;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.concurrent.Executor;
 
 import edu.byu.cs340.tickettoride.shared.Interface.Plugin.DAOFactory;
@@ -37,38 +40,27 @@ public class Server {
     public static void main(String ...args) {
 
         try {
-            if (args.length > 1) {
+            if (args.length > 3) {
                 DAOFactory daoFactory = null;
+                try {
+                    File pluginJarFile = new File(args[0], args[1]);
+                    URL pluginURL = pluginJarFile.toURI().toURL();
+                    URLClassLoader loader = new URLClassLoader(new URL[]{pluginURL});
 
-                if (args[0].equals("SQL")) {
-                    try {
-                        final String driver = "edu.byu.cs340.tickettoride.shared.Interface.Plugin.SQLPlugin.SQLDAOFactory";
-                        Class c = Class.forName(driver);
-                        daoFactory = (DAOFactory) c.newInstance();
-                    }catch(ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                        e.printStackTrace();
-                        // ERROR! Could not load database driver
-                    }
-                } else if (args[0].equals("FlatFile")){
-                    try {
-                        final String driver = "edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin.FlatFileFactory";
-                        Class c = Class.forName(driver);
-                        daoFactory = (DAOFactory) c.newInstance();
-                    }catch(ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                        e.printStackTrace();
-                        // ERROR! Could not load database driver
-                    }
-                } else {
-                    System.out.println("INVALID ARGUMENT: {DAOFactory} must be \"SQL\" or \"FlatFile\"");
-                    return;
+                    // Load the jar file's plugin class, create and return an instance
+                    Class<? extends DAOFactory> messagePluginClass = (Class<DAOFactory>) loader.loadClass(args[2]);
+                    daoFactory = messagePluginClass.getDeclaredConstructor(null).newInstance();
+
+
+                    int deltas = Integer.parseInt(args[3]);
+
+                    ServerModel.SINGLETON.AddFactory(daoFactory, deltas);
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-
-                int deltas = Integer.parseInt(args[1]);
-
-                ServerModel.SINGLETON.AddFactory(daoFactory, deltas);
             }
             else {
-                System.out.println("NOT ENOUGH ARGUMENTS: need {DAOFactory} {deltas}");
+                System.out.println("Usage: java Application pluginDirectory pluginJarFileName pluginClassName deltas");
                 return;
             }
 

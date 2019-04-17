@@ -1,1 +1,1 @@
-include ':app', ':tickettoride'
+include ':app', ':tickettoride', ':SQLPlugin', ':FlatFilePlugin'

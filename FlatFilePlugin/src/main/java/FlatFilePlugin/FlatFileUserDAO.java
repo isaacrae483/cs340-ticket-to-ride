@@ -1,11 +1,10 @@
-package edu.byu.cs340.tickettoride.shared.Interface.Plugin.FlatFilePlugin;
+package FlatFilePlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.byu.cs340.tickettoride.shared.Interface.Plugin.UserDAO;
 
 public class FlatFileUserDAO extends FlatFileParentDAO implements UserDAO {
 
