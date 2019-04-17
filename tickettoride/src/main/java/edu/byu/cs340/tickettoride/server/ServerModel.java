@@ -90,20 +90,24 @@ public class ServerModel {
         List<String> ids = gameDAO.getIDs();
         for (String id : ids) {
             String gameData = gameDAO.getGame(id);
-            Game game = (Game) DatabaseSerializer.fromString(gameData);
-            if (game == null) {
-                continue;
+            if (gameData != null) {
+                Game game = (Game) DatabaseSerializer.fromString(gameData);
+                if (game == null) {
+                    continue;
+                }
+                if (game.isGameStarted()) {
+                    startedGames.addGame(game);
+                } else {
+                    unstartedGames.addGame(game);
+                }
             }
-            if ( game.isGameStarted()) {
-                startedGames.addGame(game);
-            }
-            else {
-                unstartedGames.addGame(game);
-            }
+
             List<String> commands = gameDAO.getCommands(id);
-            for(String command: commands) {
-                ServerCommandData commandData = (ServerCommandData) DatabaseSerializer.fromString(command);
-                ServerCommandFactory.Generate(commandData).execute();
+            if (commands != null) {
+                for (String command : commands) {
+                    ServerCommandData commandData = (ServerCommandData) DatabaseSerializer.fromString(command);
+                    ServerCommandFactory.Generate(commandData).execute();
+                }
             }
         }
 
