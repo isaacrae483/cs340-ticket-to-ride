@@ -77,10 +77,10 @@ public class ServerModel {
         Map<String, String> users = userDAO.getUsers();
         for (Map.Entry<String, String> entry: users.entrySet()) {
             this.users.addUser(entry.getKey(), entry.getValue());
-            String comamandList = userDAO.getCommands(entry.getKey());
-            ClientCommandList list = (ClientCommandList) DatabaseSerializer.fromString(comamandList);
+            String commandList = userDAO.getCommands(entry.getKey());
+            ClientCommandList list = (ClientCommandList) DatabaseSerializer.fromString(commandList);
             try {
-                commandList.AddCommands(new Username(entry.getKey()), list);
+                this.commandList.AddCommands(new Username(entry.getKey()), list);
             }
             catch (Username.InvalidUserNameException e) {
                 e.printStackTrace();
